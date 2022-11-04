@@ -1,10 +1,7 @@
 <?php
-include("includes/header.php");
-include("includes/mysql_connect.php");
-
-
-
-
+require_once("../private/initialize.php");
+include(INCLUDES_PATH . "/header.php");
+include(INCLUDES_PATH . "/mysql_connect.php");
 
 // default call to DB
 $result = mysqli_query($con, "SELECT * FROM dyl_mountains");
@@ -18,15 +15,11 @@ $result = mysqli_query($con, "SELECT * FROM dyl_mountains");
 //   $result = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE $displayby LIKE '$displayvalue' ") or die(mysqli_error($con));
 // }
 
-
-
-
 $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN 1 AND 2000 LIMIT 2");
 while ($row = mysqli_fetch_array($heightLow)) {
   $title = $row['title'];
   $mtnId = $row['mtn_id'];
 }
-
 ?>
 
 <div class="clearfix">
@@ -116,5 +109,5 @@ function truncate($text, $chars)
   return $text;
 }
 
-include("includes/footer.php");
+include(INCLUDES_PATH . "/footer.php");
 ?>

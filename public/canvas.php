@@ -2,8 +2,10 @@
 
 use LDAP\Result;
 
-include("includes/header.php");
-include("includes/mysql_connect.php");
+require_once("../private/initialize.php");
+include(INCLUDES_PATH . "/header.php");
+
+
 
 
 ?>
@@ -330,3 +332,5 @@ include("includes/mysql_connect.php");
 
     <a href="https://www.linkedin.com/learning/php-essential-training-2017/debug-and-troubleshoot-14761609?autoSkip=true&autoplay=true&resume=false&u=2109516">Linked in learning video series</a>
 </section>
+
+<?php include(INCLUDES_PATH . "/footer.php"); ?>

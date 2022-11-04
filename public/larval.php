@@ -1,6 +1,6 @@
 <?php
-include("includes/header.php");
-include("includes/mysql_connect.php");
+require_once("../private/initialize.php");
+include(INCLUDES_PATH . "/header.php");
 ?>
 
 <h1>Larval</h1>
@@ -30,3 +30,7 @@ include("includes/mysql_connect.php");
 <p>supports asynchronou calls </p>
 <p>in /app in Xampp</p>
 <p>make sure you navigate there in cli</p>
+
+<?php
+include(INCLUDES_PATH . "/footer.php");
+?>
