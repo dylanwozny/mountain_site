@@ -96,18 +96,6 @@ while ($row = mysqli_fetch_array($heightLow)) {
 </div>
 
 <?php
-function truncate($text, $chars)
-{
-  $text = $text . " ";
-  if (strlen($text) < $chars) {
-    $toBeCont = '';
-  } else {
-    $toBeCont = "...";
-  }
-  $text = substr($text, 0, $chars);
-  $text = $text . $toBeCont;
-  return $text;
-}
 
 include(INCLUDES_PATH . "/footer.php");
 ?>

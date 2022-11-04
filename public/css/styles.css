@@ -48,9 +48,6 @@ h4 {
 body {
   background-color: #f2f1f4;
   /* color: white; */
-  width: 90%;
-  margin-left: 10%;
-  padding: 3rem;
   font-family: "Open Sans", sans-serif;
   font-size: 110%;
 }
@@ -220,8 +217,7 @@ img {
 }
 
 body .container {
-  width: 75%;
-  max-width: 75%;
+  width: 100%;
   margin: 0 auto;
 }
 

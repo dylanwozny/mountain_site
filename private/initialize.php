@@ -21,6 +21,19 @@ $doc_root = substr($_SERVER['SCRIPT_NAME'], 0, $public_end);
 define("WWW_ROOT", $doc_root);
 
 
+// truncate custom function
+function truncate($text, $chars)
+{
+    $text = $text . " ";
+    if (strlen($text) < $chars) {
+        $toBeCont = '';
+    } else {
+        $toBeCont = "...";
+    }
+    $text = substr($text, 0, $chars);
+    $text = $text . $toBeCont;
+    return $text;
+}
 
 
 require_once("functions.php");

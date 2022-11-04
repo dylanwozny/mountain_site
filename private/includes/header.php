@@ -54,44 +54,45 @@ if (!isset($page_title)) {
 </head>
 
 <body>
-  <nav class="fixed-side">
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="" id="navbarCollapse">
-      <ul class=" menu-listing">
-        <!-- WWW_ROOT is the root path constant -->
-        <li class="nav-item active">
-          <a class="nav-link" href="<?php echo WWW_ROOT ?>/index.php">Home</a>
-        </li>
-        <li>
-          <a class="nav-link" href="<?php echo WWW_ROOT ?>/search.php">Search</a>
-        </li>
-        <li>
-          <a class="nav-link" href="<?php echo WWW_ROOT ?>/canvas.php">Canvas</a>
-        </li>
-        <li>
-          <a class="nav-link" href="<?php echo WWW_ROOT ?>/larval.php">Larval</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
-          <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="<?php echo WWW_ROOT ?>/admin/index.php">menu</a>
-          </div>
-        </li>
-        <li>
-          <?php
-          if (!(isset($_SESSION["x5ghy789soci"]))) {
-            echo "<a class=\"nav-link\" href=\"" . WWW_ROOT . "admin/login.php\">Login</a>";
-            // echo "<p>" . session_id() . "</p>";
-          } else {
-            echo "<a class=\"nav-link\" href=\"" . WWW_ROOT . "admin/logout.php\">Logout</a>";
-            // echo "<p>" . session_id() . "</p>";
-          }
-          ?>
-        </li>
-
-      </ul>
-  </nav>
+  <div class="container-lg bg-dark">
+    <nav class="container navbar navbar-expand-lg navbar-dark bg-dark border-0 pt-3 pb-3">
+      <a class="navbar-brand" href="<?php echo WWW_ROOT ?>/index.php">Mountains of Canada</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class=" navbar-nav mr-auto">
+          <!-- WWW_ROOT is the root path constant -->
+          <li class="nav-item active">
+            <a class="nav-link" href="<?php echo WWW_ROOT ?>/index.php">Home</a>
+          </li>
+          <li>
+            <a class="nav-link" href="<?php echo WWW_ROOT ?>/search.php">Search</a>
+          </li>
+          <li>
+            <a class="nav-link" href="<?php echo WWW_ROOT ?>/canvas.php">Canvas</a>
+          </li>
+          <li>
+            <a class="nav-link" href="<?php echo WWW_ROOT ?>/larval.php">Larval</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="<?php echo WWW_ROOT ?>/admin/index.php">menu</a>
+            </div>
+          </li>
+          <li>
+            <?php
+            if (!(isset($_SESSION["x5ghy789soci"]))) {
+              echo "<a class=\"nav-link\" href=\"" . WWW_ROOT . "admin/login.php\">Login</a>";
+              // echo "<p>" . session_id() . "</p>";
+            } else {
+              echo "<a class=\"nav-link\" href=\"" . WWW_ROOT . "admin/logout.php\">Logout</a>";
+              // echo "<p>" . session_id() . "</p>";
+            }
+            ?>
+          </li>
+        </ul>
+    </nav>
+  </div>
   <main role="main" class="container">
