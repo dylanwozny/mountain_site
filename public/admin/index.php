@@ -57,17 +57,15 @@ $result = mysqli_query($con, "SELECT * FROM dyl_mountains");
             ?>
 
                 <tr>
-                    <td scope="row"><?php echo $title ?></td>
-                    <td><?php echo $mtnId ?></td>
+                    <td scope="row"><?php echo h($title); ?></td>
+                    <td><?php echo h($mtnId); ?></td>
                     <!-- pass mtn id into url -->
-                    <td><a class="btn btn-secondary" href="<?php echo 'pages/edit.php?mtn_id=' . $mtnId ?>">Edit</a></td>
+                    <td><a class="btn btn-secondary" href="<?php echo 'pages/edit.php?mtn_id=' . h(u($mtnId)); ?>">Edit</a></td>
                 </tr>
 
             <?php } ?>
         </tbody>
     </table>
-
-
 </section>
 
 

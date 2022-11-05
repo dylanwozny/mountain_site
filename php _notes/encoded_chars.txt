@@ -1,0 +1,6 @@
+some special characters need to be converted to other values.
+PHP auto decodes url strings
+
+echo urlencode('string');
+
+ex. https://www.linkedin.com/learning/php-with-mysql-essential-training-1-the-basics/encode-url-parameters-14188567?autoSkip=true&autoplay=true&resume=false&u=2109516

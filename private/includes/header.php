@@ -22,7 +22,7 @@ if (!isset($page_title)) {
   <meta name="author" content="">
 
   <!--  This CONSTANT is defined in your mysql_connect.php file. -->
-  <title><?php echo APP_NAME . " " . $page_title; ?></title>
+  <title><?php echo APP_NAME . " " . h($page_title); ?></title>
 
   <!-- Latest compiled and minified CSS -->
   <link rel="preconnect" href="https://fonts.gstatic.com">

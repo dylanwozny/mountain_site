@@ -2,20 +2,39 @@
 <?php
 require_once("../../../private/initialize.php");
 include(INCLUDES_PATH . "/mysql_connect.php");
-include(INCLUDES_PATH . "/header.php");
 
-echo "<h2>Edit Mountain</h2>";
+
+// page variables
+$page_title = "Edit Mountain";
+
+//put after vars so page title is read
+include(INCLUDES_PATH . "/header.php");
+?>
+
+<a href="../index.php" class="back-link">&laquo; back to dashboard</a>
+
+<?php
+echo "<h2>" . h($page_title) .   "</h2>";
 
 //grab id from url, which is what link you clicked
 $mtnId = $_GET['mtn_id'];
 
-// limit charId to one value
-if (!isset($mtnId)) {
+//sanitze/escape harmful URL html
+$mtnId = h($mtnId);
+
+
+// if there is an id, if not set default value
+if (isset($mtnId)) {
+    // FETCH from DB. limit charId to one value
     $result = mysqli_query($con, "SELECT * FROM dyl_mountains LIMIT 1") or die(mysqli_error($con));
     while ($row = mysqli_fetch_array($result)) {
         $mtnId = $row['mtn_id'];
     }
+} else {
+    // no id in url
+    $mtnId = 1;
 }
+
 
 // if user submits changes, then get the new info from the form and update the db
 if (isset($_POST['submit'])) {
