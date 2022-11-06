@@ -1,9 +1,9 @@
 <!-- DO PNG !!!!!!!!! -->
 
 <?php
-    include("../includes/logincheck.php");
+    // include("../includes/logincheck.php");
     // sql connect is already in header ! that was why there is a problem before ????
-    include("../includes/header.php");
+   
     include("../includes/mysql_connect.php");
     
     echo "<h2>Insert is done</h2>";

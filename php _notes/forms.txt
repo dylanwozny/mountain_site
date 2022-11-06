@@ -1,0 +1,7 @@
+webserver communication
+
+main two
+
+GET => links and url
+
+POST => forms

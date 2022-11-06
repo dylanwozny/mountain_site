@@ -293,3 +293,12 @@ h3 {
 .btnLeft:hover {
   color: #579779;
 }
+
+.formcheck {
+  display: flex;
+}
+
+.form-check-input {
+  position: relative;
+  margin: 0rem;
+}

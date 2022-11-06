@@ -17,7 +17,7 @@ include(INCLUDES_PATH . "/header.php");
 </header>
 
 <section class="bg-light rounded-4 p-4 mb-4">
-    <a class="btn btn-primary m-auto p-4 " href="">Add new Mountain</a>
+    <a class="btn btn-primary m-auto p-4 " href="../admin/pages/new.php">Add new Mountain</a>
 </section>
 
 <?php

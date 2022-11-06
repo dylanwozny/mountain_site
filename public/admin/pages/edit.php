@@ -11,11 +11,12 @@ $page_title = "Edit Mountain";
 include(INCLUDES_PATH . "/header.php");
 ?>
 
-<a href="../index.php" class="back-link">&laquo; back to dashboard</a>
 
 <?php
-echo "<h2>" . h($page_title) .   "</h2>";
-
+// if there is no id in url
+if (!isset($_GET['mtn_id'])) {
+    redirect_to('../index.php');
+}
 //grab id from url, which is what link you clicked
 $mtnId = $_GET['mtn_id'];
 
@@ -27,17 +28,43 @@ $mtnId = h($mtnId);
 if (isset($mtnId)) {
     // FETCH from DB. limit charId to one value
     $result = mysqli_query($con, "SELECT * FROM dyl_mountains LIMIT 1") or die(mysqli_error($con));
-    while ($row = mysqli_fetch_array($result)) {
-        $mtnId = $row['mtn_id'];
-    }
 } else {
     // no id in url
-    $mtnId = 1;
+    redirect_to('../index.php');
+}
+// get the existing content for the selected character to populate the current form fields
+$result2 = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE mtn_id = $mtnId");
+while ($row = mysqli_fetch_array($result2)) {
+    $thisTitle = $row['title'];
+    $thisDescription = $row['description'];
+    $thisProvince = $row['province'];
+    $thisMainImage = $row['mtn_image'];
+    $thisVerticalRelief = $row['vertical_relief'];
+    $thisHeight = $row['height'];
+    $thisSummit = $row['first_summit'];
+    $thisIsVolcano = $row['is_volcano'];
+    $thisAccess = $row["access"];
+    $thisGoogleImage = $row["google_img"];
 }
 
+if (!$result2) {
+    printf("Error: %s\n", mysqli_error($con));
+    exit();
+}
+
+//validation messsage vars
+$userPrompt = "";
+$titleMessage = "";
+$desMessage = "";
+$ImgPromptMain = "";
+$verMessage = "";
+$newHeightMessage = "";
+$SumMessage = "";
+$ImgPromptGoogle = "";
 
 // if user submits changes, then get the new info from the form and update the db
-if (isset($_POST['submit'])) {
+// VAR MESSAGES NEED TO BE MOVED OUTSIDE
+if (is_post_request()) {
 
     $newTitle = $_POST["title"];
     $newDescription = $_POST["description"];
@@ -135,28 +162,11 @@ if (isset($_POST['submit'])) {
     }
 }
 
+// VAR MESSAGES NEED TO BE MOVED OUTSIDE
 if (isset($_POST['delete'])) {
 }
 
-// get the existing content for the selected character to populate the current form fields
-$result2 = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE mtn_id = $mtnId");
-while ($row = mysqli_fetch_array($result2)) {
-    $thisTitle = $row['title'];
-    $thisDescription = $row['description'];
-    $thisProvince = $row['province'];
-    $thisMainImage = $row['mtn_image'];
-    $thisVerticalRelief = $row['vertical_relief'];
-    $thisHeight = $row['height'];
-    $thisSummit = $row['first_summit'];
-    $thisIsVolcano = $row['is_volcano'];
-    $thisAccess = $row["access"];
-    $thisGoogleImage = $row["google_img"];
-}
 
-if (!$result2) {
-    printf("Error: %s\n", mysqli_error($con));
-    exit();
-}
 
 // drop down list pre-populate
 $abProvince = "";
@@ -197,6 +207,8 @@ function RadioCheck($access, $value)
 }
 
 ?>
+<?php echo "<h2>" . h($page_title) .   "</h2>"; ?>
+<a href="../index.php" class="back-link">&laquo; back to dashboard</a>
 <div class="row">
     <div class="col-md-6">
         <?php
@@ -204,7 +216,7 @@ function RadioCheck($access, $value)
             echo "<div class='alert alert-primary'>$userPrompt</div>";
         }
         ?>
-        <form id="myform" name="myform" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+        <form id="myform" name="myform" method="post" action="edit.php?mtn_id=<?php echo h(u($mtnId)) ?>">
             <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" name="title" class="form-control" value="<?php echo $thisTitle; ?>">
@@ -294,8 +306,8 @@ function RadioCheck($access, $value)
     </div>
     <div class="col-md-6">
         <?php
-        echo "<div class=\"mb-4\" id=\"pageImg\"><img src=\"../uploads/display/$thisMainImage\"/></div>";
-        echo "<div class=\"mb-4\" id=\"pageGoogleImg\"><img src=\"../uploads/display/$thisGoogleImage\"/></div>";
+        echo "<div class=\"mb-4\" id=\"pageImg\"><img src=\"../../uploads/thumbnails/$thisMainImage\"/></div>";
+        echo "<div class=\"mb-4\" id=\"pageGoogleImg\"><img src=\"../../uploads/display/$thisGoogleImage\"/></div>";
         ?>
     </div>
 </div>
