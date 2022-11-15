@@ -39,6 +39,10 @@ $verMessage = "";
 $newHeightMessage = "";
 $SumMessage = "";
 $ImgPromptGoogle = "";
+$heightMessage = "";
+$volcanoMessage = "";
+$accessMessage = "";
+$provinceMessage = "";
 
 // file upload
 $uploadOk = 1;
@@ -46,6 +50,7 @@ $imageFileType = '';
 
 //------Google image file logic--------
 $gImg = 'select a file';
+$mImg = '';
 
 // if post request/ form submitted
 if (is_post_request()) {
@@ -58,53 +63,82 @@ if (is_post_request()) {
     $thisSummit = $_POST['first-summit'];
 
     $thisAccess = $_POST["access"];
-    // $thisGoogleImage = $_POST["file-g"];
-    // $thisMainImage = $_POST['mtn-img'];
-
-
-    // volcano logic for displaying
     $thisIsVolcano = $_POST['is-volcano'];
+    //----------------------------------------------
+    // ----------VALIDATION SERVER SIDE------------
+    //----------------------------------------------
+    // putting in temp name for image files 
+    $checkImgG = $_FILES['file-g']['tmp_name'];
+    $checkImgM = $_FILES['file-m']['tmp_name'];
+    // Validation pass flag
+    $validPass = 0;
 
-
-
-    // if file input is empty
-    // if ($check !== '') {
-    //     echo "file is an image -" . $check;
-    //     $uploadOk = 0;
-    // } else {
-    //     echo "File is not an image.";
-    //     $uploadOk = 0;
-    // }
-    $check = $_FILES['file-g']['tmp_name'];
-
-    if ($check === "") {
+    //-------------FILES------------
+    // Google Image
+    // check for empty upload and .jpg file type.
+    if ($checkImgG === "") {
         $ImgPromptGoogle = "Please upload an image";
-        $valisPass = 0;
+        $validPass = 1;
     } elseif ($_FILES['file-g']['type'] != "image/jpeg") {
         $ImgPromptGoogle = ".jpg images only";
         echo $_FILES['file-g']['type'];
-        $valisPass = 1;
+        $validPass = 1;
     } else {
         $ImgPromptGoogle = "";
         $gImg = $_FILES['file-g']['name'];
         echo $gImg;
+        $validPass = 0;
+    }
+    // Main Image
+    // check for empty upload and .jpg file type.
+
+    if ($checkImgM === "") {
+        $ImgPromptMain = "please upload an image";
+        $validPass = 1;
+    } elseif ($_FILES['file-m']['type'] != "image/jpeg") {
+        $ImgPromptMain = '.jpg images only';
+        echo $_FILES['file-m']['type'];
+        $validPass = 1;
+    } else {
+        $ImgPromptMain = "";
+        $mImg = $_FILES['file-m']['name'];
+        echo $mImg;
+        $validPass = 0;
     }
 
+    //-------------TEXT and NUMBERS------------
+    if ($thisDescription == "" || strlen($thisDescription) <= 0 || strlen($thisDescription) >= 500) {
+        $desMessage = "please give a description between 1 and 500 letters";
+        $validPass = 0;
+    }
 
+    if ($thisTitle == "" || strlen($thisTitle) <= 0 || strlen($thisTitle) >= 40) {
+        $titleMessage = "please give a title between 1 and 40 letters";
+        $validPass = 0;
+    }
 
+    if ($thisVerticalRelief == "" || is_int($thisVerticalRelief) || $thisVerticalRelief >= 10000 || $thisVerticalRelief <= 0) {
+        $verMessage = "Vertical Relief must be an integer between 1 and 10 000 ";
+        $passVal = 0;
+    }
+    if ($thisHeight == "" || $thisHeight >= 10000 || $thisHeight <= 0) {
+        $heightMessage = "Height must be an integer between 1 and 10 000 | ";
+        $passVal = 0;
+    }
 
-
-    //------Standard image file logic--------
-    //     if (!isset($_FILES['mtn-img'])) {
-    //         $ImgPromptGoogle = "please upload a file | ";
-    //         $passVal = 0;
-    //     } else if (($newGoogleImageType != 'jpg') && ($newGoogleImageType != "jpeg")) {
-    //         $ImgPromptGoogle = "This is not a valid jpg image type | ";
-    //         $passVal = 0;
-    //     } else {
-    //         $newImage = basename($_FILES['mtn-img']['name']);
-    //         $newImageType = basename($_FILES['mtn-img']['type']);
-    //     }
+    if ($thisSummit == "" || strlen($thisSummit) <= 0 || strlen($thisSummit) >= 80) {
+        $SumMessage = "please give a summit description between 1 and 80 letters | ";
+        $passVal = 0;
+    }
+    // -------- Access radio Buttons----------
+    if (!$thisAccess) {
+        $accessMessage = "please select a access type";
+    }
+    //-------- Province drop down--------------
+    if ($thisProvince === "none") {
+        $provinceMessage = "Please select a province";
+        echo $thisProvince;
+    }
 }
 
 
@@ -215,30 +249,33 @@ function RadioCheck($access, $value)
                         <option value="nun" <?php echo "$nunProvince" ?>>NUN</option>
                         <option value="usa" <?php echo "$usaProvince" ?>>USA</option>
                     </select>
+                    <?php if ($provinceMessage) {
+                        echo " <p class=\"alert alert-danger\">" . "$provinceMessage" . "</p>";
+                    } ?>
                 </div>
                 <div class="form-group">
                     <label for="file">Main Image to Upload</label>
-                    <input type="file" id="file" name="mtn-img" class="form-control" value="<?php echo h($thisMainImage) ?>">
+                    <input type="file" id="file-m" name="file-m" class="form-control" value="<?php echo h($thisMainImage) ?>">
                     <?php if ($ImgPromptMain) {
                         echo " <p class=\"alert alert-danger\">" . "$ImgPromptMain" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
                     <label for="vertical-relief">Vertical-Relief:</label>
-                    <input type="text" name="vertical-relief" id="vertical-relief" class="form-control" value="<?php echo h($thisVerticalRelief); ?>">
+                    <input type="number" name="vertical-relief" id="vertical-relief" class="form-control" value="<?php echo h($thisVerticalRelief); ?>">
                     <?php if ($verMessage) {
                         echo " <p class=\"alert alert-danger\">" . "$verMessage" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
-                    <label for="height">Height:</label>
-                    <input type="text" name="height" id="height" class="form-control" value="<?php echo h($thisHeight); ?>">
-                    <?php if ($newHeightMessage) {
-                        echo " <p class=\"alert alert-danger\">" . "$newHeightMessage" . "</p>";
+                    <label for="height">Height (meters):</label>
+                    <input type="number" name="height" id="height" class="form-control" value="<?php echo h($thisHeight); ?>">
+                    <?php if ($heightMessage) {
+                        echo " <p class=\"alert alert-danger\">" . "$heightMessage" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
-                    <label for="first-summit">First Summit:</label>
+                    <label for="first-summit">First Summit Description:</label>
                     <input type="text" name="first-summit" id="first-summit" class="form-control" value="<?php echo h($thisSummit) ?>">
                     <?php if ($SumMessage) {
                         echo " <p class=\"alert alert-danger\">" . "$SumMessage" . "</p>";
@@ -252,6 +289,7 @@ function RadioCheck($access, $value)
                                                                                                                 echo "checked";
                                                                                                             }; ?> />
 
+
                 </div>
                 <div class="form-group">
                     <label for="access">Access:</label>
@@ -259,6 +297,9 @@ function RadioCheck($access, $value)
                     <br />Hike<input type="radio" name="access" id="access" class="form-control" value="hike" <?php RadioCheck(h($thisAccess), "hike"); ?>>
                     Vehicle<input type="radio" name="access" id="access" class="form-control" value="vehicle" <?php RadioCheck(h($thisAccess), "vehicle"); ?>>
                     Helicopter<input type="radio" name="access" id="access" class="form-control" value="helicopter" <?php RadioCheck(h($thisAccess), "helicopter"); ?>>
+                    <?php if ($accessMessage) {
+                        echo " <p class=\"alert alert-danger\">" . "$accessMessage" . "</p>";
+                    } ?>
                 </div>
                 <div class="form-group">
                     <label for="file-g">Google Image to Upload:</label>
