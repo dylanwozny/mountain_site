@@ -1,10 +1,13 @@
 <?php
 require_once("../private/initialize.php");
 include(INCLUDES_PATH . "/header.php");
-include(INCLUDES_PATH . "/mysql_connect.php");
+// 1 ------ u() check for escape values on each db value submitted --------
+// 2 ------- follow admin page function query structure -------
+// 3 ------ update filtering options to return new values ------
+
 
 // default call to DB
-$result = mysqli_query($con, "SELECT * FROM dyl_mountains");
+$result = find_all_mtns();
 
 // FILTERING YOUR DB
 // $displayby = $_GET['displayby'];

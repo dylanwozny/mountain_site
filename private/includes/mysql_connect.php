@@ -1,12 +1,8 @@
 <?php
 
 // Connect to DB: Since all files depend on this, this will be included in our header, which is then included in all files.
-$con = mysqli_connect("localhost", "root", "Megatron14", "dwozny2_mountains");
 
-// Check connection
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-}
+
 
 //This stops SQL Injection in POST vars 
 foreach ($_POST as $key => $value) {

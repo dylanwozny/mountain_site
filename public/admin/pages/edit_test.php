@@ -1,5 +1,5 @@
 <?php require_once('../../../private/initialize.php');
-include(INCLUDES_PATH . "/mysql_connect.php");
+
 
 // page variables
 $page_title = "Add New";

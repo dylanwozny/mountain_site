@@ -1,7 +1,7 @@
 <?php
     include("../includes/logincheck.php");
     include("../includes/header.php");
-    include("../includes/mysql_connect.php");
+
     
     echo "<h2>Your in insert 3</h2>";
   

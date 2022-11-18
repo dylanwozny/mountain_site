@@ -1,6 +1,7 @@
 <!-- This file loads all -->
 <?php
 
+
 // CONSTANT PATHS ON HARD DRIVE
 define("PRIVATE_PATH", dirname(__FILE__));
 define("PROJECT_PATH", dirname(PRIVATE_PATH));

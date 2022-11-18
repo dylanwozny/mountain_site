@@ -2,7 +2,7 @@
 
 require_once("../private/initialize.php");
 include(INCLUDES_PATH . "/header.php");
-include(INCLUDES_PATH . "/mysql_connect.php");
+
 ?>
 
 

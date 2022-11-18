@@ -2,7 +2,7 @@
 <?php
 include ("../includes/logincheck.php");
 include ("../includes/header.php");
-include ("../includes/mysql_connect.php");
+
 
 
 // GRAB CORRECT ID !!!!!!

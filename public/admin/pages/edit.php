@@ -1,7 +1,7 @@
 <!-- ADD VALIDATION FROM INSERT -->
 <?php
 require_once("../../../private/initialize.php");
-include(INCLUDES_PATH . "/mysql_connect.php");
+
 
 
 // page variables
@@ -83,6 +83,7 @@ if (is_post_request()) {
     $newDescription = $_POST["description"];
     // drop down list
     $newProvince = $_POST["province"];
+    $thisProvince = $newProvince;
     $newVerticalRelief = $_POST["vertical-relief"];
     $newVerticalRelief = (int)$newVerticalRelief;
     $newHeight = $_POST["height"];
@@ -159,37 +160,38 @@ if (is_post_request()) {
 
 
     //-------------TEXT and NUMBERS------------
-    if ($thisDescription == "" || strlen($thisDescription) <= 0 || strlen($thisDescription) >= 500) {
+    if ($newDescription == "" || strlen($newDescription) <= 0 || strlen($newDescription) >= 500) {
         $desMessage = "please give a description between 1 and 500 letters";
         $validPass = false;
     }
 
-    if ($thisTitle == "" || strlen($thisTitle) <= 0 || strlen($thisTitle) >= 40) {
+    if ($newTitle == "" || strlen($newTitle) <= 0 || strlen($newTitle) >= 40) {
         $titleMessage = "please give a title between 1 and 40 letters";
         $validPass = false;
     }
 
-    if ($thisVerticalRelief == "" || is_int($thisVerticalRelief) || $thisVerticalRelief >= 10000 || $thisVerticalRelief <= 0) {
+    if ($newVerticalRelief === "" || !is_int($newVerticalRelief) || $newVerticalRelief >= 10000 || $newVerticalRelief <= 0) {
         $verMessage = "Vertical Relief must be an integer between 1 and 10 000 ";
         $validPass = false;
+        echo $newVerticalRelief;
     }
-    if ($thisHeight == "" || $thisHeight >= 10000 || $thisHeight <= 0) {
+    if ($newHeight == "" || $newHeight >= 10000 || $newHeight <= 0) {
         $heightMessage = "Height must be an integer between 1 and 10 000 | ";
         $validPass = false;
     }
 
-    if ($thisSummit == "" || strlen($thisSummit) <= 0 || strlen($thisSummit) >= 80) {
+    if ($newFirstSummit == "" || strlen($newFirstSummit) <= 0 || strlen($newFirstSummit) >= 80) {
         $SumMessage = "please give a summit description between 1 and 80 letters | ";
         $validPass = false;
     }
     // -------- Access radio Buttons----------
-    if (!$thisAccess) {
+    if (!$newAccess) {
         $accessMessage = "please select a access type";
     }
     //-------- Province drop down--------------
-    if ($thisProvince === "none") {
+    if ($newProvince === "none") {
         $provinceMessage = "Please select a province";
-        echo $thisProvince;
+        echo $newProvince;
     }
 
 
