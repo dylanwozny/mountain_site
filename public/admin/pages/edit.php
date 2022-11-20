@@ -26,15 +26,13 @@ $mtnId = h($mtnId);
 
 // if there is an id, if not set default value
 if (isset($mtnId)) {
-    // FETCH from DB. limit charId to one value
-    $result = mysqli_query($con, "SELECT * FROM dyl_mountains LIMIT 1") or die(mysqli_error($con));
+    $result = find_mtn($mtnId);
 } else {
     // no id in url
     redirect_to('../index.php');
 }
 // get the existing content for the selected character to populate the current form fields
-$result2 = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE mtn_id = $mtnId");
-while ($row = mysqli_fetch_array($result2)) {
+while ($row = mysqli_fetch_array($result)) {
     $thisTitle = $row['title'];
     $thisDescription = $row['description'];
     $thisProvince = $row['province'];
@@ -47,7 +45,7 @@ while ($row = mysqli_fetch_array($result2)) {
     $thisGoogleImage = $row["google_img"];
 }
 
-if (!$result2) {
+if (!$result) {
     printf("Error: %s\n", mysqli_error($con));
     exit();
 }
@@ -411,5 +409,9 @@ function RadioCheck($access, $value)
         echo "<div class=\"mb-4\" id=\"pageGoogleImg\"><img src=\"../../uploads/display/$thisGoogleImage\"/></div>"; -->
 
     </div>
+    <?php
+    // remove from memory. good practice. Not required.
+    mysqli_free_result($result);
+    ?>
 </div>
 <!-- <?php include(INCLUDES_PATH . "/footer.php"); ?> -->

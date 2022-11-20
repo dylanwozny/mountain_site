@@ -1,12 +1,19 @@
+<!-- // 1 ------ u() check for escape values on each db value submitted --------
+// 2 ------- follow admin page function query structure -------
+// 3 ------ update filtering options to return new values ------ -->
 <?php
 require_once("../private/initialize.php");
+
+
+//page vars
+$page_title = "Home Page";
+
+// <!-- Load header navigation -->
 include(INCLUDES_PATH . "/header.php");
-// 1 ------ u() check for escape values on each db value submitted --------
-// 2 ------- follow admin page function query structure -------
-// 3 ------ update filtering options to return new values ------
 
 
-// default call to DB
+
+//---------default call to DB------------
 $result = find_all_mtns();
 
 // FILTERING YOUR DB
@@ -18,11 +25,11 @@ $result = find_all_mtns();
 //   $result = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE $displayby LIKE '$displayvalue' ") or die(mysqli_error($con));
 // }
 
-$heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN 1 AND 2000 LIMIT 2");
-while ($row = mysqli_fetch_array($heightLow)) {
-  $title = $row['title'];
-  $mtnId = $row['mtn_id'];
-}
+// $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN 1 AND 2000 LIMIT 2");
+// while ($row = mysqli_fetch_array($heightLow)) {
+//   $title = $row['title'];
+//   $mtnId = $row['mtn_id'];
+// }
 ?>
 
 <div class="clearfix">
@@ -37,7 +44,7 @@ while ($row = mysqli_fetch_array($heightLow)) {
 
 <div class="jumbotron categories row">
 
-  <!-- category filtering -->
+  <!---------- category filtering ---------->
   <div class="col-md-6">
     <h2>categories</h2>
     <ul class="categories-flex">
@@ -49,13 +56,15 @@ while ($row = mysqli_fetch_array($heightLow)) {
   </div>
   <div class="col-md-6 mtn-height">
     <?php
-    echo "<h2>2500m to 5000m high </h2>";
-    $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN 2500 AND 5000 LIMIT 4");
-    while ($row = mysqli_fetch_array($heightLow)) {
-      $title = $row['title'];
-      $mtnId = $row['mtn_id'];
-      echo "<div><a href=\"page.php?mtn_id=$mtnId\"><p>" . $title . "</p></a></div>";
-    }
+    // echo "<h2>2500m to 5000m high </h2>";
+    // $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN 2500 AND 5000 LIMIT 4");
+    // while ($row = mysqli_fetch_array($heightLow)) {
+    //   $title = $row['title'];
+    //   $mtnId = $row['mtn_id'];
+    //   echo "<div><a href=\"page.php?mtn_id=$mtnId\"><p>" . $title . "</p></a></div>";
+    // }
+    // -------- filter height and render html ----------
+    filter_Height("<h2>3000m to 4000m high </h2>", 3000, 4000);
     ?>
 
   </div>
@@ -71,12 +80,7 @@ while ($row = mysqli_fetch_array($heightLow)) {
     $mtnImage = $row['mtn_image'];
     $mtnImageGoogle = $row['google_img'];
     $province = $row['province'];
-    $verticalRelief = $row['vertical_relief'];
-    $verticalRelief = strval($verticalRelief);
     $height = $row['height'];
-    $firstSummit = $row['first_summit'];
-    $volcano = $row['is_volcano'];
-    $access = $row['access'];
     $mtnId = $row['mtn_id'];
 
     echo "<div class=\"thumb col-md-2\">\n";
