@@ -6,18 +6,6 @@ $page_title = "Add New";
 
 include(PRIVATE_PATH . '/includes/header.php');
 
-//TEST
-//if test else set to ''
-$test = $_GET['test'] ?? '';
-
-if ($test == '404') {
-    error_404();
-} elseif ($test == '505') {
-    error_505();
-} elseif ($test == 'redirect') {
-    redirect_to('../index.php');
-}
-
 // default vars
 $thisTitle = '';
 $thisDescription = '';
@@ -215,7 +203,7 @@ function RadioCheck($access, $value)
             }
             ?>
             <!-- h(remove special characters function) -->
-            <form id="myform" enctype="multipart/form-data" name="myform" method="post" action="<?php echo h("new.php") ?>">
+            <form id="myform" enctype="multipart/form-data" name="myform" method="post" action="<?php echo h("create.php") ?>">
                 <div class="form-group">
                     <label for="title">Title:</label>
                     <input type="text" name="title" class="form-control" value="<?php echo h($thisTitle); ?>">

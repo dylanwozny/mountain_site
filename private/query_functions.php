@@ -14,9 +14,9 @@ $con = connect_db();
 
 
 
-///-------------------------
-// --------call to DB-------
-///-------------------------
+///--------------------------------------------------
+///-------------calls to DB---------------------------
+///--------------------------------------------------
 
 //-------------- all mountains ----------------
 function find_all_mtns()
@@ -30,13 +30,47 @@ function find_all_mtns()
     return $mtn_result;
 }
 
-//-------------- Single mountains (page) ----------------
+//-------------- Single mountains edit/new ----------------
 function find_mtn($id)
 {
+    // single quote around variable for injection security
     global $con;
-    $result = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE mtn_id = $id");
+    $result = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE mtn_id = '{$id}'");
+    confirm_result_set($result);
     return $result;
 }
+
+//------------ Mountain Search -----------------
+function search_mtn($searchTerm)
+{
+    global $con;
+    $sql = "SELECT * FROM dyl_mountains WHERE title LIKE '%$searchTerm%' OR description LIKE '%$searchTerm%' OR first_summit LIKE '%$searchTerm%' OR access LIKE '%$searchTerm%' or province LIKE '%$searchTerm%' or height LIKE '%$searchTerm%' or vertical_relief LIKE '%$searchTerm%'";
+
+    $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+    confirm_result_set($result);
+
+    return $result;
+}
+
+//---------- Filter mountains -----------
+
+function filter_Height($textTitle = "<h2>2500m to 5000m high </h2>", $lowest = 2500, $tallest = 5000)
+{
+    // grab global connection var
+    global $con;
+    echo $textTitle;
+
+    $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN '{$lowest}' AND '{$tallest}' LIMIT 4");
+    confirm_result_set($heightLow);
+    while ($row = mysqli_fetch_array($heightLow)) {
+        $title = $row['title'];
+        $mtnId = $row['mtn_id'];
+        echo "<div><a href=\"page.php?mtn_id=$mtnId\"><p>" . $title . "</p></a></div>";
+    }
+}
+
+
+//---------- Filter mountains by category-----------
 
 
 // --------- Check if query succeeded ----------
@@ -68,21 +102,33 @@ function confirm_db_connect()
     }
 }
 
-
-//---------- Filter mountains -----------
-
-function filter_Height($textTitle = "<h2>2500m to 5000m high </h2>", $lowest = 2500, $tallest = 5000)
+//-----------------grab one mtn(for page)---------------------
+function find_mtn_page($id)
 {
-    // grab global connection var
+    // single quote around variable for injection security
     global $con;
-    echo $textTitle;
-    $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN {$lowest} AND {$tallest} LIMIT 4");
-    while ($row = mysqli_fetch_array($heightLow)) {
-        $title = $row['title'];
-        $mtnId = $row['mtn_id'];
-        echo "<div><a href=\"page.php?mtn_id=$mtnId\"><p>" . $title . "</p></a></div>";
-    }
+    $result = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE mtn_id = '{$id}'");
+    $oneMtn = mysqli_fetch_assoc($result);
+    confirm_result_set($result);
+    mysqli_free_result($result);
+    return $oneMtn;
 }
 
 
-//---------- Filter mountains by category-----------
+//----------------------------------------
+//-----------------INSERT---------------------
+//----------------------------------------
+
+function insert_mountain($title, $desc, $prov, $vert, $height, $summit, $access, $vol, $img, $imgG)
+{
+    global $con;
+    $sql = "INSERT INTO dyl_Mountains(title, description, province, mtn_image, vertical_relief, height, first_summit, is_volcano, access, google_img) VALUES('$title','$desc','$prov','$img','$vert','$height','$summit','$vol','$access','$imgG')";
+    $result = mysqli_query($con, $sql);
+    if ($result) {
+        return true;
+    } else {
+        echo mysqli_error($con);
+        db_disconnect($con);
+        exit;
+    }
+}

@@ -23,7 +23,6 @@ include(INCLUDES_PATH . "/header.php");
 <?php
 // --------call to DB function-------
 $result = find_all_mtns();
-
 ?>
 
 <section class="bg-light rounded-4 p-4 ">
@@ -65,7 +64,7 @@ $result = find_all_mtns();
 
             <?php }
             // remove from memory. good practice. Not required.
-            mysqli_free_result($result);
+
             ?>
         </tbody>
     </table>

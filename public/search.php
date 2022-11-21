@@ -7,12 +7,7 @@ include(INCLUDES_PATH . "/header.php");
     <h2>Search Mountains</h2>
     <form id="myform" class="" name="myform" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
         <div class="form-group">
-            <input type="text" name="search-item" class="form-control" value="<?php
-                                                                                if (isset($searchTerm)) {
-                                                                                    echo h($searchTerm);
-                                                                                } else {
-                                                                                    echo "";
-                                                                                }  ?>">
+            <input type="text" name="search-item" class="form-control">
         </div>
 
         <div class="form-group">
@@ -34,16 +29,16 @@ if (is_post_request()) {
     $searchTerm = $_POST['search-item'];
     // if there is a value in field
     if ($searchTerm) {
-        $sql = "SELECT * FROM dyl_mountains WHERE title LIKE '%$searchTerm%' OR description LIKE '%$searchTerm%' OR first_summit LIKE '%$searchTerm%' OR access LIKE '%$searchTerm%' or province LIKE '%$searchTerm%' or height LIKE '%$searchTerm%' or vertical_relief LIKE '%$searchTerm%'";
-
-        $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+        //------------- function for sql search ------------//
+        $result = search_mtn($searchTerm);
 
         // if no rows are returned. no results
         if (!mysqli_num_rows($result)) {
             $userPrompt = "no results";
             // while rows returned are greater than 0
         } else {
-            while ($row = mysqli_fetch_array($result)) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo print_r($row);
                 $title = $row['title'];
                 $description = $row['description'];
                 $firstSummit = $row['first_summit'];
