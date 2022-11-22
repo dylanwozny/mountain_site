@@ -10,18 +10,6 @@ $page_title = "Add New";
 
 include(PRIVATE_PATH . '/includes/header.php');
 
-// include("../includes/logincheck.php");
-// sql connect is already in header ! that was why there is a problem before ????
-// OLD VALIDATION MESSAGE
-// $userPrompt = $_GET['message'];
-// if ($userPrompt) {
-//     echo "<div class='alert alert-danger'> $userPrompt </div>";
-// }
-// echo "<h2>Insert Your Image</h2>";
-
-// If the form has been submitted
-// else
-
 if (is_post_request()) {
 
     //----------------------------------------
@@ -48,22 +36,11 @@ if (is_post_request()) {
     $checkImgM = $_FILES['file-m']['tmp_name'];
     // Validation pass flag
     $validPass = 0;
-
-    // echo gettype($thisTitle) . "<br/>";
-    // echo gettype($thisDescription) . "<br/>";
-    // echo gettype($thisProvince) . "<br/>";
-    // echo gettype($thisVerticalRelief) . "<br/>";
-    // echo gettype($thisHeight) . "<br/>";
-    // echo gettype($thisSummit) . "<br/>";
-    // echo gettype($thisAccess) . "<br/>";
-    // echo gettype($thisIsVolcano) . "<br/>";
-    // echo gettype($checkImgG) . "<br/>";
-    // echo gettype($checkImgM) . "<br/>";
-
-
-
+    //-----------------insert query---------------------
     $result = insert_mountain($thisTitle, $thisDescription, $thisProvince, $thisVerticalRelief, $thisHeight, $thisSummit, $thisAccess, $thisIsVolcano, $checkImgM, $checkImgG);
+    //-----------------grab new id---------------------
     $new_id = mysqli_insert_id($con);
+    // redirect to new mountain page
     redirect_to(WWW_ROOT . "/page.php?mtn_id=" . $new_id);
 } else {
     redirect_to("new.php");

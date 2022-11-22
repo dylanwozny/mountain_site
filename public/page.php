@@ -67,7 +67,7 @@ include(INCLUDES_PATH . "/header.php");
                 </div>
                 <div class="col-md-12">
                     <?php
-                    echo "<a id=\"pageEdit\" class=\"mb-4 green-button\" href=\"admin/edit.php?mtn_id=$mtnId \">Edit</a>";
+                    echo "<a id=\"pageEdit\" class=\"mb-4 green-button\" href=\"admin/pages/edit.php?mtn_id=$mtnId \">Edit</a>";
                     ?>
                 </div>
             </section>

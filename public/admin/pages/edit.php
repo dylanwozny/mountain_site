@@ -2,8 +2,6 @@
 <?php
 require_once("../../../private/initialize.php");
 
-
-
 // page variables
 $page_title = "Edit Mountain";
 
@@ -13,44 +11,22 @@ include(INCLUDES_PATH . "/header.php");
 
 
 <?php
+//----------------------------------------
+//-----------------id handling------------
+//----------------------------------------
 // if there is no id in url
 if (!isset($_GET['mtn_id'])) {
     redirect_to('../index.php');
 }
 //grab id from url, which is what link you clicked
 $mtnId = $_GET['mtn_id'];
-
 //sanitze/escape harmful URL html
 $mtnId = h($mtnId);
 
 
-// if there is an id, if not set default value
-if (isset($mtnId)) {
-    $result = find_mtn($mtnId);
-} else {
-    // no id in url
-    redirect_to('../index.php');
-}
-// get the existing content for the selected character to populate the current form fields
-while ($row = mysqli_fetch_array($result)) {
-    $thisTitle = $row['title'];
-    $thisDescription = $row['description'];
-    $thisProvince = $row['province'];
-    $thisMainImage = $row['mtn_image'];
-    $thisVerticalRelief = $row['vertical_relief'];
-    $thisHeight = $row['height'];
-    $thisSummit = $row['first_summit'];
-    $thisIsVolcano = $row['is_volcano'];
-    $thisAccess = $row["access"];
-    $thisGoogleImage = $row["google_img"];
-}
-
-if (!$result) {
-    printf("Error: %s\n", mysqli_error($con));
-    exit();
-}
-
-//validation messsage vars
+//----------------------------------------
+//---------//validation messsage vars-----
+//----------------------------------------
 $userPrompt = "";
 $titleMessage = "";
 $desMessage = "";
@@ -63,36 +39,30 @@ $heightMessage = "";
 $volcanoMessage = "";
 $accessMessage = "";
 $provinceMessage = "";
-
 // file upload
 $uploadOk = 1;
 $imageFileType = '';
 
-//------Google image file logic--------
-$newGoogleImg = 'select a file';
-$newMountainImg = '';
-
-
-// if user submits changes, then get the new info from the form and update the db
-
+//----------------------------------------
+//------basic page load or form submit----
+//----------------------------------------
 if (is_post_request()) {
-
-    $newTitle = $_POST["title"];
-    $newDescription = $_POST["description"];
-    // drop down list
-    $newProvince = $_POST["province"];
-    $thisProvince = $newProvince;
-    $newVerticalRelief = $_POST["vertical-relief"];
-    $newVerticalRelief = (int)$newVerticalRelief;
-    $newHeight = $_POST["height"];
-    $newHeight = (int)$newHeight;
-    $newFirstSummit = $_POST["first-summit"];
-    // radio button
-    // volcano logic for displaying
-    $thisIsVolcano = $_POST['is-volcano'];
-    $newIsVolcano = $thisIsVolcano;
-    // check mark list
-    $newAccess = $_POST["access"];
+    //-----------------(Submit)Put form data into assoc array---------------------
+    $mtnData = [];
+    //------Google image file logic--------
+    $mtnData["google_img"] = 'select a file';
+    $mtnData["mtn_image"] = '';
+    $mtnData["title"] = $_POST["title"];
+    $mtnData["description"] = $_POST["description"];
+    $mtnData["province"] = $_POST["province"];
+    $mtnData["vertical_relief"] = $_POST["vertical-relief"];
+    $mtnData["vertical_relief"] = (int)$mtnData["vertical_relief"];
+    $mtnData["height"] = $_POST["height"];
+    $mtnData["height"] = (int)$mtnData["height"];
+    $mtnData["first_summit"] = $_POST["first-summit"];
+    $mtnData["is_volcano"] = $_POST['is-volcano'];
+    $mtnData["access"] = $_POST["access"];
+    $mtnData["mtn_id"] = $mtnId;
 
     //----------------------------------------------
     // ----------VALIDATION SERVER SIDE------------
@@ -122,13 +92,13 @@ if (is_post_request()) {
             $validPass = false;
         } else {
             $ImgPromptGoogle = "";
-            $newGoogleImg = $_FILES['file-g']['name'];
-            echo $newGoogleImg;
+            $mtnData["google_img"] = $_FILES['file-g']['name'];
+            echo $mtnData["google_img"];
         }
     } else {
         echo "no file uploaded";
         $boolGoogleImage = false;
-        $newGoogleImg = $thisGoogleImage;
+        $mtnData["google_img"] = $mtnData["google_img"];
     }
 
 
@@ -147,78 +117,73 @@ if (is_post_request()) {
             $validPass = false;
         } else {
             $ImgPromptMain = "";
-            $newMountainImg = $_FILES['file-m']['name'];
-            echo $newMountainImg;
+            $mtnData["mtn_image"] = $_FILES['file-m']['name'];
+            echo $mtnData["mtn_image"];
         }
     } else {
         echo "no file uploaded";
         $boolMainImg = false;
-        $newMountainImg = $thisMainImage;
+        $mtnData["mtn_image"] = $mtnData['mtn_image'];
     }
 
 
     //-------------TEXT and NUMBERS------------
-    if ($newDescription == "" || strlen($newDescription) <= 0 || strlen($newDescription) >= 500) {
+    if ($mtnData["description"] == "" || strlen($mtnData["description"]) <= 0 || strlen($mtnData["description"]) >= 500) {
         $desMessage = "please give a description between 1 and 500 letters";
         $validPass = false;
     }
 
-    if ($newTitle == "" || strlen($newTitle) <= 0 || strlen($newTitle) >= 40) {
+    if ($mtnData["title"] == "" || strlen($mtnData["title"]) <= 0 || strlen($mtnData["title"]) >= 40) {
         $titleMessage = "please give a title between 1 and 40 letters";
         $validPass = false;
     }
 
-    if ($newVerticalRelief === "" || !is_int($newVerticalRelief) || $newVerticalRelief >= 10000 || $newVerticalRelief <= 0) {
+    if ($mtnData["vertical_relief"] === "" || !is_int($mtnData["vertical_relief"]) || $mtnData["vertical_relief"] >= 10000 || $mtnData["vertical_relief"] <= 0) {
         $verMessage = "Vertical Relief must be an integer between 1 and 10 000 ";
         $validPass = false;
-        echo $newVerticalRelief;
+        echo $mtnData["vertical_relief"];
     }
-    if ($newHeight == "" || $newHeight >= 10000 || $newHeight <= 0) {
+    if ($mtnData["height"] == "" || $mtnData["height"] >= 10000 || $mtnData["height"] <= 0) {
         $heightMessage = "Height must be an integer between 1 and 10 000 | ";
         $validPass = false;
     }
 
-    if ($newFirstSummit == "" || strlen($newFirstSummit) <= 0 || strlen($newFirstSummit) >= 80) {
+    if ($mtnData["first_summit"] == "" || strlen($mtnData["first_summit"]) <= 0 || strlen($mtnData["first_summit"]) >= 80) {
         $SumMessage = "please give a summit description between 1 and 80 letters | ";
         $validPass = false;
     }
     // -------- Access radio Buttons----------
-    if (!$newAccess) {
+    if (!$mtnData["access"]) {
         $accessMessage = "please select a access type";
     }
     //-------- Province drop down--------------
-    if ($newProvince === "none") {
+    if ($mtnData["province"] === "none") {
         $provinceMessage = "Please select a province";
-        echo $newProvince;
+        echo $mtnData["province"];
     }
 
 
     // ----------------------------------------------
-    //--------------- upload if edit image pressed---
+    //-------- upload if edit image pressed---------
     //----------------------------------------------
     if ($validPass) {
-
-        echo "{$newTitle},{$newDescription},{$newProvince},{$newMountainImg},{$newVerticalRelief},{$newHeight},{$newFirstSummit},{$newIsVolcano},{$newAccess},{$newGoogleImg}";
-
-        //define query
-        // $sql = "UPDATE dyl_mountains
-        //         SET title = '$newTitle',
-        //         description = '$newDescription',
-        //         province = '$newProvince',
-        //         mtn_image = '$newMountainImg',
-        //         vertical_relief = '$newVerticalRelief',
-        //         height = '$newHeight',
-        //         first_summit = '$newFirstSummit',
-        //         is_volcano = '$newIsVolcano',
-        //         access = '$newAccess',
-        //         google_img = '$newGoogleImg'
-        //         WHERE mtn_id = $mtnId";
-
-        // pass query into function that connects to DB
-        // $x = mysqli_query($con, $sql) or die(mysqli_error($con));
+        //----------------update function call----------------------
+        update_mountain($mtnData);
         $userPrompt = "Mountain Edited !";
+        //-----------------redirect to mtn page---------------------
+        redirect_to(WWW_ROOT . "/page.php?mtn_id=" . $mtnId);
+    }
+} else {
+    //-------------------------------------------------
+    //-(page load)Select function for form population----
+    //--------------------------------------------------
 
-        //------------------- put image logic in here !-----------
+    // if there is an id, if not set default value
+    if (isset($mtnId)) {
+        $mtnData = find_mtn($mtnId);
+    } else {
+        // no id in url
+        redirect_to('../index.php');
     }
 }
 
@@ -242,33 +207,35 @@ $peiProvince = "";
 $ykProvince = "";
 $usaProvince = "";
 
-if ($thisProvince == 'ab') {
+
+
+if ($mtnData['province'] == 'ab') {
     $abProvince = "selected";
-} else if ($thisProvince == 'bc') {
+} else if ($mtnData['province'] == 'bc') {
     $bcProvince = "selected";
-} elseif ($thisProvince == 'sk') {
+} elseif ($mtnData['province'] == 'sk') {
     $skProvince = "selected";
-} elseif ($thisProvince == 'nun') {
+} elseif ($mtnData['province'] == 'nun') {
     $nunProvince = "selected";
-} else if ($thisProvince == 'mn') {
+} else if ($mtnData['province'] == 'mn') {
     $mnProvince = "selected";
-} elseif ($thisProvince == 'on') {
+} elseif ($mtnData['province'] == 'on') {
     $onProvince = "selected";
-} elseif ($thisProvince == 'qc') {
+} elseif ($mtnData['province'] == 'qc') {
     $qcProvince = "selected";
-} else if ($thisProvince == 'nf') {
+} else if ($mtnData['province'] == 'nf') {
     $nfProvince = "selected";
-} elseif ($thisProvince == 'nb') {
+} elseif ($mtnData['province'] == 'nb') {
     $nbProvince = "selected";
-} elseif ($thisProvince == 'ns') {
+} elseif ($mtnData['province'] == 'ns') {
     $nsProvince = "selected";
-} else if ($thisProvince == 'pei') {
+} else if ($mtnData['province'] == 'pei') {
     $peiProvince = "selected";
-} elseif ($thisProvince == 'yk') {
+} elseif ($mtnData['province'] == 'yk') {
     $ykProvince = "selected";
-} elseif ($thisProvince == 'usa') {
+} elseif ($mtnData['province'] == 'usa') {
     $usaProvince = "selected";
-} else if ($thisProvince == "nt")
+} else if ($mtnData['province'] == "nt")
     $ntProvince = "selected";
 else {
 }
@@ -303,21 +270,21 @@ function RadioCheck($access, $value)
         <form id="myform" enctype="multipart/form-data" name="myform" method="post" action="edit.php?mtn_id=<?php echo h(u($mtnId)) ?>">
             <div class="form-group">
                 <label for="title">Title:</label>
-                <input type="text" name="title" class="form-control" value="<?php echo h($thisTitle); ?>">
+                <input type="text" name="title" class="form-control" value="<?php echo h($mtnData['title']); ?>">
                 <?php if ($titleMessage) {
                     echo " <p class=\"alert alert-danger\">" . "$titleMessage" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea name="description" class="form-control"><?php echo h($thisDescription); ?></textarea>
+                <textarea name="description" class="form-control"><?php echo h($mtnData['description']); ?></textarea>
                 <?php if ($desMessage) {
                     echo " <p class=\"alert alert-danger\">" . "$desMessage" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="province">Province:</label>
-                <select name="province" id="province" value="<?php echo h($thisProvince); ?>">
+                <select name="province" id="province" value="<?php echo h($mtnData['province']); ?>">
                     <option value="none">-Select province-</option>
                     <option value="ab" <?php echo "$abProvince" ?>>AB</option>
                     <option value="bc" <?php echo "$bcProvince" ?>>BC</option>
@@ -340,28 +307,28 @@ function RadioCheck($access, $value)
             </div>
             <div class="form-group">
                 <label for="file">Main Image to Upload</label>
-                <input type="file" id="file-m" name="file-m" class="form-control" value="<?php echo h($thisMainImage) ?>">
+                <input type="file" id="file-m" name="file-m" class="form-control" value="<?php echo h($mtnData['mtn_image']) ?>">
                 <?php if ($ImgPromptMain) {
                     echo " <p class=\"alert alert-danger\">" . "$ImgPromptMain" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="vertical-relief">Vertical-Relief:</label>
-                <input type="number" name="vertical-relief" id="vertical-relief" class="form-control" value="<?php echo h($thisVerticalRelief); ?>">
+                <input type="number" name="vertical-relief" id="vertical-relief" class="form-control" value="<?php echo h($mtnData['vertical_relief']); ?>">
                 <?php if ($verMessage) {
                     echo " <p class=\"alert alert-danger\">" . "$verMessage" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="height">Height (meters):</label>
-                <input type="number" name="height" id="height" class="form-control" value="<?php echo h($thisHeight); ?>">
+                <input type="number" name="height" id="height" class="form-control" value="<?php echo h($mtnData['height']); ?>">
                 <?php if ($heightMessage) {
                     echo " <p class=\"alert alert-danger\">" . "$heightMessage" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="first-summit">First Summit Description:</label>
-                <input type="text" name="first-summit" id="first-summit" class="form-control" value="<?php echo h($thisSummit) ?>">
+                <input type="text" name="first-summit" id="first-summit" class="form-control" value="<?php echo h($mtnData['first_summit']) ?>">
                 <?php if ($SumMessage) {
                     echo " <p class=\"alert alert-danger\">" . "$SumMessage" . "</p>";
                 } ?>
@@ -370,7 +337,7 @@ function RadioCheck($access, $value)
             <div class="form-group">
                 <label for="is-volcano">Is Volcano:</label>
                 <input type="hidden" name="is-volcano" id="is-volcano" class="form-control" value="0">
-                <input type="checkbox" name="is-volcano" id="is-volcano" class="form-control" value="1" <?php if ($thisIsVolcano == "1") {
+                <input type="checkbox" name="is-volcano" id="is-volcano" class="form-control" value="1" <?php if ($mtnData["is_volcano"] == "1") {
                                                                                                             echo "checked";
                                                                                                         }; ?> />
 
@@ -379,9 +346,9 @@ function RadioCheck($access, $value)
             <div class="form-group">
                 <label for="access">Access:</label>
                 <input type="hidden" name="access" id="access" class="form-control" value="0">
-                <br />Hike<input type="radio" name="access" id="access" class="form-control" value="hike" <?php RadioCheck(h($thisAccess), "hike"); ?>>
-                Vehicle<input type="radio" name="access" id="access" class="form-control" value="vehicle" <?php RadioCheck(h($thisAccess), "vehicle"); ?>>
-                Helicopter<input type="radio" name="access" id="access" class="form-control" value="helicopter" <?php RadioCheck(h($thisAccess), "helicopter"); ?>>
+                <br />Hike<input type="radio" name="access" id="access" class="form-control" value="hike" <?php RadioCheck(h($mtnData["access"]), "hike"); ?>>
+                Vehicle<input type="radio" name="access" id="access" class="form-control" value="vehicle" <?php RadioCheck(h($mtnData["access"]), "vehicle"); ?>>
+                Helicopter<input type="radio" name="access" id="access" class="form-control" value="helicopter" <?php RadioCheck(h($mtnData["access"]), "helicopter"); ?>>
                 <?php if ($accessMessage) {
                     echo " <p class=\"alert alert-danger\">" . "$accessMessage" . "</p>";
                 } ?>
@@ -402,16 +369,15 @@ function RadioCheck($access, $value)
         <button class="btn btn-danger" onclick="location.href='../index.php'"> Cancel</button>
     </div>
     <div class="col-md-6">
-        <div class="mb-4" id="pageImg"><img src="../../uploads/thumbnails/<?php echo h($thisMainImage); ?>" /></div>
-        <div class="mb-4" id="pageImg"><img src="../../uploads/display/<?php echo h($thisGoogleImage); ?>" /></div>
+        <div class="mb-4" id="pageImg"><img src="../../uploads/thumbnails/<?php echo h($mtnData['mtn_image']); ?>" /></div>
+        <div class="mb-4" id="pageImg"><img src="../../uploads/display/<?php echo h($mtnData["google_img"]); ?>" /></div>
         <!--  
-        echo "<div class=\"mb-4\" id=\"pageImg\"><img src=\"../../uploads/thumbnails/$thisMainImage\"/></div>";
-        echo "<div class=\"mb-4\" id=\"pageGoogleImg\"><img src=\"../../uploads/display/$thisGoogleImage\"/></div>"; -->
+        echo "<div class=\"mb-4\" id=\"pageImg\"><img src=\"../../uploads/thumbnails/$mtnData['mtn_image']\"/></div>";
+        echo "<div class=\"mb-4\" id=\"pageGoogleImg\"><img src=\"../../uploads/display/$mtnData["google_img"]\"/></div>"; -->
 
     </div>
     <?php
-    // remove from memory. good practice. Not required.
-    mysqli_free_result($result);
+
     ?>
 </div>
 <!-- <?php include(INCLUDES_PATH . "/footer.php"); ?> -->

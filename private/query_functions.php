@@ -37,7 +37,10 @@ function find_mtn($id)
     global $con;
     $result = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE mtn_id = '{$id}'");
     confirm_result_set($result);
-    return $result;
+    $mtn = mysqli_fetch_assoc($result);
+    // remove from memory. good practice. Not required.
+    mysqli_free_result($result);
+    return $mtn;
 }
 
 //------------ Mountain Search -----------------
@@ -125,6 +128,40 @@ function insert_mountain($title, $desc, $prov, $vert, $height, $summit, $access,
     $sql = "INSERT INTO dyl_Mountains(title, description, province, mtn_image, vertical_relief, height, first_summit, is_volcano, access, google_img) VALUES('$title','$desc','$prov','$img','$vert','$height','$summit','$vol','$access','$imgG')";
     $result = mysqli_query($con, $sql);
     if ($result) {
+        return true;
+    } else {
+        echo mysqli_error($con);
+        db_disconnect($con);
+        exit;
+    }
+}
+
+//----------------------------------------
+//-----------------UPDATE---------------------
+//----------------------------------------
+//-----------------Associate array passed property---------------------
+function update_mountain($mtnData)
+{
+    global $con;
+    $sql = "UPDATE dyl_mountains SET ";
+    $sql .= "title ='" . $mtnData['title'] . "',";
+    $sql .= "description ='" . $mtnData['description'] . "',";
+    $sql .= "province ='" . $mtnData['province'] . "',";
+    $sql .= "mtn_image ='" . $mtnData['mtn_image'] . "',";
+    $sql .= "vertical_relief ='" . $mtnData['vertical_relief'] . "',";
+    $sql .= "height ='" . $mtnData['height'] . "',";
+    $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";
+    $sql .= "is_volcano ='" . $mtnData['is_volcano'] . "',";
+    $sql .= "access ='" . $mtnData['access'] . "',";
+    $sql .= "google_img ='" . $mtnData['google_img'] . "'";
+    $sql .= "WHERE mtn_id ='" . $mtnData['mtn_id'] . "'";
+    $sql .= " LIMIT 1";
+
+    //-----------------Run the query---------------------
+    $updateResult = mysqli_query($con, $sql);
+
+    //-----------------redirect to mtn page or stop---------------------
+    if ($updateResult) {
         return true;
     } else {
         echo mysqli_error($con);
