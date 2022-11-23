@@ -169,3 +169,27 @@ function update_mountain($mtnData)
         exit;
     }
 }
+
+//--------------------------------------------
+//-----------------DELETE---------------------
+//--------------------------------------------
+
+function delete_mountain($mtnid)
+{
+    global $con;
+    $sql = "DELETE FROM dyl_mountains";
+    $sql .= " WHERE mtn_id =" . "'$mtnid' ";
+    $sql .= "LIMIT 1";
+
+    //-----------------Run the query---------------------
+    $deleteResult = mysqli_query($con, $sql);
+
+    //-----------------redirect to mtn page or stop---------------------
+    if ($deleteResult) {
+        redirect_to("../index.php");
+    } else {
+        echo mysqli_error($con);
+        db_disconnect($con);
+        exit;
+    }
+}

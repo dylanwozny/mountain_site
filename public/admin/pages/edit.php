@@ -187,8 +187,13 @@ if (is_post_request()) {
     }
 }
 
-// VAR MESSAGES NEED TO BE MOVED OUTSIDE
+//----------------------------------------
+//-----------------Delete---------------------
+//----------------------------------------
+//----Best Practice to use post request for delete--
+//--- and not links.---------------------
 if (isset($_POST['delete'])) {
+    delete_mountain($mtnData);
 }
 
 // drop down list pre-populate
@@ -365,7 +370,7 @@ function RadioCheck($access, $value)
                 <input type="submit" name="submit" class="green-button" value="edit image">
             </div>
         </form>
-        <button class="btn btn-danger" onclick="location.href ='delete.php?mtn_id=<?php echo h($mtnId); ?>'">Delete image</button>
+        <button class="btn btn-danger" onclick="location.href ='delete.php?mtn_id=<?php echo h($mtnId); ?>'">Delete</button>
         <button class="btn btn-danger" onclick="location.href='../index.php'"> Cancel</button>
     </div>
     <div class="col-md-6">

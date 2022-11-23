@@ -19,7 +19,7 @@ foreach ($_GET as $key => $value) {
 // If you copy/paste this script into other projects and fail to change this, then you may have links going back to the former project. Copy/Paste/FAIL !
 // /URL/INDEX.HTML <------ABSOLUTE URL
 // URL/INDEX.HTML <-------RELATIVE URL. NO / USE THIS MORE OFTEN
-if (!defined("BASE_URL")) define("BASE_URL", "http://localhost/mountain-site-template-xampp/");
+if (!defined("BASE_URL")) define("BASE_URL", "http://localhost/mountain_site/");
 
 
 
