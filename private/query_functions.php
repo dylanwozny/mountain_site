@@ -1,5 +1,7 @@
 <?php
 
+require_once("query_functions.php");
+
 function connect_db()
 {
     // query function in var
@@ -15,7 +17,7 @@ $con = connect_db();
 
 
 ///--------------------------------------------------
-///-------------calls to DB---------------------------
+///-------------calls to DB--------------------------
 ///--------------------------------------------------
 
 //-------------- all mountains ----------------
@@ -140,22 +142,46 @@ function insert_mountain($title, $desc, $prov, $vert, $height, $summit, $access,
 //-----------------UPDATE---------------------
 //----------------------------------------
 //-----------------Associate array passed property---------------------
-function update_mountain($mtnData)
+// hasFile checks for img upload. If none, do not upload the image;
+function update_mountain($mtnData, $hasFile = true)
 {
     global $con;
-    $sql = "UPDATE dyl_mountains SET ";
-    $sql .= "title ='" . $mtnData['title'] . "',";
-    $sql .= "description ='" . $mtnData['description'] . "',";
-    $sql .= "province ='" . $mtnData['province'] . "',";
-    $sql .= "mtn_image ='" . $mtnData['mtn_image'] . "',";
-    $sql .= "vertical_relief ='" . $mtnData['vertical_relief'] . "',";
-    $sql .= "height ='" . $mtnData['height'] . "',";
-    $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";
-    $sql .= "is_volcano ='" . $mtnData['is_volcano'] . "',";
-    $sql .= "access ='" . $mtnData['access'] . "',";
-    $sql .= "google_img ='" . $mtnData['google_img'] . "'";
-    $sql .= "WHERE mtn_id ='" . $mtnData['mtn_id'] . "'";
-    $sql .= " LIMIT 1";
+    //------------------validation before update--------------------
+    $errors = validate_mtn($mtnData);
+    if (!empty($errors)) {
+        return $errors;
+    }
+    // if the upload has a image attached update images, else
+    // update everything else except images.
+    if ($hasFile) {
+        $sql = "UPDATE dyl_mountains SET ";
+        $sql .= "title ='" . $mtnData['title'] . "',";
+        $sql .= "description ='" . $mtnData['description'] . "',";
+        $sql .= "province ='" . $mtnData['province'] . "',";
+        $sql .= "mtn_image ='" . $mtnData['mtn_image'] . "',";
+        $sql .= "vertical_relief ='" . $mtnData['vertical_relief'] . "',";
+        $sql .= "height ='" . $mtnData['height'] . "',";
+        $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";
+        $sql .= "is_volcano ='" . $mtnData['is_volcano'] . "',";
+        $sql .= "access ='" . $mtnData['access'] . "',";
+        $sql .= "google_img ='" . $mtnData['google_img'] . "'";
+        $sql .= "WHERE mtn_id ='" . $mtnData['mtn_id'] . "'";
+        $sql .= " LIMIT 1";
+    } else {
+        $sql = "UPDATE dyl_mountains SET ";
+        $sql .= "title ='" . $mtnData['title'] . "',";
+        $sql .= "description ='" . $mtnData['description'] . "',";
+        $sql .= "province ='" . $mtnData['province'] . "',";
+        $sql .= "vertical_relief ='" . $mtnData['vertical_relief'] . "',";
+        $sql .= "height ='" . $mtnData['height'] . "',";
+        $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";
+        $sql .= "is_volcano ='" . $mtnData['is_volcano'] . "',";
+        $sql .= "access ='" . $mtnData['access'] . "'";
+        $sql .= "WHERE mtn_id ='" . $mtnData['mtn_id'] . "'";
+        $sql .= " LIMIT 1";
+    }
+
+
 
     //-----------------Run the query---------------------
     $updateResult = mysqli_query($con, $sql);

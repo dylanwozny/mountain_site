@@ -52,6 +52,7 @@ if (is_post_request()) {
 
     $thisAccess = $_POST["access"];
     $thisIsVolcano = $_POST['is-volcano'];
+
     //----------------------------------------------
     // ----------VALIDATION SERVER SIDE------------
     //----------------------------------------------

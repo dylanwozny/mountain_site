@@ -23,7 +23,6 @@ $mtnId = $_GET['mtn_id'];
 //sanitze/escape harmful URL html
 $mtnId = h($mtnId);
 
-
 //----------------------------------------
 //---------//validation messsage vars-----
 //----------------------------------------
@@ -42,6 +41,10 @@ $provinceMessage = "";
 // file upload
 $uploadOk = 1;
 $imageFileType = '';
+//initliaize errors
+$errors = [];
+// echo out files array for image properties
+echo print_r($_FILES);
 
 //----------------------------------------
 //------basic page load or form submit----
@@ -50,8 +53,8 @@ if (is_post_request()) {
     //-----------------(Submit)Put form data into assoc array---------------------
     $mtnData = [];
     //------Google image file logic--------
-    $mtnData["google_img"] = 'select a file';
-    $mtnData["mtn_image"] = '';
+    $mtnData["google_img"] = 'no image found';
+    $mtnData["mtn_image"] = 'no image found';
     $mtnData["title"] = $_POST["title"];
     $mtnData["description"] = $_POST["description"];
     $mtnData["province"] = $_POST["province"];
@@ -64,114 +67,153 @@ if (is_post_request()) {
     $mtnData["access"] = $_POST["access"];
     $mtnData["mtn_id"] = $mtnId;
 
+
     //----------------------------------------------
-    // ----------VALIDATION SERVER SIDE------------
+    // -----------------File logic-----------------
     //----------------------------------------------
-    // putting in temp name for image files 
-    $checkImgG = $_FILES['file-g']['tmp_name'];
-    $checkImgM = $_FILES['file-m']['tmp_name'];
-    // Validation pass flag
-    $validPass = true;
-    // flags forimage upload or not
-    // false if empty and no upload
-    $boolGoogleImg = true;
-    $boolMainImg = true;
-
-    //-------------FILES------------
-    // Google Image
-    // if there is no image value submitted allow it to still upload
-    if ($_FILES['file-g']['name']) {
-        echo $_FILES['file-g']['name'];
-        // check for empty upload and .jpg file type.
-        if ($checkImgG === "") {
-            $ImgPromptGoogle = "Please upload an image";
-            $validPass = false;
-        } elseif ($_FILES['file-g']['type'] != "image/jpeg") {
-            $ImgPromptGoogle = ".jpg images only";
-            echo $_FILES['file-g']['type'];
-            $validPass = false;
-        } else {
-            $ImgPromptGoogle = "";
-            $mtnData["google_img"] = $_FILES['file-g']['name'];
-            echo $mtnData["google_img"];
+    // Files are stored in $_FILES super global.
+    // Files have associate array of properties
+    // echo print_r($_FILES);
+    //-----------------VALIDATION---------------------
+    // is there a image flag for uploading.
+    $hasImage = true;
+    // check file upload for errors
+    if ($_FILES['file-m']['error'] !== UPLOAD_ERR_OK) {
+        switch ($_FILES['file-m']['error']) {
+            case UPLOAD_ERR_PARTIAL:
+                exit('partial upload of image');
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                echo "NO FILE UPLOADED";
+                // set flag for no image to exclude
+                // updating images.(for edit only)
+                $hasImage = false;
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                exit("files upload stopped by a php extension");
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                exit("files upload to large");
+                break;
+            case UPLOAD_ERR_INI_SIZE:
+                exit("files upload to large for default value of php");
+                break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+                exit("temp directory full or not found");
+                break;
+            case UPLOAD_ERR_CANT_WRITE:
+                exit("could not write file");
+                break;
+            default:
+                exit("unknown error");
+                break;
         }
-    } else {
-        echo "no file uploaded";
-        $boolGoogleImage = false;
-        $mtnData["google_img"] = $mtnData["google_img"];
+    }
+    // check file. 
+    // this checks $_FILES associate property
+    if ($_FILES['file-m']['size'] > 1048576) {
+        exit('file size to large');
+    }
+
+    // array of allowed file types
+    $allowedTypes = ["image/jpeg", "image/gif"];
+    if (!isset($_FILES['file-m']['type']) && !in_array($_FILES['file-m']['type'], $allowedTypes)) {
+        exit("invalid files type");
     }
 
 
-    // Main Image
-    // if there is no image value submitted allow it to still upload
+    //------------- uploading the file --------------
 
-    if ($_FILES['file-m']['name']) {
-        echo $_FILES['file-g']['name'];
-        // check for empty upload and .jpg file type.
-        if ($checkImgM === "") {
-            $ImgPromptMain = "please upload an image";
-            $validPass = false;
-        } elseif ($_FILES['file-m']['type'] != "image/jpeg") {
-            $ImgPromptMain = '.jpg images only';
-            echo $_FILES['file-m']['type'];
-            $validPass = false;
-        } else {
-            $ImgPromptMain = "";
-            $mtnData["mtn_image"] = $_FILES['file-m']['name'];
-            echo $mtnData["mtn_image"];
-        }
-    } else {
-        echo "no file uploaded";
-        $boolMainImg = false;
-        $mtnData["mtn_image"] = $mtnData['mtn_image'];
-    }
+    // grab the files name 
+    $mainImageName = $_FILES['file-m']['name'];
+    // $googleImageName = $_FILES = ['file-g']['name'];
 
+    echo $mainImageName;
 
-    //-------------TEXT and NUMBERS------------
-    if ($mtnData["description"] == "" || strlen($mtnData["description"]) <= 0 || strlen($mtnData["description"]) >= 500) {
-        $desMessage = "please give a description between 1 and 500 letters";
-        $validPass = false;
+    // -----------replace unwanted characters. For security sake.------------
+    $pathInfo = pathinfo($_FILES['file-m']['name']);
+    $base = $pathInfo['filename'];
+    // replace regex
+    $base = preg_replace("/[^\w-]/", "_", $base);
+
+    // set the file name
+    $filename = $base . "." . $pathInfo['extension'];
+
+    // set the files upload destination
+    $destination = PUBLIC_PATH . "/uploads/display/" . $filename;
+
+    echo "<br/>" . "The cleaned name" . $filename . "<br/>";
+    echo "<br/>" . "The cleaned name" . $_FILES['file-m']["tmp_name"] . "<br/>";
+    //  write the file to the specified folder. 
+    // MAKE SURE SERVER HAS WRITE PERMISSION
+    if (!move_uploaded_file($_FILES['file-m']["tmp_name"], $destination)) {
+        exit("cant upload file");
     }
 
-    if ($mtnData["title"] == "" || strlen($mtnData["title"]) <= 0 || strlen($mtnData["title"]) >= 40) {
-        $titleMessage = "please give a title between 1 and 40 letters";
-        $validPass = false;
-    }
+    //----------------------------------------
+    //-----------------IMAGE UPLOADS 1 DO REST...---------------------
+    //----------------------------------------
+    // modify to be put into function and reusable.
+    // must also create a thumbnail.
 
-    if ($mtnData["vertical_relief"] === "" || !is_int($mtnData["vertical_relief"]) || $mtnData["vertical_relief"] >= 10000 || $mtnData["vertical_relief"] <= 0) {
-        $verMessage = "Vertical Relief must be an integer between 1 and 10 000 ";
-        $validPass = false;
-        echo $mtnData["vertical_relief"];
-    }
-    if ($mtnData["height"] == "" || $mtnData["height"] >= 10000 || $mtnData["height"] <= 0) {
-        $heightMessage = "Height must be an integer between 1 and 10 000 | ";
-        $validPass = false;
-    }
+    // //-------------FILES------------
+    // // Google Image
+    // // if there is no image value submitted allow it to still upload
+    // if ($_FILES['file-g']['name']) {
+    //     echo $_FILES['file-g']['name'];
+    //     // check for empty upload and .jpg file type.
+    //     if ($checkImgG === "") {
+    //         $ImgPromptGoogle = "Please upload an image";
+    //         $validPass = false;
+    //     } elseif ($_FILES['file-g']['type'] != "image/jpeg") {
+    //         $ImgPromptGoogle = ".jpg images only";
+    //         echo $_FILES['file-g']['type'];
+    //         $validPass = false;
+    //     } else {
+    //         $ImgPromptGoogle = "";
+    //         $mtnData["google_img"] = $_FILES['file-g']['name'];
+    //         echo $mtnData["google_img"];
+    //     }
+    // } else {
+    //     echo "no file uploaded";
+    // }
 
-    if ($mtnData["first_summit"] == "" || strlen($mtnData["first_summit"]) <= 0 || strlen($mtnData["first_summit"]) >= 80) {
-        $SumMessage = "please give a summit description between 1 and 80 letters | ";
-        $validPass = false;
-    }
-    // -------- Access radio Buttons----------
-    if (!$mtnData["access"]) {
-        $accessMessage = "please select a access type";
-    }
-    //-------- Province drop down--------------
-    if ($mtnData["province"] === "none") {
-        $provinceMessage = "Please select a province";
-        echo $mtnData["province"];
-    }
+
+    // // Main Image
+    // // if there is no image value submitted allow it to still upload
+
+    // if ($_FILES['file-m']['name']) {
+    //     echo $_FILES['file-g']['name'];
+    //     // check for empty upload and .jpg file type.
+    //     if ($checkImgM === "") {
+    //         $ImgPromptMain = "please upload an image";
+    //         $validPass = false;
+    //     } elseif ($_FILES['file-m']['type'] != "image/jpeg") {
+    //         $ImgPromptMain = '.jpg images only';
+    //         echo $_FILES['file-m']['type'];
+    //         $validPass = false;
+    //     } else {
+    //         $ImgPromptMain = "";
+    //         $mtnData["mtn_image"] = $_FILES['file-m']['name'];
+    //         echo $mtnData["mtn_image"];
+    //     }
+    // } else {
+    //     echo "no file uploaded";
+    // }
 
 
     // ----------------------------------------------
     //-------- upload if edit image pressed---------
     //----------------------------------------------
-    if ($validPass) {
-        //----------------update function call----------------------
-        update_mountain($mtnData);
+    //----------------update function call----------------------
+
+    $result = update_mountain($mtnData, $hasImage);
+    if ($result === true) {
         $userPrompt = "Mountain Edited !";
         //-----------------redirect to mtn page---------------------
         redirect_to(WWW_ROOT . "/page.php?mtn_id=" . $mtnId);
+    } else {
+        $errors = $result;
     }
 } else {
     //-------------------------------------------------
@@ -276,15 +318,15 @@ function RadioCheck($access, $value)
             <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" name="title" class="form-control" value="<?php echo h($mtnData['title']); ?>">
-                <?php if ($titleMessage) {
-                    echo " <p class=\"alert alert-danger\">" . "$titleMessage" . "</p>";
+                <?php if (isset($errors['title'])) {
+                    echo " <p class=\"alert alert-danger\">" . "{$errors['title']}" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea name="description" class="form-control"><?php echo h($mtnData['description']); ?></textarea>
-                <?php if ($desMessage) {
-                    echo " <p class=\"alert alert-danger\">" . "$desMessage" . "</p>";
+                <?php if (isset($errors['description'])) {
+                    echo " <p class=\"alert alert-danger\">" . "{$errors['description']}" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
@@ -306,36 +348,40 @@ function RadioCheck($access, $value)
                     <option value="nun" <?php echo "$nunProvince" ?>>NUN</option>
                     <option value="usa" <?php echo "$usaProvince" ?>>USA</option>
                 </select>
-                <?php if ($provinceMessage) {
-                    echo " <p class=\"alert alert-danger\">" . "$provinceMessage" . "</p>";
+                <?php if (isset($errors['province'])) {
+                    echo " <p class=\"alert alert-danger\">" . "{$errors['province']}" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="file">Main Image to Upload</label>
-                <input type="file" id="file-m" name="file-m" class="form-control" value="<?php echo h($mtnData['mtn_image']) ?>">
+
+                <input type="file" id="file-m" name="file-m" class="form-control">
                 <?php if ($ImgPromptMain) {
                     echo " <p class=\"alert alert-danger\">" . "$ImgPromptMain" . "</p>";
                 } ?>
+                <div class="mb-4" id="pageImg"><img src="../../uploads/thumbnails/<?php echo h($mtnData['mtn_image']); ?>" /></div>
+
             </div>
+
             <div class="form-group">
                 <label for="vertical-relief">Vertical-Relief:</label>
                 <input type="number" name="vertical-relief" id="vertical-relief" class="form-control" value="<?php echo h($mtnData['vertical_relief']); ?>">
-                <?php if ($verMessage) {
-                    echo " <p class=\"alert alert-danger\">" . "$verMessage" . "</p>";
+                <?php if (isset($errors['vertical_relief'])) {
+                    echo " <p class=\"alert alert-danger\">" . "{$errors['vertical_relief']}" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="height">Height (meters):</label>
                 <input type="number" name="height" id="height" class="form-control" value="<?php echo h($mtnData['height']); ?>">
-                <?php if ($heightMessage) {
-                    echo " <p class=\"alert alert-danger\">" . "$heightMessage" . "</p>";
+                <?php if (isset($errors['height'])) {
+                    echo " <p class=\"alert alert-danger\">" . "{$errors['height']}" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="first-summit">First Summit Description:</label>
                 <input type="text" name="first-summit" id="first-summit" class="form-control" value="<?php echo h($mtnData['first_summit']) ?>">
-                <?php if ($SumMessage) {
-                    echo " <p class=\"alert alert-danger\">" . "$SumMessage" . "</p>";
+                <?php if (isset($errors['first_summit'])) {
+                    echo " <p class=\"alert alert-danger\">" . "{$errors['first_summit']}" . "</p>";
                 } ?>
             </div>
             <!-- NEED THIS FOR CHECK BOX -->
@@ -354,16 +400,18 @@ function RadioCheck($access, $value)
                 <br />Hike<input type="radio" name="access" id="access" class="form-control" value="hike" <?php RadioCheck(h($mtnData["access"]), "hike"); ?>>
                 Vehicle<input type="radio" name="access" id="access" class="form-control" value="vehicle" <?php RadioCheck(h($mtnData["access"]), "vehicle"); ?>>
                 Helicopter<input type="radio" name="access" id="access" class="form-control" value="helicopter" <?php RadioCheck(h($mtnData["access"]), "helicopter"); ?>>
-                <?php if ($accessMessage) {
-                    echo " <p class=\"alert alert-danger\">" . "$accessMessage" . "</p>";
+                <?php if (isset($error['access'])) {
+                    echo " <p class=\"alert alert-danger\">" . "{$error['access']}" . "</p>";
                 } ?>
             </div>
             <div class="form-group">
                 <label for="file-g">Google Image to Upload:</label>
+                <input hidden type="text" name="file-g-url" id="file-g-url" value="<?php echo $mtnData['mtn_image']; ?>">
                 <input accept="image/jpeg" type="file" id="file-g" name="file-g" class="form-control">
                 <?php if ($ImgPromptGoogle) {
                     echo " <p class=\"alert alert-danger\">" . "$ImgPromptGoogle" . "</p>";
                 } ?>
+                <div class="mb-4" id="pageImg"><img src="../../uploads/display/<?php echo h($mtnData["google_img"]); ?>" /></div>
             </div>
             <div class="form-group">
                 <label for="submit">&nbsp;</label>
@@ -374,8 +422,8 @@ function RadioCheck($access, $value)
         <button class="btn btn-danger" onclick="location.href='../index.php'"> Cancel</button>
     </div>
     <div class="col-md-6">
-        <div class="mb-4" id="pageImg"><img src="../../uploads/thumbnails/<?php echo h($mtnData['mtn_image']); ?>" /></div>
-        <div class="mb-4" id="pageImg"><img src="../../uploads/display/<?php echo h($mtnData["google_img"]); ?>" /></div>
+
+
         <!--  
         echo "<div class=\"mb-4\" id=\"pageImg\"><img src=\"../../uploads/thumbnails/$mtnData['mtn_image']\"/></div>";
         echo "<div class=\"mb-4\" id=\"pageGoogleImg\"><img src=\"../../uploads/display/$mtnData["google_img"]\"/></div>"; -->
