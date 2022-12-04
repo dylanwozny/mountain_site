@@ -138,8 +138,50 @@ function insert_mountain($title, $desc, $prov, $vert, $height, $summit, $access,
     }
 }
 
+
+//-------------------------------------------
+//-----------------FILE upload logic---------
+//-------------------------------------------
+function upload_image($image)
+{
+    // grab the files name 
+    $mainImageName = $image['name'];
+
+    // -----------replace unwanted characters. For security sake.------------
+    $pathInfo = pathinfo($mainImageName);
+    $base = $pathInfo['filename'];
+    // replace regex
+    $base = preg_replace("/[^\w-]/", "_", $base);
+
+    // set the file name
+    $filename = $base . "." . $pathInfo['extension'];
+
+    // set the files upload destination
+    $destination = PUBLIC_PATH . "/uploads/display/" . $filename;
+
+    echo "<br/>" . "The cleaned name" . $filename . "<br/>";
+    echo "<br/>" . "The cleaned name" . $image["tmp_name"] . "<br/>";
+    //  write the file to the specified folder. 
+    // MAKE SURE SERVER HAS WRITE PERMISSION
+    if (!move_uploaded_file($image["tmp_name"], $destination)) {
+        exit("cant upload file");
+    }
+
+    // return file name for sql storage
+    return $filename;
+}
+
+//-------------------------------------------
+//-----------------Thumbnail Creation-------
+//-------------------------------------------
+function create_thumbnail()
+{
+}
+
+
+
 //----------------------------------------
-//-----------------UPDATE---------------------
+//-----------------UPDATE-----------------
 //----------------------------------------
 //-----------------Associate array passed property---------------------
 // hasFile checks for img upload. If none, do not upload the image;
@@ -151,6 +193,11 @@ function update_mountain($mtnData, $hasFile = true)
     if (!empty($errors)) {
         return $errors;
     }
+
+    // uploading image and catching the images name to be put in sql query.
+    $mtn_image_name = upload_Image($mtnData['mtn_img']);
+
+
     // if the upload has a image attached update images, else
     // update everything else except images.
     if ($hasFile) {
@@ -158,7 +205,7 @@ function update_mountain($mtnData, $hasFile = true)
         $sql .= "title ='" . $mtnData['title'] . "',";
         $sql .= "description ='" . $mtnData['description'] . "',";
         $sql .= "province ='" . $mtnData['province'] . "',";
-        $sql .= "mtn_image ='" . $mtnData['mtn_image'] . "',";
+        $sql .= "mtn_image ='" . $mtn_image_name . "',";
         $sql .= "vertical_relief ='" . $mtnData['vertical_relief'] . "',";
         $sql .= "height ='" . $mtnData['height'] . "',";
         $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";

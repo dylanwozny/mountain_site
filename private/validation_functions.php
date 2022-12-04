@@ -119,7 +119,52 @@ function has_min_max_int($value, $options)
 //-----------------FILE Validation---------------------
 //----------------------------------------
 
+function has_file_Err($value)
+{
 
+    if ($value['error'] !== UPLOAD_ERR_OK) {
+        switch ($value['error']) {
+            case UPLOAD_ERR_PARTIAL:
+                // exit('partial upload of image');
+                return "partial upload of image";
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $hasImage = false;
+                return "no file uploaded";
+
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                return "files upload stopped by php extension";
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                return "files upload to large";
+                break;
+            case UPLOAD_ERR_INI_SIZE:
+                return "files upload to large for default value of php";
+                break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+                return "temp directory full or not found";
+                break;
+            case UPLOAD_ERR_CANT_WRITE:
+                return "could not write file";
+                break;
+            default:
+                return "unknown error";
+                break;
+        }
+    }
+    // check file. 
+    // this checks $_FILES associate property
+    if ($value['size'] > 1048576) {
+        return 'file size to large';
+    }
+
+    // array of allowed file types
+    $allowedTypes = ["image/jpeg", "image/gif"];
+    if (!isset($value['type']) || !in_array($value['type'], $allowedTypes)) {
+        return "invalid file type";
+    }
+}
 
 
 
@@ -130,7 +175,8 @@ function has_min_max_int($value, $options)
 // will return the associate array of error description if there
 //are errors.
 // will return nothing in errors and pass if no errors are present
-function validate_mtn($data)
+// allow no image upload for edit page
+function validate_mtn($data, $allowNoImage = true)
 {
 
     //-----------------Associate Array storing error values---------------------
@@ -218,11 +264,12 @@ $imageFileType = '';
     //----------------------------------------
     //-----------------File Validation---------------------
     //----------------------------------------
+    $fileErrors = has_file_Err($data['mtn_img']);
 
-    // if(!isset(($data['google_img']))){
-    //     echo "IMG not given"
+    if ($fileErrors) {
+        $errors['mtn_img'] = $fileErrors;
+    }
 
-    // }
 
     //-----------------Return Errors---------------------
     return $errors;

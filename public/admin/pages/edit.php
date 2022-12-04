@@ -44,7 +44,7 @@ $imageFileType = '';
 //initliaize errors
 $errors = [];
 // echo out files array for image properties
-echo print_r($_FILES);
+// echo print_r($_FILES);
 
 //----------------------------------------
 //------basic page load or form submit----
@@ -67,88 +67,109 @@ if (is_post_request()) {
     $mtnData["access"] = $_POST["access"];
     $mtnData["mtn_id"] = $mtnId;
 
+    // check for files
+    $mtnData["google_img"] = 'no image found';
+    $mtnData["mtn_img"] = 'no image found';
 
     //----------------------------------------------
     // -----------------File logic-----------------
     //----------------------------------------------
-    // Files are stored in $_FILES super global.
-    // Files have associate array of properties
-    // echo print_r($_FILES);
-    //-----------------VALIDATION---------------------
-    // is there a image flag for uploading.
+    // // Files are stored in $_FILES super global.
+    // // Files have associate array of properties
+    // // echo print_r($_FILES);
+    // //-----------------VALIDATION---------------------
+    // // is there a image flag for uploading.
     $hasImage = true;
-    // check file upload for errors
-    if ($_FILES['file-m']['error'] !== UPLOAD_ERR_OK) {
-        switch ($_FILES['file-m']['error']) {
-            case UPLOAD_ERR_PARTIAL:
-                exit('partial upload of image');
-                break;
-            case UPLOAD_ERR_NO_FILE:
-                echo "NO FILE UPLOADED";
-                // set flag for no image to exclude
-                // updating images.(for edit only)
-                $hasImage = false;
-                break;
-            case UPLOAD_ERR_EXTENSION:
-                exit("files upload stopped by a php extension");
-                break;
-            case UPLOAD_ERR_EXTENSION:
-                exit("files upload to large");
-                break;
-            case UPLOAD_ERR_INI_SIZE:
-                exit("files upload to large for default value of php");
-                break;
-            case UPLOAD_ERR_NO_TMP_DIR:
-                exit("temp directory full or not found");
-                break;
-            case UPLOAD_ERR_CANT_WRITE:
-                exit("could not write file");
-                break;
-            default:
-                exit("unknown error");
-                break;
-        }
-    }
-    // check file. 
-    // this checks $_FILES associate property
-    if ($_FILES['file-m']['size'] > 1048576) {
-        exit('file size to large');
-    }
-
-    // array of allowed file types
-    $allowedTypes = ["image/jpeg", "image/gif"];
-    if (!isset($_FILES['file-m']['type']) && !in_array($_FILES['file-m']['type'], $allowedTypes)) {
-        exit("invalid files type");
+    // // cast files array into var
+    // // if(isset){}
+    if ($_FILES['file-m']) {
+        $mtnData["mtn_img"] = $_FILES['file-m'];
     }
 
 
-    //------------- uploading the file --------------
+    // $fileErrorMsg  = has_file_Err($mtnData['mtn_img']);
 
-    // grab the files name 
-    $mainImageName = $_FILES['file-m']['name'];
-    // $googleImageName = $_FILES = ['file-g']['name'];
 
-    echo $mainImageName;
 
-    // -----------replace unwanted characters. For security sake.------------
-    $pathInfo = pathinfo($_FILES['file-m']['name']);
-    $base = $pathInfo['filename'];
-    // replace regex
-    $base = preg_replace("/[^\w-]/", "_", $base);
 
-    // set the file name
-    $filename = $base . "." . $pathInfo['extension'];
 
-    // set the files upload destination
-    $destination = PUBLIC_PATH . "/uploads/display/" . $filename;
+    // $mtnData["google_img"] = $_FILES['file-g'];
+    // // echo "<br/>" . "mtn img array:" . print_r($mtnData["mtn_img"]) . "<br/>";
 
-    echo "<br/>" . "The cleaned name" . $filename . "<br/>";
-    echo "<br/>" . "The cleaned name" . $_FILES['file-m']["tmp_name"] . "<br/>";
-    //  write the file to the specified folder. 
-    // MAKE SURE SERVER HAS WRITE PERMISSION
-    if (!move_uploaded_file($_FILES['file-m']["tmp_name"], $destination)) {
-        exit("cant upload file");
-    }
+
+    // // check file upload for errors
+    // if ($_FILES['file-m']['error'] !== UPLOAD_ERR_OK) {
+    //     switch ($_FILES['file-m']['error']) {
+    //         case UPLOAD_ERR_PARTIAL:
+    //             exit('partial upload of image');
+    //             break;
+    //         case UPLOAD_ERR_NO_FILE:
+    //             echo "NO FILE UPLOADED";
+    //             // set flag for no image to exclude
+    //             // updating images.(for edit only)
+    //             $hasImage = false;
+    //             echo "does it have an image:" . $hasImage;
+    //             break;
+    //         case UPLOAD_ERR_EXTENSION:
+    //             exit("files upload stopped by a php extension");
+    //             break;
+    //         case UPLOAD_ERR_EXTENSION:
+    //             exit("files upload to large");
+    //             break;
+    //         case UPLOAD_ERR_INI_SIZE:
+    //             exit("files upload to large for default value of php");
+    //             break;
+    //         case UPLOAD_ERR_NO_TMP_DIR:
+    //             exit("temp directory full or not found");
+    //             break;
+    //         case UPLOAD_ERR_CANT_WRITE:
+    //             exit("could not write file");
+    //             break;
+    //         default:
+    //             exit("unknown error");
+    //             break;
+    //     }
+    // }
+    // // check file. 
+    // // this checks $_FILES associate property
+    // if ($_FILES['file-m']['size'] > 1048576) {
+    //     exit('file size to large');
+    // }
+
+    // // array of allowed file types
+    // $allowedTypes = ["image/jpeg", "image/gif"];
+    // if (!isset($_FILES['file-m']['type']) && !in_array($_FILES['file-m']['type'], $allowedTypes)) {
+    //     exit("invalid files type");
+    // }
+
+
+    // //------------- uploading the file --------------
+
+    // // grab the files name 
+    // $mainImageName = $_FILES['file-m']['name'];
+    // // $googleImageName = $_FILES = ['file-g']['name'];
+
+    // // echo $mainImageName;
+
+    // // -----------replace unwanted characters. For security sake.------------
+    // $pathInfo = pathinfo($_FILES['file-m']['name']);
+    // $base = $pathInfo['filename'];
+    // // replace regex
+    // $base = preg_replace("/[^\w-]/", "_", $base);
+
+    // // set the file name
+    // $filename = $base . "." . $pathInfo['extension'];
+
+    // // set the files upload destination
+    // $destination = PUBLIC_PATH . "/uploads/display/" . $filename;
+
+    // // echo "<br/>" . "The cleaned name" . $filename . "<br/>";
+    // // echo "<br/>" . "The cleaned name" . $_FILES['file-m']["tmp_name"] . "<br/>";
+    // //  write the file to the specified folder. 
+    // // MAKE SURE SERVER HAS WRITE PERMISSION
+    // if (!move_uploaded_file($_FILES['file-m']["tmp_name"], $destination)) {
+    //     exit("cant upload file");
+    // }
 
     //----------------------------------------
     //-----------------IMAGE UPLOADS 1 DO REST...---------------------
@@ -356,8 +377,8 @@ function RadioCheck($access, $value)
                 <label for="file">Main Image to Upload</label>
 
                 <input type="file" id="file-m" name="file-m" class="form-control">
-                <?php if ($ImgPromptMain) {
-                    echo " <p class=\"alert alert-danger\">" . "$ImgPromptMain" . "</p>";
+                <?php if (isset($errors['mtn_img'])) {
+                    echo " <p class=\"alert alert-danger\">" . "{$errors['mtn_img']}" . "</p>";
                 } ?>
                 <div class="mb-4" id="pageImg"><img src="../../uploads/thumbnails/<?php echo h($mtnData['mtn_image']); ?>" /></div>
 
