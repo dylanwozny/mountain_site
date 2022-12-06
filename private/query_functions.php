@@ -174,8 +174,43 @@ function upload_image($image)
 //-------------------------------------------
 //-----------------Thumbnail Creation-------
 //-------------------------------------------
-function create_thumbnail()
+function create_thumbnail_Jpg($imgName, $thisThumbWidth, $thumbsDestination)
 {
+    // orginal file location
+    $thisOgFilePath = PUBLIC_PATH . "/uploads/display/" . $imgName;
+
+    list($width, $height) =  getimagesize(
+        $thisOgFilePath
+    );
+    // resize to become a thumbnail
+
+    echo $width . $height;
+    // get the original image ratio
+    $imgRatio = $width / $height;
+
+    // create the thumb height by processing the given width
+    $thisThumbHeight = $thisThumbWidth / $imgRatio;
+
+    // create a image with the calculated width and height
+    $thumb = imagecreatetruecolor($thisThumbWidth, $thisThumbHeight);
+
+
+
+    // creates an image from the original
+    $source = imagecreatefromjpeg($thisOgFilePath);
+
+    //resize
+    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $thisThumbWidth, $thisThumbHeight, $width, $height);
+
+    //output_
+    $newFilename = $thumbsDestination . $imgName;
+
+    //save file
+    imagejpeg($thumb, $newFilename, 80);
+
+    // remove from memory
+    imagedestroy($thumb);
+    imagedestroy($source);
 }
 
 
@@ -194,9 +229,14 @@ function update_mountain($mtnData, $hasFile = true)
         return $errors;
     }
 
+    //-----------------Upload Image---------------------
     // uploading image and catching the images name to be put in sql query.
     $mtn_image_name = upload_Image($mtnData['mtn_img']);
+    $mtn_G_image_name = upload_Image($mtnData['google_img']);
 
+    //-----------------Create Thumbnail---------------------
+    create_thumbnail_Jpg($mtn_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
+    // create_thumbnail_Jpg($mtn_G_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
 
     // if the upload has a image attached update images, else
     // update everything else except images.
@@ -211,7 +251,7 @@ function update_mountain($mtnData, $hasFile = true)
         $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";
         $sql .= "is_volcano ='" . $mtnData['is_volcano'] . "',";
         $sql .= "access ='" . $mtnData['access'] . "',";
-        $sql .= "google_img ='" . $mtnData['google_img'] . "'";
+        $sql .= "google_img ='" . $mtn_G_image_name . "'";
         $sql .= "WHERE mtn_id ='" . $mtnData['mtn_id'] . "'";
         $sql .= " LIMIT 1";
     } else {

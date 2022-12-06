@@ -160,7 +160,7 @@ function has_file_Err($value)
     }
 
     // array of allowed file types
-    $allowedTypes = ["image/jpeg", "image/gif"];
+    $allowedTypes = ["image/jpeg"];
     if (!isset($value['type']) || !in_array($value['type'], $allowedTypes)) {
         return "invalid file type";
     }
@@ -269,6 +269,13 @@ $imageFileType = '';
     if ($fileErrors) {
         $errors['mtn_img'] = $fileErrors;
     }
+
+    $fileGErrors = has_file_Err($data['google_img']);
+
+    if ($fileGErrors) {
+        $errors['google_img'] = $fileGErrors;
+    }
+
 
 
     //-----------------Return Errors---------------------
