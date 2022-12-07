@@ -78,8 +78,8 @@ if (is_post_request()) {
     // Files are stored in $_FILES super global.
     // Files have associate array of properties
 
-    // is there a image flag for uploading.
-    $hasImage = true;
+    //-----------------Allow no file to be uploaded---------------------
+    $hasImage = false;
 
     // cast files array into var if it exists
     if ($_FILES['file-m']) {

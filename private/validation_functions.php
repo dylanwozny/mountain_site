@@ -129,7 +129,6 @@ function has_file_Err($value)
                 return "partial upload of image";
                 break;
             case UPLOAD_ERR_NO_FILE:
-                $hasImage = false;
                 return "no file uploaded";
 
                 break;

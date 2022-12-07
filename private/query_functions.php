@@ -220,27 +220,49 @@ function create_thumbnail_Jpg($imgName, $thisThumbWidth, $thumbsDestination)
 //----------------------------------------
 //-----------------Associate array passed property---------------------
 // hasFile checks for img upload. If none, do not upload the image;
-function update_mountain($mtnData, $hasFile = true)
+function update_mountain($mtnData, $needFile = true)
 {
     global $con;
     //------------------validation before update--------------------
+    // could of just had flag that ignores no image error..
     $errors = validate_mtn($mtnData);
+
+    // does the data given have image files ?
+    $hasFile = true;
+
+    //-----------------Validation logic allowing no images-------
+    // has error messages
     if (!empty($errors)) {
-        return $errors;
+        // does this upload require a file image ?
+        if (!$needFile) {
+            // determine if there are errors inside all other messages
+            if (!empty($errors['title']) || !empty($errors['description']) || !empty($errors['province']) || !empty($errors['vertical_relief']) || !empty($errors['height']) || !empty($errors['first_summit']) || !empty($errors['access'])) {
+                // return errors but set image errors to nothing
+                $errors['mtn_img'] = null;
+                $errors['google_img'] = null;
+                return $errors;
+            } else {
+                // only image errors, set flag that lets the if logic below know
+                // continue with function and pass validation
+                $hasFile = false;
+            }
+            // File are required. Return errors.
+        } else {
+            return $errors;
+        }
     }
 
-    //-----------------Upload Image---------------------
-    // uploading image and catching the images name to be put in sql query.
-    $mtn_image_name = upload_Image($mtnData['mtn_img']);
-    $mtn_G_image_name = upload_Image($mtnData['google_img']);
-
-    //-----------------Create Thumbnail---------------------
-    create_thumbnail_Jpg($mtn_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
-    // create_thumbnail_Jpg($mtn_G_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
-
-    // if the upload has a image attached update images, else
-    // update everything else except images.
+    // if the upload has a image attached update and create thumbnail images, else
+    // update everything else except images, no thumbnail.
     if ($hasFile) {
+        //-----------------Upload Image---------------------
+        // uploading image and catching the images name to be put in sql query.
+        $mtn_image_name = upload_Image($mtnData['mtn_img']);
+        $mtn_G_image_name = upload_Image($mtnData['google_img']);
+
+        //-----------------Create Thumbnail---------------------
+        create_thumbnail_Jpg($mtn_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
+        // create_thumbnail_Jpg($mtn_G_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
         $sql = "UPDATE dyl_mountains SET ";
         $sql .= "title ='" . $mtnData['title'] . "',";
         $sql .= "description ='" . $mtnData['description'] . "',";
