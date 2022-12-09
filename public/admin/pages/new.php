@@ -5,18 +5,26 @@ $page_title = "Add New";
 
 
 include(PRIVATE_PATH . '/includes/header.php');
+// setting vars for first page load
+$mtnData = [];
 
-// default vars
-$thisTitle = '';
-$thisDescription = '';
-$thisProvince = '';
-$thisMainImage = '';
-$thisVerticalRelief = '';
-$thisHeight = '';
-$thisSummit = '';
-$thisIsVolcano = '';
-$thisAccess = '';
-$thisGoogleImage = '';
+$mtnData["mtn_image"] = 'no image found';
+$mtnData["title"] = "";
+$mtnData["description"] = "";
+$mtnData["province"] = "";
+$mtnData["vertical_relief"] = "";
+$mtnData["vertical_relief"] = "";
+$mtnData["height"] = "";
+$mtnData["height"] = "";
+$mtnData["first_summit"] = "";
+$mtnData["is_volcano"] = "";
+$mtnData["access"] = "";
+
+// check for files
+$mtnData["google_img"] = 'no image found';
+$mtnData["mtn_img"] = 'no image found';
+
+
 
 //validation messsage vars
 $userPrompt = "";
@@ -32,102 +40,59 @@ $volcanoMessage = "";
 $accessMessage = "";
 $provinceMessage = "";
 
-// file upload
-$uploadOk = 1;
-$imageFileType = '';
-
-//------Google image file logic--------
-$gImg = 'select a file';
-$mImg = '';
+$errors = [];
 
 // if post request/ form submitted
 if (is_post_request()) {
-    $thisTitle = $_POST['title'];
-    $thisDescription = $_POST['description'];
-    $thisProvince = $_POST['province'];
 
-    $thisVerticalRelief = $_POST['vertical-relief'];
-    $thisHeight = $_POST['height'];
-    $thisSummit = $_POST['first-summit'];
+    //----------------------------------------
+    //-----------------Grab values from form---------------------
+    //----------------------------------------
+    //-----------------(Submit)Put form data into assoc array---------------------
 
-    $thisAccess = $_POST["access"];
-    $thisIsVolcano = $_POST['is-volcano'];
 
+    $mtnData["mtn_image"] = 'no image found';
+    $mtnData["title"] = $_POST["title"];
+    $mtnData["description"] = $_POST["description"];
+    $mtnData["province"] = $_POST["province"];
+    $mtnData["vertical_relief"] = $_POST["vertical-relief"];
+    $mtnData["vertical_relief"] = (int)$mtnData["vertical_relief"];
+    $mtnData["height"] = $_POST["height"];
+    $mtnData["height"] = (int)$mtnData["height"];
+    $mtnData["first_summit"] = $_POST["first-summit"];
+    $mtnData["is_volcano"] = $_POST['is-volcano'];
+    $mtnData["access"] = $_POST["access"];
+
+    // check for files
+    $mtnData["google_img"] = 'no image found';
+    $mtnData["mtn_img"] = 'no image found';
+    //---------------------------------------
     //----------------------------------------------
     // ----------VALIDATION SERVER SIDE------------
     //----------------------------------------------
     // putting in temp name for image files 
-    $checkImgG = $_FILES['file-g']['tmp_name'];
-    $checkImgM = $_FILES['file-m']['tmp_name'];
-    // Validation pass flag
-    $validPass = 0;
+    // cast files array into var if it exists
+    if ($_FILES['file-m']) {
+        $mtnData["mtn_img"] = $_FILES['file-m'];
+    };
 
-    //-------------FILES------------
-    // Google Image
-    // check for empty upload and .jpg file type.
-    if ($checkImgG === "") {
-        $ImgPromptGoogle = "Please upload an image";
-        $validPass = 1;
-    } elseif ($_FILES['file-g']['type'] != "image/jpeg") {
-        $ImgPromptGoogle = ".jpg images only";
-        echo $_FILES['file-g']['type'];
-        $validPass = 1;
+    if ($_FILES['file-g']) {
+        $mtnData["google_img"] = $_FILES['file-g'];
+    };
+
+    //-----------------insert query---------------------
+    $result = insert_mountain($mtnData);
+
+    if ($result === true) {
+        //-----------------grab new id---------------------
+        $new_id = mysqli_insert_id($con);
+        // redirect to new mountain page
+        redirect_to(WWW_ROOT . "/page.php?mtn_id=" . $new_id);
     } else {
-        $ImgPromptGoogle = "";
-        $gImg = $_FILES['file-g']['name'];
-        echo $gImg;
-        $validPass = 0;
+        // grab errors from validation
+        $errors = $result;
     }
-    // Main Image
-    // check for empty upload and .jpg file type.
-
-    if ($checkImgM === "") {
-        $ImgPromptMain = "please upload an image";
-        $validPass = 1;
-    } elseif ($_FILES['file-m']['type'] != "image/jpeg") {
-        $ImgPromptMain = '.jpg images only';
-        echo $_FILES['file-m']['type'];
-        $validPass = 1;
-    } else {
-        $ImgPromptMain = "";
-        $mImg = $_FILES['file-m']['name'];
-        echo $mImg;
-        $validPass = 0;
-    }
-
-    //-------------TEXT and NUMBERS------------
-    if ($thisDescription == "" || strlen($thisDescription) <= 0 || strlen($thisDescription) >= 500) {
-        $desMessage = "please give a description between 1 and 500 letters";
-        $validPass = 0;
-    }
-
-    if ($thisTitle == "" || strlen($thisTitle) <= 0 || strlen($thisTitle) >= 40) {
-        $titleMessage = "please give a title between 1 and 40 letters";
-        $validPass = 0;
-    }
-
-    if ($thisVerticalRelief == "" || is_int($thisVerticalRelief) || $thisVerticalRelief >= 10000 || $thisVerticalRelief <= 0) {
-        $verMessage = "Vertical Relief must be an integer between 1 and 10 000 ";
-        $passVal = 0;
-    }
-    if ($thisHeight == "" || $thisHeight >= 10000 || $thisHeight <= 0) {
-        $heightMessage = "Height must be an integer between 1 and 10 000 | ";
-        $passVal = 0;
-    }
-
-    if ($thisSummit == "" || strlen($thisSummit) <= 0 || strlen($thisSummit) >= 80) {
-        $SumMessage = "please give a summit description between 1 and 80 letters | ";
-        $passVal = 0;
-    }
-    // -------- Access radio Buttons----------
-    if (!$thisAccess) {
-        $accessMessage = "please select a access type";
-    }
-    //-------- Province drop down--------------
-    if ($thisProvince === "none") {
-        $provinceMessage = "Please select a province";
-        echo $thisProvince;
-    }
+} else {
 }
 
 
@@ -147,33 +112,34 @@ $peiProvince = "";
 $ykProvince = "";
 $usaProvince = "";
 
-if ($thisProvince == 'ab') {
+//-----------------Select options logic---------------------
+if ($mtnData['province'] == 'ab') {
     $abProvince = "selected";
-} else if ($thisProvince == 'bc') {
+} else if ($mtnData['province'] == 'bc') {
     $bcProvince = "selected";
-} elseif ($thisProvince == 'sk') {
+} elseif ($mtnData['province'] == 'sk') {
     $skProvince = "selected";
-} elseif ($thisProvince == 'nun') {
+} elseif ($mtnData['province'] == 'nun') {
     $nunProvince = "selected";
-} else if ($thisProvince == 'mn') {
+} else if ($mtnData['province'] == 'mn') {
     $mnProvince = "selected";
-} elseif ($thisProvince == 'on') {
+} elseif ($mtnData['province'] == 'on') {
     $onProvince = "selected";
-} elseif ($thisProvince == 'qc') {
+} elseif ($mtnData['province'] == 'qc') {
     $qcProvince = "selected";
-} else if ($thisProvince == 'nf') {
+} else if ($mtnData['province'] == 'nf') {
     $nfProvince = "selected";
-} elseif ($thisProvince == 'nb') {
+} elseif ($mtnData['province'] == 'nb') {
     $nbProvince = "selected";
-} elseif ($thisProvince == 'ns') {
+} elseif ($mtnData['province'] == 'ns') {
     $nsProvince = "selected";
-} else if ($thisProvince == 'pei') {
+} else if ($mtnData['province'] == 'pei') {
     $peiProvince = "selected";
-} elseif ($thisProvince == 'yk') {
+} elseif ($mtnData['province'] == 'yk') {
     $ykProvince = "selected";
-} elseif ($thisProvince == 'usa') {
+} elseif ($mtnData['province'] == 'usa') {
     $usaProvince = "selected";
-} else if ($thisProvince == "nt")
+} else if ($mtnData['province'] == "nt")
     $ntProvince = "selected";
 else {
 }
@@ -204,24 +170,24 @@ function RadioCheck($access, $value)
             }
             ?>
             <!-- h(remove special characters function) -->
-            <form id="myform" enctype="multipart/form-data" name="myform" method="post" action="<?php echo h("create.php") ?>">
+            <form id="myform" enctype="multipart/form-data" name="myform" method="post" action="<?php echo h("new.php") ?>">
                 <div class="form-group">
                     <label for="title">Title:</label>
-                    <input type="text" name="title" class="form-control" value="<?php echo h($thisTitle); ?>">
-                    <?php if ($titleMessage) {
-                        echo " <p class=\"alert alert-danger\">" . "$titleMessage" . "</p>";
+                    <input type="text" name="title" class="form-control" value="<?php echo h($mtnData['title']); ?>">
+                    <?php if (isset($errors['title'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$errors['title']}" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label>
-                    <textarea name="description" class="form-control"><?php echo h($thisDescription); ?></textarea>
-                    <?php if ($desMessage) {
-                        echo " <p class=\"alert alert-danger\">" . "$desMessage" . "</p>";
+                    <textarea name="description" class="form-control"><?php echo h($mtnData['description']); ?></textarea>
+                    <?php if (isset($errors['description'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$errors['description']}" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
                     <label for="province">Province:</label>
-                    <select name="province" id="province" value="<?php echo h($thisProvince); ?>">
+                    <select name="province" id="province" value="<?php echo h($mtnData['province']); ?>">
                         <option value="none">-Select province-</option>
                         <option value="ab" <?php echo "$abProvince" ?>>AB</option>
                         <option value="bc" <?php echo "$bcProvince" ?>>BC</option>
@@ -238,43 +204,47 @@ function RadioCheck($access, $value)
                         <option value="nun" <?php echo "$nunProvince" ?>>NUN</option>
                         <option value="usa" <?php echo "$usaProvince" ?>>USA</option>
                     </select>
-                    <?php if ($provinceMessage) {
-                        echo " <p class=\"alert alert-danger\">" . "$provinceMessage" . "</p>";
+                    <?php if (isset($errors['province'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$errors['province']}" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
                     <label for="file">Main Image to Upload</label>
-                    <input type="file" id="file-m" name="file-m" class="form-control" value="<?php echo h($thisMainImage) ?>">
-                    <?php if ($ImgPromptMain) {
-                        echo " <p class=\"alert alert-danger\">" . "$ImgPromptMain" . "</p>";
+
+                    <input type="file" id="file-m" name="file-m" class="form-control">
+                    <?php if (isset($errors['mtn_img'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$errors['mtn_img']}" . "</p>";
                     } ?>
+                    <div class="mb-4" id="pageImg"><img src="../../uploads/thumbnails/<?php echo h($mtnData['mtn_image']); ?>" /></div>
+
                 </div>
+
                 <div class="form-group">
                     <label for="vertical-relief">Vertical-Relief:</label>
-                    <input type="number" name="vertical-relief" id="vertical-relief" class="form-control" value="<?php echo h($thisVerticalRelief); ?>">
-                    <?php if ($verMessage) {
-                        echo " <p class=\"alert alert-danger\">" . "$verMessage" . "</p>";
+                    <input type="number" name="vertical-relief" id="vertical-relief" class="form-control" value="<?php echo h($mtnData['vertical_relief']); ?>">
+                    <?php if (isset($errors['vertical_relief'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$errors['vertical_relief']}" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
                     <label for="height">Height (meters):</label>
-                    <input type="number" name="height" id="height" class="form-control" value="<?php echo h($thisHeight); ?>">
-                    <?php if ($heightMessage) {
-                        echo " <p class=\"alert alert-danger\">" . "$heightMessage" . "</p>";
+                    <input type="number" name="height" id="height" class="form-control" value="<?php echo h($mtnData['height']); ?>">
+                    <?php if (isset($errors['height'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$errors['height']}" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
                     <label for="first-summit">First Summit Description:</label>
-                    <input type="text" name="first-summit" id="first-summit" class="form-control" value="<?php echo h($thisSummit) ?>">
-                    <?php if ($SumMessage) {
-                        echo " <p class=\"alert alert-danger\">" . "$SumMessage" . "</p>";
+                    <input type="text" name="first-summit" id="first-summit" class="form-control" value="<?php echo h($mtnData['first_summit']) ?>">
+                    <?php if (isset($errors['first_summit'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$errors['first_summit']}" . "</p>";
                     } ?>
                 </div>
                 <!-- NEED THIS FOR CHECK BOX -->
                 <div class="form-group">
                     <label for="is-volcano">Is Volcano:</label>
                     <input type="hidden" name="is-volcano" id="is-volcano" class="form-control" value="0">
-                    <input type="checkbox" name="is-volcano" id="is-volcano" class="form-control" value="1" <?php if ($thisIsVolcano == "1") {
+                    <input type="checkbox" name="is-volcano" id="is-volcano" class="form-control" value="1" <?php if ($mtnData["is_volcano"] == "1") {
                                                                                                                 echo "checked";
                                                                                                             }; ?> />
 
@@ -283,27 +253,40 @@ function RadioCheck($access, $value)
                 <div class="form-group">
                     <label for="access">Access:</label>
                     <input type="hidden" name="access" id="access" class="form-control" value="0">
-                    <br />Hike<input type="radio" name="access" id="access" class="form-control" value="hike" <?php RadioCheck(h($thisAccess), "hike"); ?>>
-                    Vehicle<input type="radio" name="access" id="access" class="form-control" value="vehicle" <?php RadioCheck(h($thisAccess), "vehicle"); ?>>
-                    Helicopter<input type="radio" name="access" id="access" class="form-control" value="helicopter" <?php RadioCheck(h($thisAccess), "helicopter"); ?>>
-                    <?php if ($accessMessage) {
-                        echo " <p class=\"alert alert-danger\">" . "$accessMessage" . "</p>";
+                    <br />Hike<input type="radio" name="access" id="access" class="form-control" value="hike" <?php RadioCheck(h($mtnData["access"]), "hike"); ?>>
+                    Vehicle<input type="radio" name="access" id="access" class="form-control" value="vehicle" <?php RadioCheck(h($mtnData["access"]), "vehicle"); ?>>
+                    Helicopter<input type="radio" name="access" id="access" class="form-control" value="helicopter" <?php RadioCheck(h($mtnData["access"]), "helicopter"); ?>>
+                    <?php if (isset($error['access'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$error['access']}" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
                     <label for="file-g">Google Image to Upload:</label>
                     <input accept="image/jpeg" type="file" id="file-g" name="file-g" class="form-control">
-                    <?php if ($ImgPromptGoogle) {
-                        echo " <p class=\"alert alert-danger\">" . "$ImgPromptGoogle" . "</p>";
+                    <?php if (isset($errors['google_img'])) {
+                        echo " <p class=\"alert alert-danger\">" . $errors['google_img'] . "</p>";
                     } ?>
+                    <div class="mb-4" id="pageImg"><img src="../../uploads/display/<?php echo $mtnData["google_img"]; ?>" /></div>
                 </div>
                 <div class="form-group">
                     <label for="submit">&nbsp;</label>
-                    <input type="submit" name="submit" class="green-button" value="new image">
+                    <input type="submit" name="submit" class="green-button" value="edit image">
                 </div>
             </form>
+            <button class="btn btn-danger" onclick="location.href ='delete.php?mtn_id=<?php echo h($mtnId); ?>'">Delete</button>
+            <button class="btn btn-danger" onclick="location.href='../index.php'"> Cancel</button>
         </div>
+        <div class="col-md-6">
 
+
+            <!--  
+        echo "<div class=\"mb-4\" id=\"pageImg\"><img src=\"../../uploads/thumbnails/$mtnData['mtn_image']\"/></div>";
+        echo "<div class=\"mb-4\" id=\"pageGoogleImg\"><img src=\"../../uploads/display/$mtnData["google_img"]\"/></div>"; -->
+
+        </div>
+        <?php
+
+        ?>
     </div>
 </section>
 

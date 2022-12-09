@@ -124,17 +124,50 @@ function find_mtn_page($id)
 //-----------------INSERT---------------------
 //----------------------------------------
 
-function insert_mountain($title, $desc, $prov, $vert, $height, $summit, $access, $vol, $img, $imgG)
+function insert_mountain($mtnData)
 {
     global $con;
-    $sql = "INSERT INTO dyl_Mountains(title, description, province, mtn_image, vertical_relief, height, first_summit, is_volcano, access, google_img) VALUES('$title','$desc','$prov','$img','$vert','$height','$summit','$vol','$access','$imgG')";
-    $result = mysqli_query($con, $sql);
-    if ($result) {
-        return true;
+    // validation
+    $errors = validate_mtn($mtnData);
+    // return errors if there is any
+    if (!empty($errors)) {
+        return $errors;
     } else {
-        echo mysqli_error($con);
-        db_disconnect($con);
-        exit;
+
+        //-----------------Upload Image---------------------
+        // uploading image and catching the images name to be put in sql query.
+        $mtn_image_name = upload_Image($mtnData['mtn_img']);
+        $mtn_G_image_name = upload_Image($mtnData['google_img']);
+
+        //-----------------Create Thumbnail---------------------
+        create_thumbnail_Jpg($mtn_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
+
+        // sql query 
+        $sql = "INSERT INTO dyl_mountains(";
+        $sql .= "title,description,province,mtn_image,";
+        $sql .= "vertical_relief,height,first_summit,is_volcano,";
+        $sql .= "access,google_img)";
+        $sql .= " VALUES('" . $mtnData['title'] . "',";
+        $sql .= "'" . $mtnData['description'] . "',";
+        $sql .= "'" . $mtnData['province'] . "',";
+        $sql .= "'" . $mtn_image_name . "',";
+        $sql .= "'" . $mtnData['vertical_relief'] . "',";
+        $sql .= "'" . $mtnData['height'] . "',";
+        $sql .= "'" . $mtnData['is_volcano'] . "',";
+        $sql .= "'" . $mtnData['first_summit'] . "',";
+        $sql .= "'" . $mtnData['access'] . "',";
+        $sql .= "'" . $mtn_G_image_name . "')";
+
+        $result = mysqli_query($con, $sql);
+
+
+        if ($result) {
+            return true;
+        } else {
+            echo mysqli_error($con);
+            db_disconnect($con);
+            exit;
+        }
     }
 }
 
@@ -215,6 +248,12 @@ function create_thumbnail_Jpg($imgName, $thisThumbWidth, $thumbsDestination)
 
 
 
+// 
+// 
+// NEED ONLY UPDATE ONE IMAG LOGIC
+// 
+// 
+// 
 //----------------------------------------
 //-----------------UPDATE-----------------
 //----------------------------------------
@@ -242,6 +281,27 @@ function update_mountain($mtnData, $needFile = true)
                 $errors['google_img'] = null;
                 return $errors;
             } else {
+                // checking for which image is empty
+                if ($errors['mtn_img']) {
+                    // if images empty don't upload
+                    if ($errors['mtn_img'] == "no file uploaded") {
+                        // remove mtn_img from query
+                        $removeMtnImg = true;
+                    } else {
+                        return $errors;
+                    }
+                }
+
+                if ($errors['google_img']) {
+                    // if images empty don't upload
+                    if ($errors['google_img'] == "no file uploaded") {
+                        // remove mtn_img from query
+                        $removeGImg = true;
+                    } else {
+                        return $errors;
+                    }
+                }
+
                 // only image errors, set flag that lets the if logic below know
                 // continue with function and pass validation
                 $hasFile = false;
@@ -251,6 +311,7 @@ function update_mountain($mtnData, $needFile = true)
             return $errors;
         }
     }
+
 
     // if the upload has a image attached update and create thumbnail images, else
     // update everything else except images, no thumbnail.

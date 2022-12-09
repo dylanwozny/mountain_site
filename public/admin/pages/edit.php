@@ -72,6 +72,15 @@ if (is_post_request()) {
     $mtnData["google_img"] = 'no image found';
     $mtnData["mtn_img"] = 'no image found';
 
+    // cast files array into var if it exists
+    if ($_FILES['file-m']) {
+        $mtnData["mtn_img"] = $_FILES['file-m'];
+    };
+
+    if ($_FILES['file-g']) {
+        $mtnData["google_img"] = $_FILES['file-g'];
+    };
+
     // ----------------------------------------------
     // -----------------File logic-----------------
     // ----------------------------------------------
@@ -90,6 +99,7 @@ if (is_post_request()) {
         $mtnData["google_img"] = $_FILES['file-g'];
     };
 
+    echo print_r($mtnData);
     // ----------------------------------------------
     //-------- UPLOAD AND VALIDATE------------------
     //----------------------------------------------

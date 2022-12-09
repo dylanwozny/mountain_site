@@ -130,7 +130,6 @@ function has_file_Err($value)
                 break;
             case UPLOAD_ERR_NO_FILE:
                 return "no file uploaded";
-
                 break;
             case UPLOAD_ERR_EXTENSION:
                 return "files upload stopped by php extension";
