@@ -1,5 +1,5 @@
 <?php
-
+// https://blog.webnersolutions.com/mysql-access-denied-error-for-user-rootlocalhost-in-xampp/
 // This guide demonstrates the five fundamental steps
 // of database interaction using PHP.
 
