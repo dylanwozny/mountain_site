@@ -266,6 +266,12 @@ function update_mountain($mtnData, $needFile = true)
     // could of just had flag that ignores no image error..
     $errors = validate_mtn($mtnData);
 
+    // escape html special characters on each array error
+    foreach ($errors as $error) {
+        h($error);
+    }
+
+
     // does the data given have image files ?
     $hasFile = true;
 

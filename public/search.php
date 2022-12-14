@@ -1,5 +1,9 @@
 <?php
 require_once("../private/initialize.php");
+
+//page vars
+$page_title = "Search";
+
 include(INCLUDES_PATH . "/header.php");
 ?>
 
@@ -39,16 +43,16 @@ if (is_post_request()) {
         } else {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo print_r($row);
-                $title = $row['title'];
-                $description = $row['description'];
-                $firstSummit = $row['first_summit'];
-                $access = $row['access'];
-                $province = $row['province'];
-                $mtnId = $row['mtn_id'];
-                $height = $row['height'];
-                $vertical = $row['vertical_relief'];
-                $vertical = strval($vertical);
-                $mtnImage = $row['mtn_image'];
+                $title = h($row['title']);
+                $description = h($row['description']);
+                $firstSummit = h($row['first_summit']);
+                $access = h($row['access']);
+                $province = h($row['province']);
+                $mtnId = h(u($row['mtn_id']));
+                $height = h($row['height']);
+                $vertical = h($row['vertical_relief']);
+                $vertical = h(strval($vertical));
+                $mtnImage = h((string)$row['mtn_image']);
 
                 echo "\n<div class='jumbotron row'>";
                 echo "\n<div class='col-md-4'>";

@@ -15,8 +15,8 @@ include(INCLUDES_PATH . "/header.php");
 
         $title = $theMtn['title'];
         $description = $theMtn["description"];
-        $mtnImageThumb = $theMtn["mtn_image"];
-        $mtnImageGoogle = $theMtn['google_img'];
+        $mtnImageThumb = (string)$theMtn["mtn_image"];
+        $mtnImageGoogle = (string)$theMtn['google_img'];
         $province = $theMtn['province'];
         $verticalRelief = $theMtn['vertical_relief'];
         $verticalRelief = strval($verticalRelief);
@@ -37,37 +37,37 @@ include(INCLUDES_PATH . "/header.php");
         <main>
             <section class="row page-header">
                 <div class="col-md-12">
-                    <h2 class="mb-4"> <?php echo "$title"; ?></h2>
+                    <h2 class="mb-4"> <?php echo h($title); ?></h2>
                     <p class="bold">Description:</p>
-                    <p class="mb-4"> <?php echo "$description"; ?> </p>
+                    <p class="mb-4"> <?php echo h($description); ?> </p>
                 </div>
             </section>
             <section class="row section-1">
                 <div class="">
-                    <img src=<?php echo "uploads/display/" . $mtnImageThumb; ?> alt="">
+                    <img src=<?php echo "uploads/display/" . h($mtnImageThumb); ?> alt="">
                 </div>
                 <div class="">
                     <ul class="page-txt-stats">
-                        <li><?php echo "$volcanoTxt"; ?> </li>
-                        <li>First Summit: <?php echo "$firstSummit"; ?></li>
-                        <li>Location: <?php echo "$province"; ?></li>
-                        <li>Access type: <?php echo "$access"; ?></li>
+                        <li><?php echo h($volcanoTxt); ?> </li>
+                        <li>First Summit: <?php echo h($firstSummit); ?></li>
+                        <li>Location: <?php echo h($province); ?></li>
+                        <li>Access type: <?php echo h($access); ?></li>
                     </ul>
                 </div>
             </section>
             <section class="row section-2">
                 <div class="col-md-12 section-2-google">
                     <ul>
-                        <li>Vertical Relief: <?php echo "$verticalRelief"; ?>m</li>
-                        <li>Height: <?php echo $height; ?>m</li>
+                        <li>Vertical Relief: <?php echo h($verticalRelief); ?>m</li>
+                        <li>Height: <?php echo h($height); ?>m</li>
                     </ul>
                 </div>
                 <div class="col-md-12">
-                    <img src=<?php echo "uploads/display/" . $mtnImageGoogle; ?> alt="">
+                    <img src=<?php echo "uploads/display/" . h($mtnImageGoogle); ?> alt="">
                 </div>
                 <div class="col-md-12">
                     <?php
-                    echo "<a id=\"pageEdit\" class=\"mb-4 green-button\" href=\"admin/pages/edit.php?mtn_id=$mtnId \">Edit</a>";
+                    echo "<a id=\"pageEdit\" class=\"mb-4 green-button\" href=\"admin/pages/edit.php?mtn_id=" . h(u($mtnId)) . "\">Edit</a>";
                     ?>
                 </div>
             </section>

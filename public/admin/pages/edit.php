@@ -109,6 +109,7 @@ if (is_post_request()) {
         //-----------------redirect to mtn page---------------------
         redirect_to(WWW_ROOT . "/page.php?mtn_id=" . $mtnId);
     } else {
+        // remove special characters
         $errors = $result;
     }
 } else {
@@ -307,7 +308,7 @@ function RadioCheck($access, $value)
             </div>
             <div class="form-group">
                 <label for="submit">&nbsp;</label>
-                <input type="submit" name="submit" class="green-button" value="edit image">
+                <input type="submit" name="submit" class="green-button" value="edit Mtn">
             </div>
         </form>
         <button class="btn btn-danger" onclick="location.href ='delete.php?mtn_id=<?php echo h($mtnId); ?>'">Delete</button>

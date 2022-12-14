@@ -77,7 +77,10 @@ $result = find_all_mtns();
     $titleTruncate = truncate($title, 15);
     $description = $row['description'];
     $description = truncate($description, 15);
-    $mtnImage = $row['mtn_image'];
+    // cast to string to be sanitized
+    $mtnImage = (string)$row['mtn_image'];
+    //sanitize here
+    h($mtnImage);
     $mtnImageGoogle = $row['google_img'];
     $province = $row['province'];
     $height = $row['height'];
@@ -87,14 +90,14 @@ $result = find_all_mtns();
 
     echo "<img src=\"uploads/thumbnails/$mtnImage\" class=\"\" /><br/>\n";
 
-    echo "<div class=\"displayCategory\">Title:</span> <span class=\"displayInfo\">" . $title . "</div>\n";
-    echo "<div class=\"displayCategory\">Description:</span> <span class=\"displayInfo\">" . $description . "</div>\n";
-    echo "<div class=\"displayCategory\">Province:</span> <span class=\"displayInfo\">" . $province . "</div>\n";
-    echo "<div class=\"displayCategory\">Height:</span> <span class=\"displayInfo\">" . $height . "</div>\n";
+    echo "<div class=\"displayCategory\">Title:</span> <span class=\"displayInfo\">" . h($title) . "</div>\n";
+    echo "<div class=\"displayCategory\">Description:</span> <span class=\"displayInfo\">" . h($description) . "</div>\n";
+    echo "<div class=\"displayCategory\">Province:</span> <span class=\"displayInfo\">" . h($province) . "</div>\n";
+    echo "<div class=\"displayCategory\">Height:</span> <span class=\"displayInfo\">" . h($height) . "</div>\n";
 
 
     // CREATE A "detail.php" PAGE FOR A SINGLE ITEM VIEW; SHOW ALL INFO
-    echo "<a href=\"page.php?mtn_id=$mtnId\">More info...</a><br />";
+    echo "<a href=page.php?mtn_id=" .  h(u($mtnId)) . ">More info...</a><br />";
 
     echo "</div>";
   }
