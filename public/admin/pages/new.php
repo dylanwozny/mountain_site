@@ -18,7 +18,7 @@ $mtnData["height"] = "";
 $mtnData["height"] = "";
 $mtnData["first_summit"] = "";
 $mtnData["is_volcano"] = "";
-$mtnData["access"] = "";
+$mtnData["access"] = null;
 
 // check for files
 $mtnData["google_img"] = 'no image found';
@@ -154,6 +154,7 @@ function RadioCheck($access, $value)
         echo "";
     }
 }
+
 ?>
 
 <a href="../index.php" class="back-link">&laquo; back to dashboard</a>
@@ -252,12 +253,12 @@ function RadioCheck($access, $value)
                 </div>
                 <div class="form-group">
                     <label for="access">Access:</label>
-                    <input type="hidden" name="access" id="access" class="form-control" value="0">
+                    <input type="hidden" name="access" id="access" class="form-control">
                     <br />Hike<input type="radio" name="access" id="access" class="form-control" value="hike" <?php RadioCheck(h($mtnData["access"]), "hike"); ?>>
                     Vehicle<input type="radio" name="access" id="access" class="form-control" value="vehicle" <?php RadioCheck(h($mtnData["access"]), "vehicle"); ?>>
                     Helicopter<input type="radio" name="access" id="access" class="form-control" value="helicopter" <?php RadioCheck(h($mtnData["access"]), "helicopter"); ?>>
-                    <?php if (isset($error['access'])) {
-                        echo " <p class=\"alert alert-danger\">" . "{$error['access']}" . "</p>";
+                    <?php  echo $mtnData['access']; if (isset($errors['access'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$errors['access']}" . "</p>";
                     } ?>
                 </div>
                 <div class="form-group">
