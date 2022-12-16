@@ -1,5 +1,6 @@
 <!-- ADD VALIDATION FROM INSERT -->
 <?php
+
 require_once("../../../private/initialize.php");
 
 // page variables
@@ -7,6 +8,10 @@ $page_title = "Edit Mountain";
 
 //put after vars so page title is read
 include(INCLUDES_PATH . "/header.php");
+
+if (!(isset($_SESSION["x5ghy789soci"]))) {
+    redirect_to(WWW_ROOT . "/index.php");
+}
 ?>
 
 
@@ -106,6 +111,8 @@ if (is_post_request()) {
 
     $result = update_mountain($mtnData, $hasImage);
     if ($result === true) {
+        //------ store message in session temp to display ---
+        $_SESSION['message'] = 'mtn has been edited.';
         //-----------------redirect to mtn page---------------------
         redirect_to(WWW_ROOT . "/page.php?mtn_id=" . $mtnId);
     } else {
@@ -200,7 +207,7 @@ function RadioCheck($access, $value)
 <a href="../index.php" class="back-link">&laquo; back to dashboard</a>
 <?php echo "<h2>" . h($page_title) .   "</h2>"; ?>
 
-<div class="row">
+<div class="row ">
     <div class="col-md-6">
         <?php
         if ($userPrompt) {

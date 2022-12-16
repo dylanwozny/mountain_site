@@ -1,6 +1,7 @@
 <!-- This file loads all -->
 <?php
 
+session_start();
 
 // CONSTANT PATHS ON HARD DRIVE
 define("PRIVATE_PATH", dirname(__FILE__));
@@ -81,4 +82,28 @@ function is_post_request()
 function is_get_request()
 {
     return $_SERVER['REQUEST_METHOD'] == 'GET';
+}
+
+// prevent sqli injection. Escape dynamic data(variables) in sql queries
+function db_escape($connection, $string)
+{
+    return mysqli_real_escape_string($connection, $string);
+}
+
+//display message to user
+function get_and_clear_session_message()
+{
+    if (isset($_SESSION['message']) && $_SESSION['message'] != '') {
+        $msg = $_SESSION['message'];
+        unset($_SESSION['message']);
+        return $msg;
+    }
+}
+
+function display_session_message()
+{
+    $msg = get_and_clear_session_message();
+    if (!is_blank($msg)) {
+        return '<div id="message" class="alert-info p-3 mb-2 rounded text-white">' . h($msg) . '</div>';
+    }
 }

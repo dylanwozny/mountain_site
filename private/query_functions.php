@@ -35,9 +35,13 @@ function find_all_mtns()
 //-------------- Single mountains edit/new ----------------
 function find_mtn($id)
 {
-    // single quote around variable for injection security
     global $con;
-    $result = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE mtn_id = '{$id}'");
+    $id = db_escape($con, $id);
+    // single quote around variable for injection security
+    $sql = "SELECT * FROM dyl_mountains WHERE mtn_id = '" . $id . "'";
+    echo $sql;
+
+    $result = mysqli_query($con, $sql);
     confirm_result_set($result);
     $mtn = mysqli_fetch_assoc($result);
     // remove from memory. good practice. Not required.
@@ -49,6 +53,10 @@ function find_mtn($id)
 function search_mtn($searchTerm)
 {
     global $con;
+
+    // prevent sqli injection of dynamic data
+    $searchTerm = db_escape($con, $searchTerm);
+
     $sql = "SELECT * FROM dyl_mountains WHERE title LIKE '%$searchTerm%' OR description LIKE '%$searchTerm%' OR first_summit LIKE '%$searchTerm%' OR access LIKE '%$searchTerm%' or province LIKE '%$searchTerm%' or height LIKE '%$searchTerm%' or vertical_relief LIKE '%$searchTerm%'";
 
     $result = mysqli_query($con, $sql) or die(mysqli_error($con));
@@ -64,6 +72,9 @@ function filter_Height($textTitle = "<h2>2500m to 5000m high </h2>", $lowest = 2
     // grab global connection var
     global $con;
     echo $textTitle;
+    $lowest = db_escape($con, $lowest);
+    $tallest = db_escape($con, $tallest);
+
 
     $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN '{$lowest}' AND '{$tallest}' LIMIT 4");
     confirm_result_set($heightLow);
@@ -112,6 +123,7 @@ function find_mtn_page($id)
 {
     // single quote around variable for injection security
     global $con;
+    $id = db_escape($con, $id);
     $result = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE mtn_id = '{$id}'");
     $oneMtn = mysqli_fetch_assoc($result);
     confirm_result_set($result);
@@ -142,6 +154,13 @@ function insert_mountain($mtnData)
         //-----------------Create Thumbnail---------------------
         create_thumbnail_Jpg($mtn_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
 
+        // going thru array and preventing sql injection if its a string
+        foreach ($mtnData as $data) {
+            if (is_string($data)) {
+                db_escape($con, $data);
+            }
+        }
+
         // sql query 
         $sql = "INSERT INTO dyl_mountains(";
         $sql .= "title,description,province,mtn_image,";
@@ -152,7 +171,7 @@ function insert_mountain($mtnData)
         $sql .= "'" . $mtnData['province'] . "',";
         $sql .= "'" . $mtn_image_name . "',";
         $sql .= "'" . $mtnData['vertical_relief'] . "',";
-        $sql .= "'" . $mtnData['height'] . "',";
+        $sql .= "'" . db_escape($con, $mtnData['height']) . "',";
         $sql .= "'" . $mtnData['is_volcano'] . "',";
         $sql .= "'" . $mtnData['first_summit'] . "',";
         $sql .= "'" . $mtnData['access'] . "',";
@@ -275,6 +294,13 @@ function update_mountain($mtnData, $needFile = true)
     // does the data given have image files ?
     $hasFile = true;
 
+    // prevent sql injection
+    foreach ($mtnData as $data) {
+        if (is_string($data)) {
+            db_escape($con, $data);
+        }
+    }
+
     //-----------------Validation logic allowing no images-------
     // has error messages
     if (!empty($errors)) {
@@ -317,6 +343,7 @@ function update_mountain($mtnData, $needFile = true)
             return $errors;
         }
     }
+
 
 
     // if the upload has a image attached update and create thumbnail images, else
@@ -379,8 +406,11 @@ function update_mountain($mtnData, $needFile = true)
 function delete_mountain($mtnid)
 {
     global $con;
+
+
+
     $sql = "DELETE FROM dyl_mountains";
-    $sql .= " WHERE mtn_id =" . "'$mtnid' ";
+    $sql .= " WHERE mtn_id ='" . db_escape($con, $mtnid) . "'";
     $sql .= "LIMIT 1";
 
     //-----------------Run the query---------------------
@@ -388,6 +418,8 @@ function delete_mountain($mtnid)
 
     //-----------------redirect to mtn page or stop---------------------
     if ($deleteResult) {
+        //------ store message in session temp to display ---
+        $_SESSION['message'] = 'mtn has been deleted.';
         redirect_to("../index.php");
     } else {
         echo mysqli_error($con);

@@ -8,6 +8,10 @@ $page_title = "delete Mountain";
 
 include(INCLUDES_PATH .  "./header.php");
 
+
+if (!(isset($_SESSION["x5ghy789soci"]))) {
+    redirect_to(WWW_ROOT . "/index.php");
+}
 // GRAB CORRECT ID !!!!!!
 // echo "<h2>Delete Character</h2>";
 $mtnId = $_GET['mtn_id'];
@@ -24,7 +28,8 @@ $mtnData = find_mtn($mtnId);
 
 //-----------------Run Delete query---------------------
 if (is_post_request()) {
-    delete_mountain($mtnId);
+
+    $deleteResult = delete_mountain($mtnId);
 }
 
 ?>

@@ -5,6 +5,11 @@ $page_title = "Add New";
 
 
 include(PRIVATE_PATH . '/includes/header.php');
+
+
+if (!(isset($_SESSION["x5ghy789soci"]))) {
+    redirect_to(WWW_ROOT . "/index.php");
+}
 // setting vars for first page load
 $mtnData = [];
 
@@ -86,6 +91,8 @@ if (is_post_request()) {
     if ($result === true) {
         //-----------------grab new id---------------------
         $new_id = mysqli_insert_id($con);
+        //------ store message in session temp to display ---
+        $_SESSION['message'] = 'mtn has been created.';
         // redirect to new mountain page
         redirect_to(WWW_ROOT . "/page.php?mtn_id=" . $new_id);
     } else {
@@ -257,7 +264,8 @@ function RadioCheck($access, $value)
                     <br />Hike<input type="radio" name="access" id="access" class="form-control" value="hike" <?php RadioCheck(h($mtnData["access"]), "hike"); ?>>
                     Vehicle<input type="radio" name="access" id="access" class="form-control" value="vehicle" <?php RadioCheck(h($mtnData["access"]), "vehicle"); ?>>
                     Helicopter<input type="radio" name="access" id="access" class="form-control" value="helicopter" <?php RadioCheck(h($mtnData["access"]), "helicopter"); ?>>
-                    <?php  echo $mtnData['access']; if (isset($errors['access'])) {
+                    <?php echo $mtnData['access'];
+                    if (isset($errors['access'])) {
                         echo " <p class=\"alert alert-danger\">" . "{$errors['access']}" . "</p>";
                     } ?>
                 </div>

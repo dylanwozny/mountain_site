@@ -168,12 +168,13 @@ function has_file_Err($value)
 //----------------------------------------
 //------Is Unique, not in db already-------
 //----------------------------------------
-function has_unique_title($mtnName,$current_id = "0"){
+function has_unique_title($mtnName, $current_id = "0")
+{
     global $con;
 
-    $sql = "SELECT * FROM dyl_mountains WHERE title='" . $mtnName ."'AND mtn_id != '" . $current_id ."'";
+    $sql = "SELECT * FROM dyl_mountains WHERE title='" . db_escape($con, $mtnName) . "'AND mtn_id != '" . db_escape($con, $current_id) . "'";
 
-    $mtn_set = mysqli_query($con,$sql);
+    $mtn_set = mysqli_query($con, $sql);
     $mtn_count = mysqli_num_rows($mtn_set);
     mysqli_free_result($mtn_set);
 
@@ -234,12 +235,12 @@ $imageFileType = '';
     if (!has_length($data["title"], $options['min'] = 1, $options['max'] = 30)) {
         // return error message with associate array name to display
         $errors['title'] = "please only use between 1-30 characters";
-    } else{
-    //--------- check for unique menu name -------
-    $current_id = $data['mtn_id'] ?? '0';
-    if(!has_unique_title($data['title'],$current_id)){
-        $errors['title'] = "Title must be unique";
-    }
+    } else {
+        //--------- check for unique menu name -------
+        $current_id = $data['mtn_id'] ?? '0';
+        if (!has_unique_title($data['title'], $current_id)) {
+            $errors['title'] = "Title must be unique";
+        }
     }
 
     if (is_blank($data["title"])) {
@@ -272,7 +273,7 @@ $imageFileType = '';
         $errors['access'] = "please choose an access type";
     }
 
-    
+
 
     //----------------- is volcano------------------
     if (!isset($data['is_volcano'])) {

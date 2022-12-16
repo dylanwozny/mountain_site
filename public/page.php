@@ -3,6 +3,7 @@
 require_once("../private/initialize.php");
 include(INCLUDES_PATH . "/header.php");
 
+
 ?>
 
 
@@ -65,11 +66,13 @@ include(INCLUDES_PATH . "/header.php");
                 <div class="col-md-12">
                     <img src=<?php echo "uploads/display/" . h($mtnImageGoogle); ?> alt="">
                 </div>
-                <div class="col-md-12">
-                    <?php
-                    echo "<a id=\"pageEdit\" class=\"mb-4 green-button\" href=\"admin/pages/edit.php?mtn_id=" . h(u($mtnId)) . "\">Edit</a>";
-                    ?>
-                </div>
+                <?php if ((isset($_SESSION["x5ghy789soci"]))) { ?>
+                    <div class="col-md-12">
+                        <?php
+                        echo "<a id=\"pageEdit\" class=\"mb-4 green-button\" href=\"admin/pages/edit.php?mtn_id=" . h(u($mtnId)) . "\">Edit</a>";
+                        ?>
+                    </div>
+                <?php } ?>
             </section>
         </main>
 
