@@ -25,9 +25,10 @@ if (!isset($page_title)) {
   <!--  This CONSTANT is defined in your mysql_connect.php file. -->
   <title><?php echo APP_NAME . " " . h($page_title); ?></title>
 
-  <!-- Latest compiled and minified CSS -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Secular+One&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
+
 
 
 
@@ -43,9 +44,10 @@ if (!isset($page_title)) {
 
   <!-- Your Custom styles for this project -->
   <!--  Note how we can use WWW_ROOT constant to resolve all links no matter where the file resides. -->
-  <!-- FOR DEVELOPMENT USE LOCAL BOOSTRAP SO INTELLESENSE WORKS -->
-  <link href="<?php echo WWW_ROOT ?>/css/bootstrap-lumen.css" rel="stylesheet">
-  <link href="<?php echo WWW_ROOT ?>/css/styles.css" rel="stylesheet">
+  <!-- FOR DEVELOPMENT USE LOCAL BOOTSTRAP SO INTELLESENSE WORKS -->
+
+  <link href="<?php echo WWW_ROOT ?>/css/custom.min.css" rel="stylesheet">
+
 
 
 

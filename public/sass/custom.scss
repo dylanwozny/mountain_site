@@ -1,0 +1,63 @@
+// Custom.scss
+// Option B: Include parts of Bootstrap
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../../node_modules/bootstrap/scss/functions";
+
+//---------2. Include any default VARIABLES overrides here-----------
+//---COLORS------
+
+$primary: #4caed2;
+$secondary: #82756a;
+$dark: #252336;
+$light: #fbf9f8;
+//background
+$body-bg: #fbf9f8;
+
+//---FONTS------
+$font-family-base: "Lato", sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+
+// headings
+$headings-font-family: "Merriweather", serif;
+$headings-font-style: "Merriweather", serif;
+$headings-font-weight: 700;
+
+//links
+$link-color: $primary;
+
+// heading font sizes. Responsive by default in bootstrap
+$h1-font-size: 3.052rem;
+$h2-font-size: 2.441rem;
+$h3-font-size: 1.953rem;
+$h4-font-size: 1.563rem;
+$h5-font-size: 1.25rem;
+
+//buttons
+$btn-font-weight: 600;
+$input-btn-font-size: 1.25rem;
+
+// Required
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+//-----------5. Add additional CUSTOM CODE here---------------
+/*
+Styling will be a mix of overriding styles and utility classes..
+*/
+// font smoothing
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.btn-primary {
+  color: $light;
+}
+
+.btn-secondary {
+  color: $light;
+}

@@ -46,7 +46,8 @@ $result = find_all_mtns();
 
   <!---------- category filtering ---------->
   <div class="col-md-6">
-    <h2>categories</h2>
+    <h2>Mountain List</h2>
+    <span class="fw-light fs-2">Sort By</span>
     <ul class="categories-flex">
       <li><a href="index.php">all Mountains</a></li>
       <li><a href="index.php?displayby=access&displayvalue=hike">Hiking Access</a></li>
@@ -70,6 +71,8 @@ $result = find_all_mtns();
   </div>
 </div>
 
+
+
 <div class="row">
   <?php
   while ($row = mysqli_fetch_array($result)) {
@@ -86,11 +89,24 @@ $result = find_all_mtns();
     $height = $row['height'];
     $mtnId = $row['mtn_id'];
 
-    echo "<div class=\"thumb col-md-2\">\n";
+  ?>
 
-    echo "<img src=\"uploads/thumbnails/$mtnImage\" class=\"\" /><br/>\n";
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <img class="mtn-card-gradient" src="<?php echo "uploads/thumbnails/" .  h($mtnImage) ?>" alt="">
+        </div>
+      </div>
 
-    echo "<div class=\"displayCategory\">Title:</span> <span class=\"displayInfo\">" . h($title) . "</div>\n";
+
+    <?php
+
+
+    echo "<div class=\"thumb col-md-6\">\n";
+
+    // echo "<img src=\"uploads/thumbnails/$mtnImage\" class=\"\" /><br/>\n";
+
+    echo "<h3 class=\"displayCategory\"></span> <span class=\"displayInfo\">" . h($title) . "</h3>\n";
     echo "<div class=\"displayCategory\">Description:</span> <span class=\"displayInfo\">" . h($description) . "</div>\n";
     echo "<div class=\"displayCategory\">Province:</span> <span class=\"displayInfo\">" . h($province) . "</div>\n";
     echo "<div class=\"displayCategory\">Height:</span> <span class=\"displayInfo\">" . h($height) . "</div>\n";
@@ -101,11 +117,11 @@ $result = find_all_mtns();
 
     echo "</div>";
   }
-  ?>
+    ?>
 
-</div>
+    </div>
 
-<?php
+    <?php
 
-include(INCLUDES_PATH . "/footer.php");
-?>
+    include(INCLUDES_PATH . "/footer.php");
+    ?>

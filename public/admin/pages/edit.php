@@ -311,7 +311,7 @@ function RadioCheck($access, $value)
                 <?php if (isset($errors['google_img'])) {
                     echo " <p class=\"alert alert-danger\">" . $errors['google_img'] . "</p>";
                 } ?>
-                <div class="mb-4" id="pageImg"><img src="../../uploads/display/<?php echo $mtnData["google_img"]; ?>" /></div>
+                <div class="mb-4" id="pageImg"><img class="img-fluid" src="../../uploads/google-img/<?php echo $mtnData["google_img"]; ?>" /></div>
             </div>
             <div class="form-group">
                 <label for="submit">&nbsp;</label>

@@ -64,7 +64,7 @@ include(INCLUDES_PATH . "/header.php");
                     </ul>
                 </div>
                 <div class="col-md-12">
-                    <img src=<?php echo "uploads/display/" . h($mtnImageGoogle); ?> alt="">
+                    <img class="img-fluid" src=<?php echo "uploads/google-img/" . h($mtnImageGoogle); ?> alt="">
                 </div>
                 <?php if ((isset($_SESSION["x5ghy789soci"]))) { ?>
                     <div class="col-md-12">

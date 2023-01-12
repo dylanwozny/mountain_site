@@ -214,6 +214,8 @@ li {
 
 img {
   box-shadow: 5px 10px 8px #242323;
+  max-width: 100%;
+  height: auto;
 }
 
 body .container {
@@ -301,4 +303,8 @@ h3 {
 .form-check-input {
   position: relative;
   margin: 0rem;
+}
+
+.test {
+  color: red;
 }

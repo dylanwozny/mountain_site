@@ -148,11 +148,11 @@ function insert_mountain($mtnData)
 
         //-----------------Upload Image---------------------
         // uploading image and catching the images name to be put in sql query.
-        $mtn_image_name = upload_Image($mtnData['mtn_img']);
-        $mtn_G_image_name = upload_Image($mtnData['google_img']);
+        $mtn_image_name = upload_Image($mtnData['mtn_img'], "display");
+        $mtn_G_image_name = upload_Image($mtnData['google_img'], "google-img");
 
         //-----------------Create Thumbnail---------------------
-        create_thumbnail_Jpg($mtn_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
+        create_thumbnail_Jpg($mtn_image_name, 500, PUBLIC_PATH . '/uploads/thumbnails/');
 
         // going thru array and preventing sql injection if its a string
         foreach ($mtnData as $data) {
@@ -194,7 +194,7 @@ function insert_mountain($mtnData)
 //-------------------------------------------
 //-----------------FILE upload logic---------
 //-------------------------------------------
-function upload_image($image)
+function upload_image($image, $location)
 {
     // grab the files name 
     $mainImageName = $image['name'];
@@ -208,8 +208,11 @@ function upload_image($image)
     // set the file name
     $filename = $base . "." . $pathInfo['extension'];
 
+    // add slashed to file path name
+    $location = "/" . $location . "/";
+
     // set the files upload destination
-    $destination = PUBLIC_PATH . "/uploads/display/" . $filename;
+    $destination = PUBLIC_PATH . "/uploads" . $location . $filename;
 
     echo "<br/>" . "The cleaned name" . $filename . "<br/>";
     echo "<br/>" . "The cleaned name" . $image["tmp_name"] . "<br/>";
@@ -281,6 +284,10 @@ function create_thumbnail_Jpg($imgName, $thisThumbWidth, $thumbsDestination)
 function update_mountain($mtnData, $needFile = true)
 {
     global $con;
+
+    // upload image flags
+    $removeGImg = false;
+    $removeMtnImg = false;
     //------------------validation before update--------------------
     // could of just had flag that ignores no image error..
     $errors = validate_mtn($mtnData);
@@ -320,7 +327,7 @@ function update_mountain($mtnData, $needFile = true)
                         // remove mtn_img from query
                         $removeMtnImg = true;
                     } else {
-                        return $errors;
+                        return $errors['mtn_img'];
                     }
                 }
 
@@ -330,13 +337,16 @@ function update_mountain($mtnData, $needFile = true)
                         // remove mtn_img from query
                         $removeGImg = true;
                     } else {
-                        return $errors;
+                        return $errors['google_img'];
                     }
                 }
 
-                // only image errors, set flag that lets the if logic below know
-                // continue with function and pass validation
-                $hasFile = false;
+                if (!empty($errors['google_img']) && !empty($errors['google_img'])) {
+
+                    // only image errors, set flag that lets the if logic below know
+                    // continue with function and pass validation
+                    $hasFile = false;
+                }
             }
             // File are required. Return errors.
         } else {
@@ -345,31 +355,74 @@ function update_mountain($mtnData, $needFile = true)
     }
 
 
-
     // if the upload has a image attached update and create thumbnail images, else
     // update everything else except images, no thumbnail.
     if ($hasFile) {
-        //-----------------Upload Image---------------------
-        // uploading image and catching the images name to be put in sql query.
-        $mtn_image_name = upload_Image($mtnData['mtn_img']);
-        $mtn_G_image_name = upload_Image($mtnData['google_img']);
+        if ($removeGImg) {
+            // no google create or upload
+            //-----------------Upload Image---------------------
+            // uploading image and catching the images name to be put in sql query.
+            $mtn_image_name = upload_Image($mtnData['mtn_img'], "display");
 
-        //-----------------Create Thumbnail---------------------
-        create_thumbnail_Jpg($mtn_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
-        // create_thumbnail_Jpg($mtn_G_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
-        $sql = "UPDATE dyl_mountains SET ";
-        $sql .= "title ='" . $mtnData['title'] . "',";
-        $sql .= "description ='" . $mtnData['description'] . "',";
-        $sql .= "province ='" . $mtnData['province'] . "',";
-        $sql .= "mtn_image ='" . $mtn_image_name . "',";
-        $sql .= "vertical_relief ='" . $mtnData['vertical_relief'] . "',";
-        $sql .= "height ='" . $mtnData['height'] . "',";
-        $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";
-        $sql .= "is_volcano ='" . $mtnData['is_volcano'] . "',";
-        $sql .= "access ='" . $mtnData['access'] . "',";
-        $sql .= "google_img ='" . $mtn_G_image_name . "'";
-        $sql .= "WHERE mtn_id ='" . $mtnData['mtn_id'] . "'";
-        $sql .= " LIMIT 1";
+            //-----------------Create Thumbnail---------------------
+            create_thumbnail_Jpg($mtn_image_name, 500, PUBLIC_PATH . '/uploads/thumbnails/');
+            // create_thumbnail_Jpg($mtn_G_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
+            $sql = "UPDATE dyl_mountains SET ";
+            $sql .= "title ='" . $mtnData['title'] . "',";
+            $sql .= "description ='" . $mtnData['description'] . "',";
+            $sql .= "province ='" . $mtnData['province'] . "',";
+            $sql .= "mtn_image ='" . $mtn_image_name . "',";
+            $sql .= "vertical_relief ='" . $mtnData['vertical_relief'] . "',";
+            $sql .= "height ='" . $mtnData['height'] . "',";
+            $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";
+            $sql .= "is_volcano ='" . $mtnData['is_volcano'] . "',";
+            $sql .= "access ='" . $mtnData['access'] . "',";
+            $sql .= "WHERE mtn_id ='" . $mtnData['mtn_id'] . "'";
+            $sql .= " LIMIT 1";
+        } elseif ($removeMtnImg) {
+            // no ntm img upload
+            //-----------------Upload Image---------------------
+            // uploading image and catching the images name to be put in sql query.
+            $mtn_G_image_name = upload_Image($mtnData['google_img'], "google-img");
+
+            //-----------------Create Thumbnail---------------------
+            // create_thumbnail_Jpg($mtn_G_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
+            $sql = "UPDATE dyl_mountains SET ";
+            $sql .= "title ='" . $mtnData['title'] . "',";
+            $sql .= "description ='" . $mtnData['description'] . "',";
+            $sql .= "province ='" . $mtnData['province'] . "',";
+            $sql .= "vertical_relief ='" . $mtnData['vertical_relief'] . "',";
+            $sql .= "height ='" . $mtnData['height'] . "',";
+            $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";
+            $sql .= "is_volcano ='" . $mtnData['is_volcano'] . "',";
+            $sql .= "access ='" . $mtnData['access'] . "',";
+            $sql .= "google_img ='" . $mtn_G_image_name . "'";
+            $sql .= "WHERE mtn_id ='" . $mtnData['mtn_id'] . "'";
+            $sql .= " LIMIT 1";
+        } else {
+            // upload both
+            //-----------------Upload Image---------------------
+            // uploading image and catching the images name to be put in sql query.
+            $mtn_image_name = upload_Image($mtnData['mtn_img'], "display");
+            $mtn_G_image_name = upload_Image($mtnData['google_img'], "google-img");
+
+            //-----------------Create Thumbnail---------------------
+            create_thumbnail_Jpg($mtn_image_name, 500, PUBLIC_PATH . '/uploads/thumbnails/');
+            // create_thumbnail_Jpg($mtn_G_image_name, 120, PUBLIC_PATH . '/uploads/thumbnails/');
+            $sql = "UPDATE dyl_mountains SET ";
+            $sql .= "title ='" . $mtnData['title'] . "',";
+            $sql .= "description ='" . $mtnData['description'] . "',";
+            $sql .= "province ='" . $mtnData['province'] . "',";
+            $sql .= "mtn_image ='" . $mtn_image_name . "',";
+            $sql .= "vertical_relief ='" . $mtnData['vertical_relief'] . "',";
+            $sql .= "height ='" . $mtnData['height'] . "',";
+            $sql .= "first_summit ='" . $mtnData['first_summit'] . "',";
+            $sql .= "is_volcano ='" . $mtnData['is_volcano'] . "',";
+            $sql .= "access ='" . $mtnData['access'] . "',";
+            $sql .= "google_img ='" . $mtn_G_image_name . "'";
+            $sql .= "WHERE mtn_id ='" . $mtnData['mtn_id'] . "'";
+            $sql .= " LIMIT 1";
+        }
     } else {
         $sql = "UPDATE dyl_mountains SET ";
         $sql .= "title ='" . $mtnData['title'] . "',";
