@@ -57,57 +57,87 @@ if (!isset($page_title)) {
 </head>
 
 <body>
-  <div class="container-lg bg-dark">
+  <div class="shadow-sm border border-bottom sticky-top bg-light">
 
-    <nav class="container navbar navbar-expand-lg navbar-dark bg-dark border-0 pt-3 pb-3">
-
-      <a class="navbar-brand" href="<?php echo WWW_ROOT ?>/index.php">Mountains of Canada</a>
-      <?php if ((isset($_SESSION["x5ghy789soci"]))) { ?>
-        <div>
-          <p> <?php echo $_SESSION['username'] ?? ''; ?></p>
-
+    <div class="container">
+      <nav class="navbar f navbar-expand-lg navbar-light pb-0 pt-0">
+        <div class="d-flex align-items-center ">
+          <a href="<?php echo WWW_ROOT ?>/index.php">
+            <svg viewBox="5 5 65 55">
+              <defs>
+                <filter id="Path_37" x="0" y="0" width="76.563" height="69.046" filterUnits="userSpaceOnUse">
+                  <feOffset dy="3" input="SourceAlpha" />
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feFlood flood-opacity="0.161" />
+                  <feComposite operator="in" in2="blur" />
+                  <feComposite in="SourceGraphic" />
+                </filter>
+              </defs>
+              <g transform="translate(9 6)">
+                <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Path_37)">
+                  <path id="Path_37-2" data-name="Path 37" d="M28.909,4.442a3,3,0,0,1,5.183,0L60.368,49.488A3,3,0,0,1,57.777,54H5.223a3,3,0,0,1-2.591-4.512Z" transform="translate(6.78 3.05)" fill="#1c94db" />
+                </g>
+                <text id="M" transform="translate(14.781 48.046)" fill="#fbf9f8" font-size="30" font-family="Lato-Bold, Lato" font-weight="700" letter-spacing="0.103em">
+                  <tspan x="0" y="0">M</tspan>
+                </text>
+                <text id="C" transform="translate(22.781 23.046)" fill="#fbf9f8" font-size="18" font-family="Lato-Bold, Lato" font-weight="700" letter-spacing="0.103em">
+                  <tspan x="0" y="0">C</tspan>
+                </text>
+              </g>
+            </svg>
+          </a>
+          <a class="navbar-brand " href="<?php echo WWW_ROOT ?>/index.php">Canadian Mountains</a>
         </div>
-      <?php } ?>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class=" navbar-nav mr-auto">
-          <!-- WWW_ROOT is the root path constant -->
-          <li class="nav-item active">
-            <a class="nav-link" href="<?php echo WWW_ROOT ?>/index.php">Home</a>
-          </li>
-          <li>
-            <a class="nav-link" href="<?php echo WWW_ROOT ?>/search.php">Search</a>
-          </li>
-          <li>
-            <a class="nav-link" href="<?php echo WWW_ROOT ?>/canvas.php">Canvas</a>
-          </li>
-          <li>
-            <a class="nav-link" href="<?php echo WWW_ROOT ?>/larval.php">Larval</a>
-          </li>
-          <?php if ((isset($_SESSION["x5ghy789soci"]))) { ?>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="<?php echo WWW_ROOT ?>/admin/index.php">menu</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class=" navbar-nav mr-auto w-100 align-items-center">
+            <!-- WWW_ROOT is the root path constant -->
+            <li class="nav-item active">
+              <a class="nav-link" href="<?php echo WWW_ROOT ?>/index.php">Home</a>
+              <div>
+                <div></div>
               </div>
             </li>
-          <?php } ?>
-          <li>
-            <?php
-            if (!(isset($_SESSION["x5ghy789soci"]))) {
-              echo "<a class=\"nav-link\" href=\"" . WWW_ROOT . "/admin/login.php\">Login</a>";
-              // echo "<p>" . session_id() . "</p>";
-            } else {
-              echo "<a class=\"nav-link\" href=\"" . WWW_ROOT . "/admin/logout.php\">Logout</a>";
-              // echo "<p>" . session_id() . "</p>";
-            }
-            ?>
-          </li>
-        </ul>
-    </nav>
+            <li class="d-flex justify-content-center align-items-center">
+              <a class="nav-link d-flex justify-content-center align-items-center" href="<?php echo WWW_ROOT ?>/search.php">Search</a>
+            </li>
+            <li>
+              <a class="nav-link" href="<?php echo WWW_ROOT ?>/canvas.php">Canvas</a>
+            </li>
+            <li>
+              <a class="nav-link" href="<?php echo WWW_ROOT ?>/larval.php">Larval</a>
+            </li>
+            <?php if ((isset($_SESSION["x5ghy789soci"]))) { ?>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                  <a class="dropdown-item" href="<?php echo WWW_ROOT ?>/admin/index.php">menu</a>
+                </div>
+              </li>
+            <?php } ?>
+            <!-- TODO: MAKE search into a reusable function and add to header -->
+            <li class="ms-auto">
+              <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </li>
+            <li>
+              <?php
+              if (!(isset($_SESSION["x5ghy789soci"]))) {
+                echo "<a class=\"nav-link\" href=\"" . WWW_ROOT . "/admin/login.php\">Login</a>";
+                // echo "<p>" . session_id() . "</p>";
+              } else {
+                echo "<a class=\"nav-link\" href=\"" . WWW_ROOT . "/admin/logout.php\">Logout</a>";
+                // echo "<p>" . session_id() . "</p>";
+              }
+              ?>
+            </li>
+          </ul>
+      </nav>
+    </div>
   </div>
 
   <main role="main" class="container">

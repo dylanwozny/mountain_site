@@ -37,6 +37,14 @@ $h5-font-size: 1.25rem;
 //buttons
 $btn-font-weight: 600;
 $input-btn-font-size: 1.25rem;
+$input-btn-border-width: 3px;
+$btn-border-radius: 0.25rem;
+
+//button vars
+
+//navbar
+$dropdown-bg: $light;
+$navbar-margin-y: 1.5rem;
 
 // Required
 @import "../../node_modules/bootstrap/scss/variables";
@@ -54,10 +62,73 @@ Styling will be a mix of overriding styles and utility classes..
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+//btns
 .btn-primary {
-  color: $light;
+  @include button-variant(
+    $primary,
+    $primary,
+    $light,
+    $light,
+    $primary,
+    $primary
+  );
 }
 
 .btn-secondary {
+  @include button-variant(
+    $secondary,
+    $secondary,
+    $light,
+    $light,
+    $secondary,
+    $secondary
+  );
+}
+
+//----------NAVBAR-------------
+
+//center align for navlinks
+.navbar-nav {
+  li,
+  a {
+    height: 69px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// alter width when in mobile
+@media (max-width: 992px) {
+  .navbar-collapse {
+    li,
+    a {
+      width: 100%;
+    }
+  }
+}
+
+.navbar-toggler {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.nav-link:hover,
+.navlink:focus {
+  background-color: $dark;
   color: $light;
+}
+
+//------------HOME--------------
+.banner {
+  .banner__login {
+    max-width: 35rem;
+  }
+  .banner__intro {
+    max-width: 35rem;
+  }
+}
+
+svg {
+  width: 3.5rem;
 }

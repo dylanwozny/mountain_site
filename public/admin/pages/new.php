@@ -279,7 +279,7 @@ function RadioCheck($access, $value)
                 </div>
                 <div class="form-group">
                     <label for="submit">&nbsp;</label>
-                    <input type="submit" name="submit" class="green-button" value="Add Mtn">
+                    <input type="submit" name="submit" class="btn btn-primary" value="Add Mtn">
                 </div>
             </form>
             <button class="btn btn-danger" onclick="location.href='../index.php'"> Cancel</button>
