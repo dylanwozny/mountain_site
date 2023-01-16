@@ -45,6 +45,7 @@ $btn-border-radius: 0.25rem;
 //navbar
 $dropdown-bg: $light;
 $navbar-margin-y: 1.5rem;
+$navbar-light-active-color: $light;
 
 // Required
 @import "../../node_modules/bootstrap/scss/variables";
@@ -87,8 +88,35 @@ Styling will be a mix of overriding styles and utility classes..
 
 //----------NAVBAR-------------
 
+.nav-logout {
+  order: 5;
+}
+
+.show > .nav-link,
+.nav-link.active {
+  background-color: $dark;
+  svg {
+    fill: $light;
+  }
+}
+
+.navbar-brand,
+.navbar-brand:hover {
+  color: $dark;
+}
+
 //center align for navlinks
 .navbar-nav {
+  font-size: $font-size-lg;
+  .dropdown-menu {
+    top: 69px;
+    right: -33px;
+  }
+
+  .dropdown {
+    display: block;
+  }
+
   li,
   a {
     height: 69px;
@@ -104,7 +132,18 @@ Styling will be a mix of overriding styles and utility classes..
     li,
     a {
       width: 100%;
+      text-align: left;
+      justify-content: start;
+      padding-left: 1rem;
     }
+
+    .nav-logout {
+      order: 0;
+    }
+  }
+
+  .nav-search {
+    margin-right: none;
   }
 }
 
@@ -117,12 +156,45 @@ Styling will be a mix of overriding styles and utility classes..
 .navlink:focus {
   background-color: $dark;
   color: $light;
+  fill: $light;
+  svg {
+    fill: $light;
+  }
+}
+
+.nav-search {
+  margin-right: 1rem;
+}
+
+.nav-search.pl-lg-4 {
+  padding-left: 2rem;
+}
+
+.nav-link,
+.nav-search {
+  svg {
+    width: 1.75rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.search-form {
+  position: relative;
+  svg {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.75rem;
+  }
+}
+
+.search-form__input {
+  padding-left: 3rem;
 }
 
 //------------HOME--------------
 .banner {
   .banner__login {
-    max-width: 35rem;
+    max-width: 40rem;
   }
   .banner__intro {
     max-width: 35rem;
@@ -131,4 +203,8 @@ Styling will be a mix of overriding styles and utility classes..
 
 svg {
   width: 3.5rem;
+}
+
+.left-auto{
+  margin-left: auto;
 }

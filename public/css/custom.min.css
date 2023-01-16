@@ -4144,12 +4144,12 @@ textarea.form-control-lg {
   --bs-navbar-color: rgba(0, 0, 0, 0.55);
   --bs-navbar-hover-color: rgba(0, 0, 0, 0.7);
   --bs-navbar-disabled-color: rgba(0, 0, 0, 0.3);
-  --bs-navbar-active-color: rgba(0, 0, 0, 0.9);
+  --bs-navbar-active-color: #fbf9f8;
   --bs-navbar-brand-padding-y: 0.3125rem;
   --bs-navbar-brand-margin-end: 1rem;
   --bs-navbar-brand-font-size: 1.25rem;
-  --bs-navbar-brand-color: rgba(0, 0, 0, 0.9);
-  --bs-navbar-brand-hover-color: rgba(0, 0, 0, 0.9);
+  --bs-navbar-brand-color: #fbf9f8;
+  --bs-navbar-brand-hover-color: #fbf9f8;
   --bs-navbar-nav-link-padding-x: 0.5rem;
   --bs-navbar-toggler-padding-y: 0.25rem;
   --bs-navbar-toggler-padding-x: 0.75rem;
@@ -12194,6 +12194,36 @@ Styling will be a mix of overriding styles and utility classes..
   --bs-btn-disabled-border-color: #82756a;
 }
 
+.nav-logout {
+  -webkit-box-ordinal-group: 6;
+      -ms-flex-order: 5;
+          order: 5;
+}
+
+.show > .nav-link,
+.nav-link.active {
+  background-color: #252336;
+}
+.show > .nav-link svg,
+.nav-link.active svg {
+  fill: #fbf9f8;
+}
+
+.navbar-brand,
+.navbar-brand:hover {
+  color: #252336;
+}
+
+.navbar-nav {
+  font-size: 1.25rem;
+}
+.navbar-nav .dropdown-menu {
+  top: 69px;
+  right: -33px;
+}
+.navbar-nav .dropdown {
+  display: block;
+}
 .navbar-nav li,
 .navbar-nav a {
   height: 69px;
@@ -12212,6 +12242,19 @@ Styling will be a mix of overriding styles and utility classes..
   .navbar-collapse li,
 .navbar-collapse a {
     width: 100%;
+    text-align: left;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+    padding-left: 1rem;
+  }
+  .navbar-collapse .nav-logout {
+    -webkit-box-ordinal-group: 1;
+        -ms-flex-order: 0;
+            order: 0;
+  }
+  .nav-search {
+    margin-right: none;
   }
 }
 .navbar-toggler {
@@ -12223,10 +12266,42 @@ Styling will be a mix of overriding styles and utility classes..
 .navlink:focus {
   background-color: #252336;
   color: #fbf9f8;
+  fill: #fbf9f8;
+}
+.nav-link:hover svg,
+.navlink:focus svg {
+  fill: #fbf9f8;
+}
+
+.nav-search {
+  margin-right: 1rem;
+}
+
+.nav-search.pl-lg-4 {
+  padding-left: 2rem;
+}
+
+.nav-link svg,
+.nav-search svg {
+  width: 1.75rem;
+  margin-right: 0.5rem;
+}
+
+.search-form {
+  position: relative;
+}
+.search-form svg {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.75rem;
+}
+
+.search-form__input {
+  padding-left: 3rem;
 }
 
 .banner .banner__login {
-  max-width: 35rem;
+  max-width: 40rem;
 }
 .banner .banner__intro {
   max-width: 35rem;
@@ -12234,4 +12309,8 @@ Styling will be a mix of overriding styles and utility classes..
 
 svg {
   width: 3.5rem;
+}
+
+.left-auto {
+  margin-left: auto;
 }/*# sourceMappingURL=custom.min.css.map */
