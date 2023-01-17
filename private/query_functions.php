@@ -247,15 +247,22 @@ function create_thumbnail_Jpg($imgName, $thisThumbWidth, $thumbsDestination)
     $thisThumbHeight = $thisThumbWidth / $imgRatio;
 
     // create a image with the calculated width and height
-    $thumb = imagecreatetruecolor($thisThumbWidth, $thisThumbHeight);
-
-
+    $thumb = imagecreatetruecolor(550, $thisThumbHeight);
 
     // creates an image from the original
     $source = imagecreatefromjpeg($thisOgFilePath);
 
     //resize
-    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $thisThumbWidth, $thisThumbHeight, $width, $height);
+    imagecopyresampled($thumb, $source, 0, 0, 0, 0, 550, $thisThumbHeight, $width, $height);
+
+    // crop to fit cards correctly
+    $thumb = imagecrop($thumb, array(
+        "x" => 0,
+        "y" => 0,
+        "width" => 550,
+        "height" => 360
+    ));
+
 
     //output_
     $newFilename = $thumbsDestination . $imgName;

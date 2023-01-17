@@ -63,7 +63,7 @@ $result = find_all_mtns();
     <!-- -----OR----- -->
 
     <div class="sort-list container ">
-      <ul class="d-flex p-3 fs-5 text-light bg-dark justify-content-around">
+      <ul class="d-flex p-3 fs-5 text-light bg-dark justify-content-between">
         <?php
         // echo "<h2>2500m to 5000m high </h2>";
         // $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN 2500 AND 5000 LIMIT 4");
@@ -88,64 +88,64 @@ $result = find_all_mtns();
 
 
 
-<div class="row">
-  <?php
-  while ($row = mysqli_fetch_array($result)) {
-    $title = $row['title'];
-    $titleTruncate = truncate($title, 15);
-    $description = $row['description'];
-    $description = truncate($description, 155);
-    // cast to string to be sanitized
-    $mtnImage = (string)$row['mtn_image'];
-    //sanitize here
-    h($mtnImage);
-    $isVolcano = $row["is_volcano"];
-    if ($isVolcano) {
-      $volcanoText = 'is a volcano';
-    } else {
-      $volcanoText = 'not a volcano';
-    }
-    $access = $row['access'];
-    $mtnImageGoogle = $row['google_img'];
-    $province = $row['province'];
-    $height = $row['height'];
-    $mtnId = $row['mtn_id'];
-
-  ?>
-
-    <div class="container">
-      <div class="row">
-        <img class="mtn-card-gradient" src="<?php echo "uploads/thumbnails/" .  h($mtnImage) ?>" alt="">
-      </div>
-      <div class="d-flex justify-content-between pt-3 pb-3">
-        <?php
-        echo "<h3 class=\"displayCategory\"></span> <span class=\"displayInfo\">" . h($title) . "</h3>\n";
-        echo "<div class=\"displayCategory fs-3 text-secondary\"></span> <span class=\"displayInfo\">" . h($height) . "m</div>\n";
-        ?>
-      </div>
-      <div class="d-flex gap-5 pt-3 pb-3">
-        <?php echo "<div class=\"displayCategory fs-4 fw-bold text-uppercase\"></span> <span class=\"displayInfo\">" . h($province) . "</div>\n"; ?>
-        <?php echo "<div class=\"displayCategory fs-5 fs-normal\"></span> <span class=\"displayInfo\">" . h($access) . " Access</div>\n"; ?>
-        <?php echo "<div class=\"displayCategory fs-5 fst-italic\"></span> <span class=\"displayInfo\">" . h($volcanoText) . "</div>\n"; ?>
-
-      </div>
-      <p>
-        <?php echo h($description); ?>
-      </p>
-
-      <a href=<?php echo "\"page.php?mtn_id=" . h(u($mtnId)) . "\"" ?> class='left-auto btn btn-secondary d-block w-25 '>Details</a>
+<div class="container p-0">
+  <div class="p-0 d-flex justify-content-start gap-3 flex-wrap">
     <?php
+    while ($row = mysqli_fetch_array($result)) {
+      $title = $row['title'];
+      $titleTruncate = truncate($title, 15);
+      $description = $row['description'];
+      $description = truncate($description, 155);
+      // cast to string to be sanitized
+      $mtnImage = (string)$row['mtn_image'];
+      //sanitize here
+      h($mtnImage);
+      $isVolcano = $row["is_volcano"];
+      if ($isVolcano) {
+        $volcanoText = 'is a volcano';
+      } else {
+        $volcanoText = 'not a volcano';
+      }
+      $access = $row['access'];
+      $mtnImageGoogle = $row['google_img'];
+      $province = $row['province'];
+      $height = $row['height'];
+      $mtnId = $row['mtn_id'];
 
-
-
-
-
-
-  }
     ?>
 
-    </div>
+      <div class="home-card rounded-top shadow-lg p-0 text-capitalize ">
+        <div class="">
+          <img class="mtn-card-gradient rounded-top img-fluid" src="<?php echo "uploads/thumbnails/" .  h($mtnImage) ?>" alt="">
+        </div>
+        <div class="d-flex justify-content-between align-items-center p-3 gap-2">
+          <?php
+          echo "<h4 class=\"displayCategory lh-base m-0\">" . h($title) . "</h4>\n";
+          echo "<div class=\"displayCategory fs-3 text-secondary lh-base\">" . h($height) . "m</div>\n";
+          ?>
+        </div>
+        <div class="d-flex p-3 align-items-center justify-content-between gap-4 border border-end-0 border-start-0 border-bottom-0 mb-3 ">
+          <?php echo "<div class=\"1h-1 fs-4 fw-bold  text-uppercase\">" . h($province) . "</div>\n" ?>
 
+          <?php echo "<div class=\"display-category  fs-normal \">" . h($access) . " Access</div>\n"; ?>
+
+          <?php echo "<div class=\"display-category   fst-italic\">" . h($volcanoText) . "</div>\n"; ?>
+
+        </div>
+        <p class="p-3">
+          <?php echo h($description); ?>
+        </p>
+
+        <div class="p-3"><a href=<?php echo "\"page.php?mtn_id=" . h(u($mtnId)) . "\"" ?> class='left-auto btn btn-secondary d-block'>Details</a></div>
+
+      </div>
+    <?php
+
+    }
+    ?>
+
+
+  </div>
 </div>
 
 <?php

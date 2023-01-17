@@ -19,4 +19,19 @@ Sass
 3. link the min.map.css in header.
 4. use custom.scss to modify vars and add new styles
 
+SASS and Boostrap
 
+- utilized utility api to extend and modify utility classes. 
+- created custom variables
+- have some custom css as-well
+- utilized various bootstrap mixins
+
+Vertical-rhythm
+to be done....
+
+
+#PHP
+
+##IMAGES
+
+1. makes an original image and creates a thumbnail that is cropped to fit cards on front page.
