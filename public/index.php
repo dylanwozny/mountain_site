@@ -38,7 +38,7 @@ $result = find_all_mtns();
 </div>
 
 <!-- FINISH INTRO -->
-<header class="justify-content-between banner front-about-p d-flex flex-wrap gap-5">
+<header class="justify-content-between banner front-about-p d-flex flex-wrap gap-5 mb-5">
   <p class="banner__intro flex-grow-0">Welcome to my Application ! I hope you find it somewhat useful. I wanted to create an app about my favourite feature of nature: Mountains !I have chosen to create a catalog of mountain peaks in Canada. I chose this topic because I love visiting Jasper and Banff and have been fascinated by mountains ever since I was a child. I also like to compare mountain stats like height, vertical relief etc. to each other just for fun.Information fields pertaining to the mountains will include: thumbnail picture, name, description,province, vertical relief, elevation profile, height, first summit, access type(vehicle, hiking, helicopter),and if it is a volcano and a google earth image of elevation. Search categories can include province,volcano etc. This information will be stored in a MySQL database.The structure of this application includes a useful homepage, search functionality, edit and delete options , which are secured by an admin log in and individual pages that display all information about that specific chosen mountain. Category links will also appear on the homepage.</p>
   <?php if (!(isset($_SESSION["x5ghy789soci"]))) { ?>
     <div class="banner__login text-center flex-grow-1 rounded-3 shadow p-5 align-self-start">
@@ -56,14 +56,14 @@ $result = find_all_mtns();
 
     <!---------- category filtering ---------->
     <h2>Mountain List</h2>
-    <span class="fw-light fs-2">Sort By</span>
+    <span class="fw-light fs-3">Sort By</span>
     <!-------------SEARCH BY SAME METHOD OF PERSONAL WEBSITE------------------------- --->
     <!-- make php put info into html of list cards and the filter with js-->
     <!-- same with other features of list ? height,access, etc. -->
     <!-- -----OR----- -->
 
     <div class="sort-list container ">
-      <ul class="d-flex p-3 fs-5 text-light bg-dark justify-content-between">
+      <ul class="d-flex p-3 fs-5 mb-4 text-light bg-dark justify-content-between">
         <?php
         // echo "<h2>2500m to 5000m high </h2>";
         // $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN 2500 AND 5000 LIMIT 4");
@@ -114,27 +114,26 @@ $result = find_all_mtns();
 
     ?>
 
-      <div class="home-card rounded-top shadow-lg p-0 text-capitalize ">
-        <div class="">
-          <img class="mtn-card-gradient rounded-top img-fluid" src="<?php echo "uploads/thumbnails/" .  h($mtnImage) ?>" alt="">
+      <div class="home-card d-flex flex-column gap-4 justify-content-between rounded-top shadow-lg p-0 text-capitalize ">
+        <div>
+          <div class="">
+            <img class="mtn-card-gradient rounded-top img-fluid" src="<?php echo "uploads/thumbnails/" .  h($mtnImage) ?>" alt="">
+          </div>
+          <div class="d-flex justify-content-between align-items-center p-3 gap-2">
+            <?php
+            echo "<h4 class=\"displayCategory lh-base m-0\">" . h($title) . "</h4>\n";
+            echo "<div class=\"displayCategory fs-3 text-secondary lh-base\">" . h($height) . "m</div>\n";
+            ?>
+          </div>
+          <div class="d-flex p-3 align-items-center justify-content-between gap-4 border border-end-0 border-start-0 border-bottom-0 mb-3 ">
+            <?php echo "<div class=\"1h-1 fs-4 fw-bold  text-uppercase\">" . h($province) . "</div>\n" ?>
+            <?php echo "<div class=\"display-category  fs-normal \">" . h($access) . " Access</div>\n"; ?>
+            <?php echo "<div class=\"display-category   fst-italic\">" . h($volcanoText) . "</div>\n"; ?>
+          </div>
+          <p class="p-3">
+            <?php echo h($description); ?>
+          </p>
         </div>
-        <div class="d-flex justify-content-between align-items-center p-3 gap-2">
-          <?php
-          echo "<h4 class=\"displayCategory lh-base m-0\">" . h($title) . "</h4>\n";
-          echo "<div class=\"displayCategory fs-3 text-secondary lh-base\">" . h($height) . "m</div>\n";
-          ?>
-        </div>
-        <div class="d-flex p-3 align-items-center justify-content-between gap-4 border border-end-0 border-start-0 border-bottom-0 mb-3 ">
-          <?php echo "<div class=\"1h-1 fs-4 fw-bold  text-uppercase\">" . h($province) . "</div>\n" ?>
-
-          <?php echo "<div class=\"display-category  fs-normal \">" . h($access) . " Access</div>\n"; ?>
-
-          <?php echo "<div class=\"display-category   fst-italic\">" . h($volcanoText) . "</div>\n"; ?>
-
-        </div>
-        <p class="p-3">
-          <?php echo h($description); ?>
-        </p>
 
         <div class="p-3"><a href=<?php echo "\"page.php?mtn_id=" . h(u($mtnId)) . "\"" ?> class='left-auto btn btn-secondary d-block'>Details</a></div>
 

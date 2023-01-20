@@ -39,7 +39,6 @@ function find_mtn($id)
     $id = db_escape($con, $id);
     // single quote around variable for injection security
     $sql = "SELECT * FROM dyl_mountains WHERE mtn_id = '" . $id . "'";
-    echo $sql;
 
     $result = mysqli_query($con, $sql);
     confirm_result_set($result);

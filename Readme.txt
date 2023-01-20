@@ -35,3 +35,9 @@ to be done....
 ##IMAGES
 
 1. makes an original image and creates a thumbnail that is cropped to fit cards on front page.
+
+TODO: 
+
+1. add rules to image upload. Restrict width and height so it fits correctly DONE ?
+2. add are you sure js before submitting delete submission
+3.

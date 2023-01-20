@@ -36,22 +36,21 @@ if (isset($_POST['submit'])) {
 ?>
 <h2 class="mt-5 pt-5">Please log in</h2>
 <form id="myform" name="myform" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-	<div class="form-group">
+	<div class="form-group mb-3 text-capitalize">
 		<label for="username">username:</label>
 		<input type="text" name="username" class="form-control">
 	</div>
-	<div class="form-group">
+	<div class="form-group mb-3 text-capitalize">
 		<label for="password">password:</label>
 		<input type="password" name="password" class="form-control">
 	</div>
-	<div class="form-group">
-		<label for="submit">&nbsp;</label>
-		<input type="submit" name="submit" class="btn btn-info" value="Login">
+	<div class="form-group mb-3">
+		<input type="submit" name="submit" class="btn btn-primary" value="Login">
 	</div>
 </form>
 <?php
 if (isset($msg)) {
-	echo "<div>$msg</div>";
+	echo "<div class=\"p-3 text-danger fs-3\">$msg</div>";
 }
 
 include(INCLUDES_PATH . "/footer.php");

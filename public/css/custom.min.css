@@ -12152,6 +12152,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+d .fs-heading {
+  font-family: "Merriweather", serif;
+}
+
 /*!
  * Bootstrap  v5.2.3 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors
@@ -24453,4 +24457,79 @@ svg {
 
 .bg-gray {
   background: gray;
+}
+
+.page-mtn__content {
+  padding: 2rem;
+}
+.page-mtn__content svg {
+  width: 1.5rem;
+}
+
+.page-txt-stats li {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  margin-bottom: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.page-txt-stats svg {
+  margin-right: 1rem;
+}
+
+.page-mtn__footer p {
+  max-width: 30rem;
+}
+
+.page-grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.page-grid > * {
+  min-width: 32ch;
+}
+.page-grid .page-mtn__content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.page-grid .page-mtn__images {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+#message {
+  border: #198754 solid 2px;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  color: #198754 !important;
+  margin-bottom: 3rem;
+}
+
+.admin-new {
+  max-width: 35rem;
+}
+.admin-new svg {
+  width: 1.5rem;
+}
+
+.table-mtn__head--pl {
+  padding-left: 1rem !important;
+}
+
+.edit-form,
+.new-form {
+  max-width: 40rem;
+}
+.edit-form .form-group,
+.new-form .form-group {
+  margin-bottom: 1.5rem;
 }/*# sourceMappingURL=custom.min.css.map */

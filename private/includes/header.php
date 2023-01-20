@@ -58,7 +58,7 @@ if (!isset($page_title)) {
 </head>
 
 <body>
-  <div class="shadow-sm border border-bottom sticky-top bg-light">
+  <div class="shadow-sm border border-bottom sticky-top bg-light mb-5">
 
     <div class="container">
       <nav class="navbar f navbar-expand-lg navbar-light pb-0 pt-0">

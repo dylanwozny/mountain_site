@@ -48,6 +48,10 @@ $dropdown-bg: $light;
 $navbar-margin-y: 1.5rem;
 $navbar-light-active-color: $light;
 
+//spacing vertical rythemn
+$spacer-2: 2rem;
+$spacer-3: 3rem;
+
 // Required
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/mixins";
@@ -55,8 +59,13 @@ $navbar-light-active-color: $light;
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "../../node_modules/bootstrap/scss/utilities";
-
+d
 // creating my own map utilities
+.fs-heading {
+  font-family: $headings-font-family;
+}
+
+// make display-flex and align-center-vertical
 
 // Editing/extending bootstrap utilities
 $utilities: map-merge(
@@ -83,6 +92,7 @@ $utilities: map-merge(
 /*
 Styling will be a mix of overriding styles and utility classes..
 */
+
 // font smoothing
 * {
   -webkit-font-smoothing: antialiased;
@@ -255,4 +265,81 @@ svg {
 }
 
 .displayCategory {
+}
+
+.page-mtn.row > * {
+  // padding: 0rem;
+}
+
+.page-mtn__content {
+  svg {
+    width: 1.5rem;
+  }
+  padding: 2rem;
+}
+
+.page-txt-stats {
+  li {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    margin-bottom: $spacer-2;
+    display: flex;
+    align-items: center;
+  }
+  svg {
+    margin-right: 1rem;
+  }
+}
+
+.page-mtn__footer {
+  p {
+    max-width: 30rem;
+  }
+}
+
+.page-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+
+  > * {
+    min-width: 32ch;
+  }
+  .page-mtn__content {
+    flex: 1;
+  }
+
+  .page-mtn__images {
+    flex: 1;
+  }
+}
+
+//edit message
+#message {
+  border: $success solid 2px;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  color: $success !important;
+  margin-bottom: 3rem;
+}
+
+// dash
+.admin-new {
+  max-width: 35rem;
+  svg {
+    width: 1.5rem;
+  }
+}
+
+.table-mtn__head--pl {
+  padding-left: 1rem !important;
+}
+
+//edit
+
+.edit-form,
+.new-form {
+  max-width: 40rem;
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
 }

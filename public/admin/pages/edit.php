@@ -104,7 +104,6 @@ if (is_post_request()) {
         $mtnData["google_img"] = $_FILES['file-g'];
     };
 
-    echo print_r($mtnData);
     // ----------------------------------------------
     //-------- UPLOAD AND VALIDATE------------------
     //----------------------------------------------
@@ -204,11 +203,11 @@ function RadioCheck($access, $value)
 }
 
 ?>
-<a href="../index.php" class="back-link">&laquo; back to dashboard</a>
-<?php echo "<h2>" . h($page_title) .   "</h2>"; ?>
 
-<div class="row ">
-    <div class="col-md-6">
+<?php echo "<h2>" . h($page_title) .   "</h2>"; ?>
+<a class="" href="../index.php" class="back-link">&laquo; back to dashboard</a>
+<div class="edit-form border shadow-lg p-4 mt-2">
+    <div class="">
         <?php
         if ($userPrompt) {
             echo "<div class='alert alert-primary'>$userPrompt</div>";
@@ -260,7 +259,7 @@ function RadioCheck($access, $value)
                 <?php if (isset($errors['mtn_img'])) {
                     echo " <p class=\"alert alert-danger\">" . "{$errors['mtn_img']}" . "</p>";
                 } ?>
-                <div class="mb-4" id="pageImg"><img src="../../uploads/thumbnails/<?php echo h($mtnData['mtn_image']); ?>" /></div>
+                <div class="mb-4 " id="pageImg"><img class="img-fluid" src="../../uploads/thumbnails/<?php echo h($mtnData['mtn_image']); ?>" /></div>
 
             </div>
 
@@ -313,20 +312,17 @@ function RadioCheck($access, $value)
                 } ?>
                 <div class="mb-4" id="pageImg"><img class="img-fluid" src="../../uploads/google-img/<?php echo $mtnData["google_img"]; ?>" /></div>
             </div>
-            <div class="form-group">
-                <label for="submit">&nbsp;</label>
-                <input type="submit" name="submit" class="green-button" value="edit Mtn">
+            <div class="d-flex justify-content-between flex-wrap">
+                <div class="form-group me-5">
+                    <input type="submit" name="submit" class=" btn btn-primary" value="Edit">
+                    <button class="btn btn-outline-dark " onclick="location.href='../index.php'"> Cancel</button>
+                </div>
+                <div>
+                    <button class="btn btn-danger" onclick="location.href ='delete.php?mtn_id=<?php echo h($mtnId); ?>'">Delete</button>
+
+                </div>
             </div>
         </form>
-        <button class="btn btn-danger" onclick="location.href ='delete.php?mtn_id=<?php echo h($mtnId); ?>'">Delete</button>
-        <button class="btn btn-danger" onclick="location.href='../index.php'"> Cancel</button>
-    </div>
-    <div class="col-md-6">
-
-
-        <!--  
-        echo "<div class=\"mb-4\" id=\"pageImg\"><img src=\"../../uploads/thumbnails/$mtnData['mtn_image']\"/></div>";
-        echo "<div class=\"mb-4\" id=\"pageGoogleImg\"><img src=\"../../uploads/display/$mtnData["google_img"]\"/></div>"; -->
 
     </div>
     <?php
