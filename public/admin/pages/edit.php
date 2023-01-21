@@ -203,8 +203,12 @@ function RadioCheck($access, $value)
 }
 
 ?>
-
-<?php echo "<h2>" . h($page_title) .   "</h2>"; ?>
+<header class=" d-flex align-items-center mb-4">
+    <svg class=" svg-w2 me-2" id="Icon_awesome-pencil-alt" viewBox="0 0 25.998 25.999">
+        <path id="Icon_awesome-pencil-alt-2" data-name="Icon awesome-pencil-alt" d="M25.284,7.217,22.943,9.558a.61.61,0,0,1-.863,0L16.443,3.922a.61.61,0,0,1,0-.863L18.784.717a2.443,2.443,0,0,1,3.448,0l3.052,3.052A2.434,2.434,0,0,1,25.284,7.217ZM14.432,5.069,1.1,18.4.021,24.574a1.22,1.22,0,0,0,1.412,1.412L7.6,24.9,20.937,11.569a.61.61,0,0,0,0-.863L15.3,5.069a.616.616,0,0,0-.868,0ZM6.3,17.262a.708.708,0,0,1,0-1.005l7.82-7.82a.711.711,0,0,1,1.005,1.005l-7.82,7.82a.708.708,0,0,1-1.005,0ZM4.469,21.532H6.907v1.843l-3.275.574L2.052,22.37l.574-3.275H4.469Z" transform="translate(-0.002 -0.005)" />
+    </svg>
+    <?php echo "<h2 class='mb-0'>" . h($page_title) .   "</h2>"; ?>
+</header>
 <a class="" href="../index.php" class="back-link">&laquo; back to dashboard</a>
 <div class="edit-form border shadow-lg p-4 mt-2">
     <div class="">
@@ -285,24 +289,39 @@ function RadioCheck($access, $value)
                 } ?>
             </div>
             <!-- NEED THIS FOR CHECK BOX -->
-            <div class="form-group">
-                <label for="is-volcano">Is Volcano:</label>
-                <input type="hidden" name="is-volcano" id="is-volcano" class="form-control" value="0">
-                <input type="checkbox" name="is-volcano" id="is-volcano" class="form-control" value="1" <?php if ($mtnData["is_volcano"] == "1") {
-                                                                                                            echo "checked";
-                                                                                                        }; ?> />
+            <div class="form-check mb-3">
+                <label class="form-check-label" for="is-volcano">Is Volcano:</label>
+                <input type="hidden" name="is-volcano" id="is-volcano" value="0">
+                <input type="checkbox" name="is-volcano" id="is-volcano" class="form-check-input" value="1" <?php if ($mtnData["is_volcano"] == "1") {
+                                                                                                                echo "checked";
+                                                                                                            }; ?> />
 
 
             </div>
             <div class="form-group">
                 <label for="access">Access:</label>
                 <input type="hidden" name="access" id="access" class="form-control" value="0">
-                <br />Hike<input type="radio" name="access" id="access" class="form-control" value="hike" <?php RadioCheck(h($mtnData["access"]), "hike"); ?>>
-                Vehicle<input type="radio" name="access" id="access" class="form-control" value="vehicle" <?php RadioCheck(h($mtnData["access"]), "vehicle"); ?>>
-                Helicopter<input type="radio" name="access" id="access" class="form-control" value="helicopter" <?php RadioCheck(h($mtnData["access"]), "helicopter"); ?>>
-                <?php if (isset($error['access'])) {
-                    echo " <p class=\"alert alert-danger\">" . "{$error['access']}" . "</p>";
-                } ?>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="access" id="access" value="hike" <?php RadioCheck(h($mtnData["access"]), "hike"); ?>>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Hike
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="access" id="access" value="vehicle" <?php RadioCheck(h($mtnData["access"]), "vehicle"); ?>>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Vehicle
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="access" id="access" value="helicopter" <?php RadioCheck(h($mtnData["access"]), "helicopter"); ?>>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Helicopter
+                    </label>
+                    <?php if (isset($error['access'])) {
+                        echo " <p class=\"alert alert-danger\">" . "{$error['access']}" . "</p>";
+                    } ?>
+                </div>
             </div>
             <div class="form-group">
                 <label for="file-g">Google Image to Upload:</label>
@@ -315,7 +334,7 @@ function RadioCheck($access, $value)
             <div class="d-flex justify-content-between flex-wrap">
                 <div class="form-group me-5">
                     <input type="submit" name="submit" class=" btn btn-primary" value="Edit">
-                    <button class="btn btn-outline-dark " onclick="location.href='../index.php'"> Cancel</button>
+                    <a class="btn btn-outline-dark" href="../index.php"> Cancel</a>
                 </div>
                 <div>
                     <button class="btn btn-danger" onclick="location.href ='delete.php?mtn_id=<?php echo h($mtnId); ?>'">Delete</button>

@@ -41,6 +41,9 @@ $input-btn-font-size: 1.25rem;
 $input-btn-border-width: 3px;
 $btn-border-radius: 0.25rem;
 
+// forms
+$input-border-width: 1px;
+
 //button vars
 
 //navbar
@@ -255,7 +258,7 @@ svg {
   flex: 1;
   min-width: 315px;
   .btn {
-    width: 100%;
+    width: 10rem;
     // width: 12rem;
   }
 }
@@ -281,7 +284,7 @@ svg {
 .page-txt-stats {
   li {
     font-size: clamp(1rem, 3vw, 1.25rem);
-    margin-bottom: $spacer-2;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
   }
@@ -300,7 +303,7 @@ svg {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-
+  align-items: flex-start;
   > * {
     min-width: 32ch;
   }
@@ -341,5 +344,20 @@ svg {
   max-width: 40rem;
   .form-group {
     margin-bottom: 1.5rem;
+  }
+}
+
+.svg-w2 {
+  width: 2.5rem;
+}
+
+.svg-btn {
+  width: 1.5rem;
+  fill: $light;
+}
+
+.btn.btn-secondary:hover {
+  svg {
+    fill: $secondary;
   }
 }

@@ -34,7 +34,14 @@ if (isset($_POST['submit'])) {
 }
 
 ?>
-<h2 class="mt-5 pt-5">Please log in</h2>
+<header class=" d-flex align-items-center mb-4">
+	<svg viewBox="0 0 28 28" class="svg-w2">
+		<path id="Icon_awesome-user-alt-2" data-name="Icon awesome-user-alt" d="M14,15.75A7.875,7.875,0,1,0,6.125,7.875,7.877,7.877,0,0,0,14,15.75Zm7,1.75H17.987a9.52,9.52,0,0,1-7.973,0H7a7,7,0,0,0-7,7v.875A2.626,2.626,0,0,0,2.625,28h22.75A2.626,2.626,0,0,0,28,25.375V24.5A7,7,0,0,0,21,17.5Z" />
+	</svg>
+
+	<h2 class="mb-0 ms-3">Please log in</h2>
+</header>
+
 <form id="myform" name="myform" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
 	<div class="form-group mb-3 text-capitalize">
 		<label for="username">username:</label>

@@ -40,4 +40,8 @@ TODO:
 
 1. add rules to image upload. Restrict width and height so it fits correctly DONE ?
 2. add are you sure js before submitting delete submission
-3.
+3. remove mountain has been edited message if you cancel editing mountain
+4. add search function to navbar
+5. add filter options to mtn ribbon front-page
+6. Restore pagenation functionality on page view
+7. navbar dash does not work on edit page
