@@ -149,7 +149,9 @@ if (!isset($page_title)) {
 
   <?php
   if (is_post_request()) {
-    $searchTerm = $_POST['search-item'];
+    if (isset($_POST['search-item'])) {
+      $searchTerm = $_POST['search-item'];
+    }
   }
 
 

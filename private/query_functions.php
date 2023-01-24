@@ -57,48 +57,97 @@ function search_create_list($searchTerm)
     if ($searchTerm) {
         //------------- function for sql search ------------//
         $result = search_mtn($searchTerm);
+?>
 
-        // if no rows are returned. no results
-        if (!mysqli_num_rows($result)) {
-            $userPrompt = "no results for '" . $searchTerm . "' ";
-            // while rows returned are greater than 0
-        } else {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $title = h($row['title']);
-                $description = h($row['description']);
-                $firstSummit = h($row['first_summit']);
-                $access = h($row['access']);
-                $province = h($row['province']);
-                $mtnId = h(u($row['mtn_id']));
-                $height = h($row['height']);
-                $vertical = h($row['vertical_relief']);
-                $vertical = h(strval($vertical));
-                $mtnImage = h((string)$row['mtn_image']);
-                //Create html card
-                echo "\n<div class='jumbotron row'>";
-                echo "\n<div class='col-md-4'>";
-                echo "\n\t<h3>$title</h3>";
-                echo "\n\t<p class=\"description\">Description: $description</p>";
-                echo "\n\t<p>First Summit: $firstSummit </p>";
-                echo "\n\t<p>Access Type: $access</p>";
-                echo "\n\t<p>Province: $province </p>";
-                echo "\n\t<p>Height: $height</p>";
-                echo "\n\t<p>Vertical Relief: $vertical</p>";
-                echo "\n\t<a href=\"page.php?mtn_id=$mtnId\">View Mountain Page</a>";
-                echo "\n</div>";
-                echo "\n<div class='col-md-8'>";
-                echo "<img src=\"uploads/display/$mtnImage\" class=\"\" /><br/>\n";
-                echo "\n</div>";
-                echo "\n</div>";
+        <div class="container p-0">
+            <section class="p-0 d-flex justify-content-start gap-3 flex-wrap">
+                <?php
+                // if no rows are returned. no results
+                if (!mysqli_num_rows($result)) {
+                    $userPrompt = "no results for '" . $searchTerm . "' ";
+                    // while rows returned are greater than 0
+                } else {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $title = h($row['title']);
+                        $description = h($row['description']);
+                        $firstSummit = h($row['first_summit']);
+                        $access = h($row['access']);
+                        $province = h($row['province']);
+                        $mtnId = h(u($row['mtn_id']));
+                        $height = h($row['height']);
+                        $vertical = h($row['vertical_relief']);
+                        $vertical = h(strval($vertical));
+                        $mtnImage = h((string)$row['mtn_image']);
+                        $isVolcano = $row["is_volcano"];
+                        if ($isVolcano) {
+                            $volcanoText = 'is a volcano';
+                        } else {
+                            $volcanoText = 'not a volcano';
+                        }
+                ?>
+                        <div class="home-card d-flex flex-column gap-4 justify-content-between rounded-top shadow-lg p-0 text-capitalize ">
+                            <div>
+                                <div class="">
+                                    <img class="mtn-card-gradient rounded-top img-fluid" src="<?php echo "uploads/thumbnails/" .  h($mtnImage) ?>" alt="">
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center p-3 gap-2">
+                                    <?php
+                                    echo "<h4 class=\"displayCategory lh-base m-0\">" . h($title) . "</h4>\n";
+                                    echo "<div class=\"displayCategory fs-3 text-secondary lh-base\">" . h($height) . "m</div>\n";
+                                    ?>
+                                </div>
+                                <div class="d-flex p-3 align-items-center justify-content-between gap-4 border border-end-0 border-start-0 border-bottom-0 mb-3 ">
+                                    <?php echo "<div class=\"1h-1 fs-4 fw-bold  text-uppercase\">" . h($province) . "</div>\n" ?>
+                                    <?php echo "<div class=\"display-category  fs-normal \">" . h($access) . " Access</div>\n"; ?>
+                                    <?php echo "<div class=\"display-category   fst-italic\">" . h($volcanoText) . "</div>\n"; ?>
+                                </div>
+                                <p class="p-3">
+                                    <?php echo h($description); ?>
+                                </p>
+                            </div>
+
+                            <div class="p-3 ms-auto"><a href=<?php echo "\"page.php?mtn_id=" . h(u($mtnId)) . "\"" ?> class='left-auto btn btn-secondary d-block'>Details</a></div>
+
+                        </div>
+
+
+
+
+
+
+
+            <?php
+                        //Create html card
+                        // echo "\n<div class='jumbotron row'>";
+                        // echo "\n<div class='col-md-4'>";
+                        // echo "\n\t<h3>$title</h3>";
+                        // echo "\n\t<p class=\"description\">Description: $description</p>";
+                        // echo "\n\t<p>First Summit: $firstSummit </p>";
+                        // echo "\n\t<p>Access Type: $access</p>";
+                        // echo "\n\t<p>Province: $province </p>";
+                        // echo "\n\t<p>Height: $height</p>";
+                        // echo "\n\t<p>Vertical Relief: $vertical</p>";
+                        // echo "\n\t<a href=\"page.php?mtn_id=$mtnId\">View Mountain Page</a>";
+                        // echo "\n</div>";
+                        // echo "\n<div class='col-md-8'>";
+                        // echo "<img src=\"uploads/display/$mtnImage\" class=\"\" /><br/>\n";
+                        // echo "\n</div>";
+                        // echo "\n</div>";
+                    }
+                }
+            } else {
+
+                $userPrompt = "please search something before submitting";
             }
-        }
-    } else {
 
-        $userPrompt = "please search something before submitting";
-    }
-
-    // return message
-    return $userPrompt;
+            // return message
+            if (isset($userPrompt)) {
+                return $userPrompt;
+            }
+            ?>
+            </section>
+        </div>
+    <?php
 }
 //------------ Mountain Search -----------------
 function search_mtn($searchTerm)

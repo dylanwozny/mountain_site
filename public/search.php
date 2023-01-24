@@ -39,16 +39,23 @@ if (isset($_GET['search-item'])) {
     </form>
 </section>
 
-<!--  OR first_summit LIKE '%$searchTerm%' -->
+<div class="container p-0">
+    <div class="p-0 d-flex justify-content-start gap-3 flex-wrap">
+
+        <!--  OR first_summit LIKE '%$searchTerm%' -->
+        <?php
+
+        // when search button is clicked
+        if (is_post_request()) {
+            // grab search item from text field
+            $searchTerm = $_POST['search-item'];
+            // if there is a value in field
+        }
+        ?>
+    </div>
+</div>
+
 <?php
-
-// when search button is clicked
-if (is_post_request()) {
-    // grab search item from text field
-    $searchTerm = $_POST['search-item'];
-    // if there is a value in field
-}
-
 // call Search function
 // catch user message in variable
 $userPrompt = search_create_list($searchTerm);

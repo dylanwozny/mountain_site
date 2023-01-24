@@ -24450,6 +24450,7 @@ svg {
       -ms-flex: 1;
           flex: 1;
   min-width: 315px;
+  max-width: 450px;
 }
 .home-card .btn {
   width: 10rem;
