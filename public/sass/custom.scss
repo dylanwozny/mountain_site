@@ -317,7 +317,7 @@ svg {
 }
 
 //edit message
-#message {
+.user-message {
   border: $success solid 2px;
   font-size: 1.25rem;
   text-transform: uppercase;
@@ -360,4 +360,18 @@ svg {
   svg {
     fill: $secondary;
   }
+}
+
+//Utility classes
+
+.flex-align-center {
+  display: flex;
+  align-items: center;
+  max-width: 7rem;
+  margin-left: auto;
+  justify-content: center;
+}
+
+form {
+  max-width: 40rem;
 }

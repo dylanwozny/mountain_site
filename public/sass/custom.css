@@ -22013,7 +22013,7 @@ svg {
   flex: 1;
 }
 
-#message {
+.user-message {
   border: #198754 solid 2px;
   font-size: 1.25rem;
   text-transform: uppercase;
@@ -22052,5 +22052,17 @@ svg {
 
 .btn.btn-secondary:hover svg {
   fill: #82756a;
+}
+
+.flex-align-center {
+  display: flex;
+  align-items: center;
+  max-width: 7rem;
+  margin-left: auto;
+  justify-content: center;
+}
+
+form {
+  max-width: 40rem;
 }
 /*# sourceMappingURL=custom.css.map */

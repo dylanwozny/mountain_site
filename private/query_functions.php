@@ -48,6 +48,58 @@ function find_mtn($id)
     return $mtn;
 }
 
+
+// ---------Search Render-----------------------
+function search_create_list($searchTerm)
+{
+    h($searchTerm);
+    // if there is a value in field
+    if ($searchTerm) {
+        //------------- function for sql search ------------//
+        $result = search_mtn($searchTerm);
+
+        // if no rows are returned. no results
+        if (!mysqli_num_rows($result)) {
+            $userPrompt = "no results for '" . $searchTerm . "' ";
+            // while rows returned are greater than 0
+        } else {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $title = h($row['title']);
+                $description = h($row['description']);
+                $firstSummit = h($row['first_summit']);
+                $access = h($row['access']);
+                $province = h($row['province']);
+                $mtnId = h(u($row['mtn_id']));
+                $height = h($row['height']);
+                $vertical = h($row['vertical_relief']);
+                $vertical = h(strval($vertical));
+                $mtnImage = h((string)$row['mtn_image']);
+                //Create html card
+                echo "\n<div class='jumbotron row'>";
+                echo "\n<div class='col-md-4'>";
+                echo "\n\t<h3>$title</h3>";
+                echo "\n\t<p class=\"description\">Description: $description</p>";
+                echo "\n\t<p>First Summit: $firstSummit </p>";
+                echo "\n\t<p>Access Type: $access</p>";
+                echo "\n\t<p>Province: $province </p>";
+                echo "\n\t<p>Height: $height</p>";
+                echo "\n\t<p>Vertical Relief: $vertical</p>";
+                echo "\n\t<a href=\"page.php?mtn_id=$mtnId\">View Mountain Page</a>";
+                echo "\n</div>";
+                echo "\n<div class='col-md-8'>";
+                echo "<img src=\"uploads/display/$mtnImage\" class=\"\" /><br/>\n";
+                echo "\n</div>";
+                echo "\n</div>";
+            }
+        }
+    } else {
+
+        $userPrompt = "please search something before submitting";
+    }
+
+    // return message
+    return $userPrompt;
+}
 //------------ Mountain Search -----------------
 function search_mtn($searchTerm)
 {
@@ -478,7 +530,7 @@ function delete_mountain($mtnid)
     //-----------------redirect to mtn page or stop---------------------
     if ($deleteResult) {
         //------ store message in session temp to display ---
-        $_SESSION['message'] = 'mtn has been deleted.';
+        $_SESSION['message'] = 'mountain has been deleted.';
         redirect_to("../index.php");
     } else {
         echo mysqli_error($con);

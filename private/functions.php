@@ -104,6 +104,8 @@ function display_session_message()
 {
     $msg = get_and_clear_session_message();
     if (!is_blank($msg)) {
-        return '<div id="message" class="alert-info p-3 mb-2 rounded text-white">' . h($msg) . '</div>';
+        return '<div id="message" class=" user-message alert-info p-3 mb-5 rounded">' . h($msg) . '</div>';
     }
 }
+
+

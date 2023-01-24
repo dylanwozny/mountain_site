@@ -7,80 +7,56 @@ $page_title = "Search";
 include(INCLUDES_PATH . "/header.php");
 ?>
 
-<section class="search-container">
-    <h2>Search Mountains</h2>
+<!-- Grab the search term if navbar is used -->
+<?php
+if (isset($_GET['search-item'])) {
+    $searchTerm = $_GET['search-item'];
+    //sanitize
+    h($searchTerm);
+}
+
+?>
+
+<section>
+    <header class="d-flex align-items-center mb-4">
+        <svg role="img" class="svg-w2" viewBox="0 0 35.997 36.004">
+            <path id="Icon_awesome-search-2" data-name="Icon awesome-search" d="M35.508,31.127l-7.01-7.01a1.686,1.686,0,0,0-1.2-.492H26.156a14.618,14.618,0,1,0-2.531,2.531V27.3a1.686,1.686,0,0,0,.492,1.2l7.01,7.01a1.681,1.681,0,0,0,2.384,0l1.99-1.99a1.7,1.7,0,0,0,.007-2.391Zm-20.883-7.5a9,9,0,1,1,9-9A8.995,8.995,0,0,1,14.625,23.625Z" />
+        </svg>
+        <h2 class="mb-0 ps-2">Search</h2>
+    </header>
     <form id="myform" class="" name="myform" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-        <div class="form-group">
-            <input type="text" name="search-item" class="form-control">
+        <div class="form-group pb-3">
+            <input type="text" name="search-item" class="form-control" value="<?php if (isset($searchTerm)) {
+                                                                                    echo  h($searchTerm);
+                                                                                } ?>">
         </div>
 
-        <div class="form-group">
-            <label for="submit">&nbsp;</label>
-            <input type="submit" name="submit" class="green-button" value="search">
+        <div class="form-group mb-4">
+
+            <input type="submit" name="submit" class="btn btn-primary" value="search">
+            <label for="submit"></label>
         </div>
     </form>
 </section>
 
 <!--  OR first_summit LIKE '%$searchTerm%' -->
-
-
 <?php
 
-$userPrompt = '';
 // when search button is clicked
 if (is_post_request()) {
     // grab search item from text field
     $searchTerm = $_POST['search-item'];
     // if there is a value in field
-    if ($searchTerm) {
-        //------------- function for sql search ------------//
-        $result = search_mtn($searchTerm);
-
-        // if no rows are returned. no results
-        if (!mysqli_num_rows($result)) {
-            $userPrompt = "no results";
-            // while rows returned are greater than 0
-        } else {
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo print_r($row);
-                $title = h($row['title']);
-                $description = h($row['description']);
-                $firstSummit = h($row['first_summit']);
-                $access = h($row['access']);
-                $province = h($row['province']);
-                $mtnId = h(u($row['mtn_id']));
-                $height = h($row['height']);
-                $vertical = h($row['vertical_relief']);
-                $vertical = h(strval($vertical));
-                $mtnImage = h((string)$row['mtn_image']);
-
-                echo "\n<div class='jumbotron row'>";
-                echo "\n<div class='col-md-4'>";
-                echo "\n\t<h3>$title</h3>";
-                echo "\n\t<p class=\"description\">Description: $description</p>";
-                echo "\n\t<p>First Summit: $firstSummit </p>";
-                echo "\n\t<p>Access Type: $access</p>";
-                echo "\n\t<p>Province: $province </p>";
-                echo "\n\t<p>Height: $height</p>";
-                echo "\n\t<p>Vertical Relief: $vertical</p>";
-                echo "\n\t<a href=\"page.php?mtn_id=$mtnId\">View Mountain Page</a>";
-                echo "\n</div>";
-                echo "\n<div class='col-md-8'>";
-                echo "<img src=\"uploads/display/$mtnImage\" class=\"\" /><br/>\n";
-                echo "\n</div>";
-                echo "\n</div>";
-            }
-        }
-    } else {
-
-        $userPrompt = "please search something before submitting";
-    }
-} else {
-    $searchTerm = "";
 }
 
+// call Search function
+// catch user message in variable
+$userPrompt = search_create_list($searchTerm);
+
+
+
 // user message
-if ($userPrompt) {
+if (isset($userPrompt)) {
     echo "<div class='alert alert-primary'>$userPrompt</div>";
 }
 include(INCLUDES_PATH . "/footer.php");

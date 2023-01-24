@@ -42,17 +42,19 @@ if (isset($_POST['submit'])) {
 	<h2 class="mb-0 ms-3">Please log in</h2>
 </header>
 
-<form id="myform" name="myform" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-	<div class="form-group mb-3 text-capitalize">
-		<label for="username">username:</label>
-		<input type="text" name="username" class="form-control">
-	</div>
-	<div class="form-group mb-3 text-capitalize">
-		<label for="password">password:</label>
-		<input type="password" name="password" class="form-control">
-	</div>
-	<div class="form-group mb-3">
-		<input type="submit" name="submit" class="btn btn-primary" value="Login">
+<form id="myform" name="myform " method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+	<div class="col-8">
+		<div class="form-group mb-3 text-capitalize">
+			<label for="username">username:</label>
+			<input type="text" name="username" class="form-control">
+		</div>
+		<div class="form-group mb-3 text-capitalize">
+			<label for="password">password:</label>
+			<input type="password" name="password" class="form-control">
+		</div>
+		<div class="form-group mb-3">
+			<input type="submit" name="submit" class="btn btn-primary" value="Login">
+		</div>
 	</div>
 </form>
 <?php

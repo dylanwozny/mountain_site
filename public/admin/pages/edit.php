@@ -209,7 +209,7 @@ function RadioCheck($access, $value)
     </svg>
     <?php echo "<h2 class='mb-0'>" . h($page_title) .   "</h2>"; ?>
 </header>
-<a class="" href="../index.php" class="back-link">&laquo; back to dashboard</a>
+<a class="" href="../index.php" class="back-link pb-1">&laquo; back to dashboard</a>
 <div class="edit-form border shadow-lg p-4 mt-2">
     <div class="">
         <?php
@@ -337,7 +337,7 @@ function RadioCheck($access, $value)
                     <a class="btn btn-outline-dark" href="../index.php"> Cancel</a>
                 </div>
                 <div>
-                    <button class="btn btn-danger" onclick="location.href ='delete.php?mtn_id=<?php echo h($mtnId); ?>'">Delete</button>
+                    <a class="btn btn-danger" href="delete.php?mtn_id=<?php echo h($mtnId); ?>">Delete</a>
 
                 </div>
             </div>

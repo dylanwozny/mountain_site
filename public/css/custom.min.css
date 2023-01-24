@@ -24509,7 +24509,7 @@ svg {
           flex: 1;
 }
 
-#message {
+.user-message {
   border: #198754 solid 2px;
   font-size: 1.25rem;
   text-transform: uppercase;
@@ -24548,4 +24548,22 @@ svg {
 
 .btn.btn-secondary:hover svg {
   fill: #82756a;
+}
+
+.flex-align-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-width: 7rem;
+  margin-left: auto;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+form {
+  max-width: 40rem;
 }/*# sourceMappingURL=custom.min.css.map */
