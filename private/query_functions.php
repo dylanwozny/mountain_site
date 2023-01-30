@@ -32,6 +32,12 @@ function find_all_mtns()
     return $mtn_result;
 }
 
+
+
+
+
+
+
 //-------------- Single mountains edit/new ----------------
 function find_mtn($id)
 {
@@ -158,6 +164,8 @@ function search_mtn($searchTerm)
     $searchTerm = db_escape($con, $searchTerm);
 
     $sql = "SELECT * FROM dyl_mountains WHERE title LIKE '%$searchTerm%' OR description LIKE '%$searchTerm%' OR first_summit LIKE '%$searchTerm%' OR access LIKE '%$searchTerm%' or province LIKE '%$searchTerm%' or height LIKE '%$searchTerm%' or vertical_relief LIKE '%$searchTerm%'";
+
+
 
     $result = mysqli_query($con, $sql) or die(mysqli_error($con));
     confirm_result_set($result);
@@ -586,4 +594,112 @@ function delete_mountain($mtnid)
         db_disconnect($con);
         exit;
     }
+}
+
+//--------------------------------------------
+//-----------------PAGINATION---------------------
+//--------------------------------------------
+
+
+
+//-------------- find only a limited amount of mountains (for pagination) ----------------
+function find_limited_mtns($limit = 0, $offset = 0)
+{
+    global $con;
+    $sql = "SELECT * FROM dyl_mountains ORDER BY title ASC";
+    //if limit and offset not given
+    if ($limit > 0) {
+        $sql .= " LIMIT " . db_escape($con, $limit);
+    }
+    if ($offset > 0) {
+        $sql .= " OFFSET " . db_escape($con, $offset);
+    }
+
+    $mtn_result = mysqli_query($con, $sql);
+    //error handling
+    confirm_result_set($mtn_result);
+
+    return $mtn_result;
+}
+
+
+// count amount of mountains
+function find_count_mtns()
+{
+    global $con;
+    $sql = "SELECT COUNT(*) FROM dyl_mountains";
+
+    $mtn_result = mysqli_query($con, $sql);
+    //error handling
+    confirm_result_set($mtn_result);
+
+    $array = mysqli_fetch_array($mtn_result);
+
+    return $array['COUNT(*)'];
+}
+
+
+// create and calculate page amounts
+function pagination($per_page, $page_name)
+{
+    $current_page = (int) ($_GET['page'] ?? 1);
+    $offset = $per_page * ($current_page - 1);
+
+    $result = find_limited_mtns($per_page, $offset);
+
+
+    // mtn count
+    $total_count = find_count_mtns();
+
+    // page count
+    $total_pages = ceil($total_count / $per_page);
+
+
+    // page value check
+    if ($current_page < 1 || $current_page > $total_pages) {
+        $current_page = 1;
+    }
+
+
+    ?>
+
+
+        <p class="fs-5"><?php echo "Page $current_page of $total_pages" ?></p>
+
+
+        <div class="pagination d-flex justify-content-between fs-5">
+            <?php if ($current_page > 1) { ?>
+                <a href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page - 1 ?>"> <svg class="svg-w1 flip" viewBox="0 0 31.504 30.706">
+                        <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
+                    </svg>
+                    Previous </a>
+            <?php } ?>
+            <?php
+            for ($i = 1; $i <= $total_pages; $i++) {
+                if ($current_page == $i) {
+                    echo "<strong>$i</strong>";
+                } else {
+            ?>
+                    <a href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $i ?>"><?php echo $i ?> </a>
+            <?php
+
+                }
+            }
+            ?>
+
+            <?php if ($current_page < $total_pages) { ?>
+                <a href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page + 1 ?>"> Next <svg class="svg-w1" viewBox="0 0 31.504 30.706">
+                        <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
+                    </svg></a>
+            <?php } ?>
+
+
+        </div>
+
+    <?php
+
+
+
+
+    return $result;
 }

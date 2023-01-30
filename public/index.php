@@ -13,8 +13,9 @@ include(INCLUDES_PATH . "/header.php");
 
 
 
-//---------default call to DB------------
-$result = find_all_mtns();
+
+
+
 
 // FILTERING YOUR DB
 // $displayby = $_GET['displayby'];
@@ -63,7 +64,7 @@ $result = find_all_mtns();
     <!-- -----OR----- -->
 
     <div class="sort-list container ">
-      <ul class="d-flex p-3 fs-5 mb-4 text-light bg-dark justify-content-between">
+      <ul class="d-flex fs-5 p-0 mb-4 text-light gap-3 justify-content-flex-start flex-wrap">
         <?php
         // echo "<h2>2500m to 5000m high </h2>";
         // $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN 2500 AND 5000 LIMIT 4");
@@ -75,10 +76,10 @@ $result = find_all_mtns();
         // -------- filter height and render html ----------
         // filter_Height("<h2>3000m to 4000m high </h2>", 3000, 4000);
         ?>
-        <li>ALL</li>
-        <li>Volcanoes</li>
-        <li>Hike Access</li>
-        <li>Alberta Mountains</li>
+        <li class=" rounded-pill bg-dark p-3">ALL</li>
+        <li class=" rounded-pill bg-dark p-3">Volcanoes</li>
+        <li class=" rounded-pill bg-dark p-3">Hike Access</li>
+        <li class=" rounded-pill bg-dark p-3">Alberta Mountains</li>
       </ul>
     </div>
 
@@ -87,8 +88,13 @@ $result = find_all_mtns();
 </section>
 
 
+<?php
+// db call and pagination logic
+$result = pagination(6, "index"); ?>
 
-<div class="container p-0">
+
+
+<div class=" container p-0">
   <div class="p-0 d-flex justify-content-start gap-3 flex-wrap">
     <?php
     while ($row = mysqli_fetch_array($result)) {
@@ -141,6 +147,9 @@ $result = find_all_mtns();
     <?php
 
     }
+
+
+
     ?>
 
 

@@ -41,7 +41,7 @@ TODO:
 1. add rules to image upload. Restrict width and height so it fits correctly DONE ?
 
 
-4. clean up search, and add to query functions. Also style
+
 5. add filter options to mtn ribbon front-page
 6. Restore pagenation functionality on page view
 7. navbar dash does not work on edit page

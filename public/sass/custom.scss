@@ -257,7 +257,7 @@ svg {
 .home-card {
   flex: 1;
   min-width: 315px;
-  max-width: 450px;
+  max-width: 516px;
   .btn {
     width: 10rem;
     // width: 12rem;
@@ -352,6 +352,10 @@ svg {
   width: 2.5rem;
 }
 
+.svg-w1 {
+  width: 1.5rem;
+}
+
 .svg-btn {
   width: 1.5rem;
   fill: $light;
@@ -375,4 +379,14 @@ svg {
 
 form {
   max-width: 40rem;
+}
+
+.flip{
+  transform: scaleX(-1);
+}
+
+//pagination
+
+.pagination {
+  width: 10rem;
 }

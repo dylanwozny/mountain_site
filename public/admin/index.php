@@ -32,7 +32,7 @@ include(INCLUDES_PATH . "/header.php");
 
 <?php
 // --------call to DB function-------
-$result = find_all_mtns();
+$result = pagination(6, "/admin/index"); ?>
 ?>
 
 <section class="bg-light rounded-4 shadow-lg">
