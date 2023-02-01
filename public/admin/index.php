@@ -32,11 +32,16 @@ include(INCLUDES_PATH . "/header.php");
 
 <?php
 // --------call to DB function-------
-$result = pagination(6, "/admin/index"); ?>
+// db call and pagination logic
+$result = pagination(6, "admin/index");
+
+
 ?>
 
 <section class="bg-light rounded-4 shadow-lg">
     <h2 class="p-3">Current Mountains</h2>
+    <div class="d-flex p-3 justify-content-between pagination-container"> <?php pagination_Render($result['count'], $result['current'], $result['name']); ?></div>
+
     <table class="table">
         <thead class="bg-dark text-light p-3">
             <tr class="flex-md-row">
@@ -48,7 +53,7 @@ $result = pagination(6, "/admin/index"); ?>
         <tbody>
             <!-- render each row when fetching from SQL -->
             <?php
-            while ($row = mysqli_fetch_assoc($result)) {
+            while ($row = mysqli_fetch_assoc($result['mtns'])) {
                 $title = $row['title'];
                 $titleTruncate = truncate($title, 15);
                 // $description = $row['description'];
@@ -80,6 +85,7 @@ $result = pagination(6, "/admin/index"); ?>
             ?>
         </tbody>
     </table>
+    <div class="d-flex p-3 justify-content-between pagination-container"> <?php pagination_Render($result['count'], $result['current'], $result['name']); ?></div>
 </section>
 
 

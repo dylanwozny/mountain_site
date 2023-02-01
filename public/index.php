@@ -57,7 +57,7 @@ include(INCLUDES_PATH . "/header.php");
 
     <!---------- category filtering ---------->
     <h2>Mountain List</h2>
-    <span class="fw-light fs-3">Sort By</span>
+    <p class="fw-light fs-3">Sort By</p>
     <!-------------SEARCH BY SAME METHOD OF PERSONAL WEBSITE------------------------- --->
     <!-- make php put info into html of list cards and the filter with js-->
     <!-- same with other features of list ? height,access, etc. -->
@@ -76,28 +76,57 @@ include(INCLUDES_PATH . "/header.php");
         // -------- filter height and render html ----------
         // filter_Height("<h2>3000m to 4000m high </h2>", 3000, 4000);
         ?>
-        <li class=" rounded-pill bg-dark p-3">ALL</li>
-        <li class=" rounded-pill bg-dark p-3">Volcanoes</li>
-        <li class=" rounded-pill bg-dark p-3">Hike Access</li>
-        <li class=" rounded-pill bg-dark p-3">Alberta Mountains</li>
+        <li><a class=" rounded-pill  btn btn-dark p-3 d-block no-decoration" href="index.php">All</a></li>
+        <li><a class=" rounded-pill btn btn-dark p-3 d-block no-decoration " href="<?php echo WWW_ROOT . "/" . "index" ?>.php?filter=<?php echo "access" ?>">Hiking Access</a></li>
+        <li><a class=" rounded-pill btn btn-dark p-3 d-block no-decoration " href="<?php echo WWW_ROOT . "/" . "index" ?>.php?filter=<?php echo "province" ?>">Alberta</a></li>
+        <li><a class=" rounded-pill btn btn-dark p-3 d-block no-decoration " href="<?php echo WWW_ROOT . "/" . "index" ?>.php?filter=<?php echo "volcano" ?>">Volcanoes</a></li>
       </ul>
     </div>
 
+
+    <?php
+
+
+
+    // button filter logic
+    if (isset($_GET['filter'])) {
+      $filterCategory = $_GET['filter'];
+      $pageCategory = "";
+      $pageValue = "";
+      if ($filterCategory === "province") {
+        $pageCategory = "province";
+        $pageValue = "ab";
+      } elseif ($filterCategory === "access") {
+        $pageCategory = "access";
+        $pageValue = "hike";
+      } elseif ($filterCategory === "volcano") {
+        $pageCategory = "volcano";
+        $pageValue = 1;
+      }
+
+
+      echo $filterCategory . " " . $pageCategory . " " . $pageValue;
+      $result = pagination(6, "index", $pageCategory, $pageValue);
+    } else {
+      // db call and pagination logic
+      $result = pagination(6, "index");
+    }
+
+    ?>
 
   </div>
 </section>
 
 
 <?php
-// db call and pagination logic
-$result = pagination(6, "index"); ?>
 
 
-
-<div class=" container p-0">
+pagination_Render($result['count'], $result['current'], $result['name']);
+?>
+<div class=" container p-0 mb-4">
   <div class="p-0 d-flex justify-content-start gap-3 flex-wrap">
     <?php
-    while ($row = mysqli_fetch_array($result)) {
+    while ($row = mysqli_fetch_array($result['mtns'])) {
       $title = $row['title'];
       $titleTruncate = truncate($title, 15);
       $description = $row['description'];
@@ -147,14 +176,14 @@ $result = pagination(6, "index"); ?>
     <?php
 
     }
-
-
-
     ?>
-
-
   </div>
 </div>
+
+<?php
+pagination_Render($result['count'], $result['current'], $result['name']);
+?>
+
 
 <?php
 

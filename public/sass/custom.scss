@@ -381,12 +381,30 @@ form {
   max-width: 40rem;
 }
 
-.flip{
+.flip {
   transform: scaleX(-1);
 }
 
 //pagination
 
+.pagination-container {
+  width: 20rem;
+}
+
 .pagination {
   width: 10rem;
+}
+
+.fill-primary {
+  fill: $dark;
+}
+
+.fill-primary:hover {
+  fill: $primary;
+}
+
+//filter
+
+.no-decoration {
+  text-decoration: none;
 }

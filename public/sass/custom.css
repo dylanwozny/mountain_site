@@ -22075,7 +22075,23 @@ form {
   transform: scaleX(-1);
 }
 
+.pagination-container {
+  width: 20rem;
+}
+
 .pagination {
   width: 10rem;
+}
+
+.fill-primary {
+  fill: #252336;
+}
+
+.fill-primary:hover {
+  fill: #4caed2;
+}
+
+.no-decoration {
+  text-decoration: none;
 }
 /*# sourceMappingURL=custom.css.map */

@@ -194,7 +194,6 @@ function filter_Height($textTitle = "<h2>2500m to 5000m high </h2>", $lowest = 2
 }
 
 
-//---------- Filter mountains by category-----------
 
 
 // --------- Check if query succeeded ----------
@@ -600,14 +599,28 @@ function delete_mountain($mtnid)
 //-----------------PAGINATION---------------------
 //--------------------------------------------
 
+//---------- Filter mountains by category-----------
+
+function filter_mtns($category, $value)
+{
+    $sql = "SELECT * FROM dyl_mountains ";
+}
 
 
 //-------------- find only a limited amount of mountains (for pagination) ----------------
-function find_limited_mtns($limit = 0, $offset = 0)
+function find_limited_mtns($limit = 0, $offset = 0, $category = '', $categoryValue = '')
 {
     global $con;
-    $sql = "SELECT * FROM dyl_mountains ORDER BY title ASC";
-    //if limit and offset not given
+
+    // determine if there is a filter
+    if ($category && $categoryValue) {
+        $sql = "SELECT * FROM dyl_mountains WHERE {$category} = '{$categoryValue}' ORDER BY title ASC";
+        $sqlCount = "SELECT COUNT(*) FROM dyl_mountains WHERE {$category} = '{$categoryValue}' ORDER BY title ASC";
+    } else {
+        $sql = "SELECT * FROM dyl_mountains ORDER BY title ASC";
+        $sqlCount = "SELECT COUNT(*) FROM dyl_mountains ORDER BY title ASC";
+    }
+
     if ($limit > 0) {
         $sql .= " LIMIT " . db_escape($con, $limit);
     }
@@ -615,12 +628,31 @@ function find_limited_mtns($limit = 0, $offset = 0)
         $sql .= " OFFSET " . db_escape($con, $offset);
     }
 
+
+
+
+    // run query on db
     $mtn_result = mysqli_query($con, $sql);
+    $count_result = mysqli_fetch_array(mysqli_query($con, $sqlCount));
+
+
     //error handling
     confirm_result_set($mtn_result);
+    confirm_result_set($count_result);
 
-    return $mtn_result;
+
+
+    $mtns = [
+        'count' => $count_result['COUNT(*)'],
+        'result' => $mtn_result
+
+    ];
+
+
+    return $mtns;
 }
+
+
 
 
 // count amount of mountains
@@ -639,17 +671,18 @@ function find_count_mtns()
 }
 
 
-// create and calculate page amounts
-function pagination($per_page, $page_name)
+// Calculate number of pages and que Db
+function pagination($per_page, $page_name, $category = '', $categoryValue = '')
 {
     $current_page = (int) ($_GET['page'] ?? 1);
     $offset = $per_page * ($current_page - 1);
 
-    $result = find_limited_mtns($per_page, $offset);
+    $mtnResults = find_limited_mtns($per_page, $offset, $category, $categoryValue);
 
-
+    // echo "<br/>" . print_r($mtnResults);
     // mtn count
-    $total_count = find_count_mtns();
+    $total_count = $mtnResults['count'];
+    $mtns = $mtnResults['result'];
 
     // page count
     $total_pages = ceil($total_count / $per_page);
@@ -660,19 +693,34 @@ function pagination($per_page, $page_name)
         $current_page = 1;
     }
 
+    // packaging relevant information in an associative array.
+    $pageArray = [
+        'mtns' => $mtns,
+        'count' => $total_pages,
+        'current' => $current_page,
+        'name' => $page_name
+    ];
+
+    return $pageArray;
+}
+
+
+// rendering pagination
+function pagination_Render($total_pages, $current_page, $page_name)
+{
 
     ?>
 
 
-        <p class="fs-5"><?php echo "Page $current_page of $total_pages" ?></p>
+        <p class="fs-5 mb-1"><?php echo "Page $current_page of $total_pages" ?></p>
 
 
-        <div class="pagination d-flex justify-content-between fs-5">
+        <div class="pagination d-flex mb-4 justify-content-between fs-5">
             <?php if ($current_page > 1) { ?>
-                <a href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page - 1 ?>"> <svg class="svg-w1 flip" viewBox="0 0 31.504 30.706">
+                <a class="fill-primary" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page - 1 ?>"><svg class="svg-w1 flip" viewBox="0 0 31.504 30.706">
                         <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
                     </svg>
-                    Previous </a>
+                    <span class="ps-2">Previous</span></a>
             <?php } ?>
             <?php
             for ($i = 1; $i <= $total_pages; $i++) {
@@ -688,18 +736,15 @@ function pagination($per_page, $page_name)
             ?>
 
             <?php if ($current_page < $total_pages) { ?>
-                <a href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page + 1 ?>"> Next <svg class="svg-w1" viewBox="0 0 31.504 30.706">
+                <a class="fill-primary" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page + 1 ?>">
+                    <span class="pe-1 ">Next</span><svg class="svg-w1" viewBox="0 0 31.504 30.706">
                         <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
-                    </svg></a>
+                    </svg>
+                </a>
             <?php } ?>
 
 
         </div>
 
     <?php
-
-
-
-
-    return $result;
 }
