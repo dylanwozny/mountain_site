@@ -104,7 +104,7 @@ include(INCLUDES_PATH . "/header.php");
       }
 
 
-      echo $filterCategory . " " . $pageCategory . " " . $pageValue;
+
       $result = pagination(6, "index", $pageCategory, $pageValue);
     } else {
       // db call and pagination logic
@@ -119,7 +119,7 @@ include(INCLUDES_PATH . "/header.php");
 
 <?php
 
-echo  "isstring?" . $result['category'];
+
 
 pagination_Render($result['count'], $result['current'], $result['name'], $pageCategory);
 ?>

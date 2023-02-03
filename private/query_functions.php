@@ -647,12 +647,7 @@ function find_limited_mtns($limit = 0, $offset = 0, $category = '', $categoryVal
         'result' => $mtn_result
 
     ];
-    ?>
-        <pre>
-            <?php echo print_R($mtns['count']) . "<br>" . "$sql" . "</br>"; ?>
 
-    </pre>
-    <?php
     return $mtns;
 }
 
@@ -691,36 +686,31 @@ function pagination($per_page, $page_name, $category = '', $categoryValue = '')
     // page count
     $total_pages = ceil($total_count / $per_page);
 
-    echo $total_count;
-    echo $current_page;
-    ?>
-        <br>
-        <?php
-        echo $total_pages;
-        // page value check
-        if ($current_page < 1 || $current_page > $total_pages) {
-            $current_page = 1;
-        }
 
-        // packaging relevant information in an associative array.
-        $pageArray = [
-            'mtns' => $mtns,
-            'count' => $total_pages,
-            'current' => $current_page,
-            'name' => $page_name,
-            'category' => $category
-        ];
-
-        return $pageArray;
+    // page value check
+    if ($current_page < 1 || $current_page > $total_pages) {
+        $current_page = 1;
     }
 
+    // packaging relevant information in an associative array.
+    $pageArray = [
+        'mtns' => $mtns,
+        'count' => $total_pages,
+        'current' => $current_page,
+        'name' => $page_name,
+        'category' => $category
+    ];
 
-    // rendering pagination
-    function pagination_Render($total_pages, $current_page, $page_name, $filter)
-    {
+    return $pageArray;
+}
 
 
-        ?>
+// rendering pagination
+function pagination_Render($total_pages, $current_page, $page_name, $filter = '')
+{
+
+
+    ?>
 
 
         <p class="fs-5 mb-1"><?php echo "Page $current_page of $total_pages" ?></p>
@@ -758,4 +748,4 @@ function pagination($per_page, $page_name, $category = '', $categoryValue = '')
         </div>
 
     <?php
-    }
+}
