@@ -647,8 +647,12 @@ function find_limited_mtns($limit = 0, $offset = 0, $category = '', $categoryVal
         'result' => $mtn_result
 
     ];
+    ?>
+        <pre>
+            <?php echo print_R($mtns['count']) . "<br>" . "$sql" . "</br>"; ?>
 
-
+    </pre>
+    <?php
     return $mtns;
 }
 
@@ -656,19 +660,19 @@ function find_limited_mtns($limit = 0, $offset = 0, $category = '', $categoryVal
 
 
 // count amount of mountains
-function find_count_mtns()
-{
-    global $con;
-    $sql = "SELECT COUNT(*) FROM dyl_mountains";
+// function find_count_mtns()
+// {
+// global $con;
+// $sql = "SELECT COUNT(*) FROM dyl_mountains";
 
-    $mtn_result = mysqli_query($con, $sql);
-    //error handling
-    confirm_result_set($mtn_result);
+// $mtn_result = mysqli_query($con, $sql);
+// //error handling
+// confirm_result_set($mtn_result);
 
-    $array = mysqli_fetch_array($mtn_result);
+// $array = mysqli_fetch_array($mtn_result);
 
-    return $array['COUNT(*)'];
-}
+// return $array['COUNT(*)'];
+// }
 
 
 // Calculate number of pages and que Db
@@ -679,7 +683,7 @@ function pagination($per_page, $page_name, $category = '', $categoryValue = '')
 
     $mtnResults = find_limited_mtns($per_page, $offset, $category, $categoryValue);
 
-    // echo "<br/>" . print_r($mtnResults);
+    // echo "<br />" . print_r($mtnResults);
     // mtn count
     $total_count = $mtnResults['count'];
     $mtns = $mtnResults['result'];
@@ -687,29 +691,36 @@ function pagination($per_page, $page_name, $category = '', $categoryValue = '')
     // page count
     $total_pages = ceil($total_count / $per_page);
 
+    echo $total_count;
+    echo $current_page;
+    ?>
+        <br>
+        <?php
+        echo $total_pages;
+        // page value check
+        if ($current_page < 1 || $current_page > $total_pages) {
+            $current_page = 1;
+        }
 
-    // page value check
-    if ($current_page < 1 || $current_page > $total_pages) {
-        $current_page = 1;
+        // packaging relevant information in an associative array.
+        $pageArray = [
+            'mtns' => $mtns,
+            'count' => $total_pages,
+            'current' => $current_page,
+            'name' => $page_name,
+            'category' => $category
+        ];
+
+        return $pageArray;
     }
 
-    // packaging relevant information in an associative array.
-    $pageArray = [
-        'mtns' => $mtns,
-        'count' => $total_pages,
-        'current' => $current_page,
-        'name' => $page_name
-    ];
 
-    return $pageArray;
-}
+    // rendering pagination
+    function pagination_Render($total_pages, $current_page, $page_name, $filter)
+    {
 
 
-// rendering pagination
-function pagination_Render($total_pages, $current_page, $page_name)
-{
-
-    ?>
+        ?>
 
 
         <p class="fs-5 mb-1"><?php echo "Page $current_page of $total_pages" ?></p>
@@ -717,7 +728,7 @@ function pagination_Render($total_pages, $current_page, $page_name)
 
         <div class="pagination d-flex mb-4 justify-content-between fs-5">
             <?php if ($current_page > 1) { ?>
-                <a class="fill-primary" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page - 1 ?>"><svg class="svg-w1 flip" viewBox="0 0 31.504 30.706">
+                <a class="fill-primary" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page - 1 ?>&filter=<?php echo $filter ?>"><svg class="svg-w1 flip" viewBox="0 0 31.504 30.706">
                         <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
                     </svg>
                     <span class="ps-2">Previous</span></a>
@@ -728,7 +739,7 @@ function pagination_Render($total_pages, $current_page, $page_name)
                     echo "<strong>$i</strong>";
                 } else {
             ?>
-                    <a href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $i ?>"><?php echo $i ?> </a>
+                    <a href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $i ?>&filter=<?php echo $filter ?>"><?php echo $i ?> </a>
             <?php
 
                 }
@@ -736,7 +747,7 @@ function pagination_Render($total_pages, $current_page, $page_name)
             ?>
 
             <?php if ($current_page < $total_pages) { ?>
-                <a class="fill-primary" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page + 1 ?>">
+                <a class="fill-primary" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page + 1 ?>&filter=<?php echo $filter ?> ">
                     <span class="pe-1 ">Next</span><svg class="svg-w1" viewBox="0 0 31.504 30.706">
                         <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
                     </svg>
@@ -747,4 +758,4 @@ function pagination_Render($total_pages, $current_page, $page_name)
         </div>
 
     <?php
-}
+    }

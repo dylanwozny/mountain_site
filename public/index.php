@@ -85,14 +85,13 @@ include(INCLUDES_PATH . "/header.php");
 
 
     <?php
-
-
+    $pageCategory = "";
+    $pageValue = "";
 
     // button filter logic
     if (isset($_GET['filter'])) {
       $filterCategory = $_GET['filter'];
-      $pageCategory = "";
-      $pageValue = "";
+
       if ($filterCategory === "province") {
         $pageCategory = "province";
         $pageValue = "ab";
@@ -100,8 +99,8 @@ include(INCLUDES_PATH . "/header.php");
         $pageCategory = "access";
         $pageValue = "hike";
       } elseif ($filterCategory === "volcano") {
-        $pageCategory = "volcano";
-        $pageValue = 1;
+        $pageCategory = "is_volcano";
+        $pageValue = '1';
       }
 
 
@@ -120,9 +119,11 @@ include(INCLUDES_PATH . "/header.php");
 
 <?php
 
+echo  "isstring?" . $result['category'];
 
-pagination_Render($result['count'], $result['current'], $result['name']);
+pagination_Render($result['count'], $result['current'], $result['name'], $pageCategory);
 ?>
+
 <div class=" container p-0 mb-4">
   <div class="p-0 d-flex justify-content-start gap-3 flex-wrap">
     <?php
@@ -181,7 +182,7 @@ pagination_Render($result['count'], $result['current'], $result['name']);
 </div>
 
 <?php
-pagination_Render($result['count'], $result['current'], $result['name']);
+pagination_Render($result['count'], $result['current'], $result['name'], $pageCategory);
 ?>
 
 
