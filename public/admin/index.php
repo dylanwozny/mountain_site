@@ -40,7 +40,7 @@ $result = pagination(6, "admin/index");
 
 <section class="bg-light rounded-4 shadow-lg">
     <h2 class="p-3">Current Mountains</h2>
-    <div class="d-flex p-3 justify-content-between pagination-container"> <?php pagination_Render($result['count'], $result['current'], $result['name']); ?></div>
+    <div class="p-3 "> <?php pagination_Render($result['count'], $result['current'], $result['name']); ?></div>
 
     <table class="table">
         <thead class="bg-dark text-light p-3">
@@ -85,7 +85,7 @@ $result = pagination(6, "admin/index");
             ?>
         </tbody>
     </table>
-    <div class="d-flex p-3 justify-content-between pagination-container"> <?php pagination_Render($result['count'], $result['current'], $result['name']); ?></div>
+    <div class=" p-3 "> <?php pagination_Render($result['count'], $result['current'], $result['name']); ?></div>
 </section>
 
 

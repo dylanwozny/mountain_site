@@ -155,6 +155,14 @@ Styling will be a mix of overriding styles and utility classes..
     display: block;
   }
 
+  .dropdown-footer {
+    width: 8rem;
+  }
+
+  .dropdown-menu-footer {
+    width: 8rem;
+  }
+
   li,
   a {
     height: 69px;
@@ -207,6 +215,27 @@ Styling will be a mix of overriding styles and utility classes..
   }
 }
 
+.nav-link--dark {
+  background-color: $dark;
+  color: $light;
+  fill: $light;
+  padding: 0.5rem;
+
+  svg {
+    fill: $light;
+  }
+}
+
+.nav-link--dark:hover,
+.nav-link--dark:focus {
+  background-color: $light;
+  color: $dark;
+  fill: $dark;
+  svg {
+    fill: $dark;
+  }
+}
+
 .nav-search {
   margin-right: 1rem;
 }
@@ -216,6 +245,7 @@ Styling will be a mix of overriding styles and utility classes..
 }
 
 .nav-link,
+.nav-link--dark,
 .nav-search {
   svg {
     width: 1.75rem;
@@ -223,17 +253,25 @@ Styling will be a mix of overriding styles and utility classes..
   }
 }
 
-.search-form {
+.search-form,
+.search-form-footer {
   position: relative;
   svg {
     position: absolute;
     top: 0.7rem;
-    left: 0.75rem;
+    left: 1rem;
+  }
+}
+
+.search-form-footer {
+  svg {
+    left: 7rem;
   }
 }
 
 .search-form__input {
   padding-left: 3rem;
+  margin-left: 0.5rem;
 }
 
 //------------HOME--------------
@@ -367,6 +405,16 @@ svg {
   }
 }
 
+.btn-secondary--light {
+  background-color: $secondary;
+  color: $light;
+}
+
+.btn-secondary--light:hover {
+  background-color: $light;
+  color: $secondary;
+  border-color: $secondary;
+}
 //Utility classes
 
 .flex-align-center {
@@ -392,7 +440,7 @@ form {
 }
 
 .pagination {
-  width: 10rem;
+  max-width: 25rem;
 }
 
 .fill-primary {
@@ -407,4 +455,30 @@ form {
 
 .no-decoration {
   text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  margin-bottom: 3rem;
+}
+
+// footer
+
+.footer-nav {
+  > * {
+    flex: 1;
+  }
+  div {
+    min-width: 20rem;
+  }
+  ul {
+    min-width: 20rem;
+  }
+  aside {
+    max-width: 30rem;
+    min-width: 15rem;
+  }
 }

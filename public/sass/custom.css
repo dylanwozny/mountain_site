@@ -21876,6 +21876,12 @@ Styling will be a mix of overriding styles and utility classes..
 .navbar-nav .dropdown {
   display: block;
 }
+.navbar-nav .dropdown-footer {
+  width: 8rem;
+}
+.navbar-nav .dropdown-menu-footer {
+  width: 8rem;
+}
 .navbar-nav li,
 .navbar-nav a {
   height: 69px;
@@ -21922,6 +21928,27 @@ Styling will be a mix of overriding styles and utility classes..
   fill: #fbf9f8;
 }
 
+.nav-link--dark {
+  background-color: #252336;
+  color: #fbf9f8;
+  fill: #fbf9f8;
+  padding: 0.5rem;
+}
+.nav-link--dark svg {
+  fill: #fbf9f8;
+}
+
+.nav-link--dark:hover,
+.nav-link--dark:focus {
+  background-color: #fbf9f8;
+  color: #252336;
+  fill: #252336;
+}
+.nav-link--dark:hover svg,
+.nav-link--dark:focus svg {
+  fill: #252336;
+}
+
 .nav-search {
   margin-right: 1rem;
 }
@@ -21931,22 +21958,30 @@ Styling will be a mix of overriding styles and utility classes..
 }
 
 .nav-link svg,
+.nav-link--dark svg,
 .nav-search svg {
   width: 1.75rem;
   margin-right: 0.5rem;
 }
 
-.search-form {
+.search-form,
+.search-form-footer {
   position: relative;
 }
-.search-form svg {
+.search-form svg,
+.search-form-footer svg {
   position: absolute;
   top: 0.7rem;
-  left: 0.75rem;
+  left: 1rem;
+}
+
+.search-form-footer svg {
+  left: 7rem;
 }
 
 .search-form__input {
   padding-left: 3rem;
+  margin-left: 0.5rem;
 }
 
 .banner .banner__login {
@@ -22059,6 +22094,17 @@ svg {
   fill: #82756a;
 }
 
+.btn-secondary--light {
+  background-color: #82756a;
+  color: #fbf9f8;
+}
+
+.btn-secondary--light:hover {
+  background-color: #fbf9f8;
+  color: #82756a;
+  border-color: #82756a;
+}
+
 .flex-align-center {
   display: flex;
   align-items: center;
@@ -22080,7 +22126,7 @@ form {
 }
 
 .pagination {
-  width: 10rem;
+  max-width: 25rem;
 }
 
 .fill-primary {
@@ -22093,5 +22139,27 @@ form {
 
 .no-decoration {
   text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  margin-bottom: 3rem;
+}
+
+.footer-nav > * {
+  flex: 1;
+}
+.footer-nav div {
+  min-width: 20rem;
+}
+.footer-nav ul {
+  min-width: 20rem;
+}
+.footer-nav aside {
+  max-width: 30rem;
+  min-width: 15rem;
 }
 /*# sourceMappingURL=custom.css.map */

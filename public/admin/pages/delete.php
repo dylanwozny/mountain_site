@@ -40,14 +40,14 @@ if (is_post_request()) {
 
     <h2 class="mb-0">Delete</h2>
 </div>
-<a class="back-link mb-3" href="<?php echo BASE_URL ?>publSic/admin/index.php">&laquo; BACK HOME</a>
+<a class="back-link mb-3" href="<?php echo BASE_URL ?>public/admin/index.php">&laquo; BACK HOME</a>
 
 
 <p class="fst-italic fs-5 mb-5">Are you sure you want to delete <span class="fs-4 fst-italic fw-bold"><?php echo h($mtnData['title']) ?>?</span></p>
 <form class="d-flex " action="<?php echo "delete.php?mtn_id=" . h(u($mtnData['mtn_id'])); ?>" method="POST">
     <input class=" btn btn-danger me-5" type="submit" name="commit" value="Delete">
-    <a class="btn btn-outline-dark" href="<?php echo BASE_URL ?>public/admin/index.php">Cancel</a>
+    <a class="btn btn-outline-secondary" href="<?php echo BASE_URL ?>public/admin/index.php">Cancel</a>
 </form>
 
 
-<!-- <?php include(INCLUDES_PATH . "/footer.php"); ?> -->
+<?php include(INCLUDES_PATH . "/footer.php"); ?>

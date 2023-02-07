@@ -171,7 +171,7 @@ pagination_Render($result['count'], $result['current'], $result['name'], $pageCa
           </p>
         </div>
 
-        <div class="p-3 ms-auto"><a href=<?php echo "\"page.php?mtn_id=" . h(u($mtnId)) . "\"" ?> class='left-auto btn btn-secondary d-block'>Details</a></div>
+        <div class="p-3 ms-auto"><a href=<?php echo "\"page.php?mtn_id=" . h(u($mtnId)) . "\"" ?> class='left-auto btn btn-primary d-block'>Details</a></div>
 
       </div>
     <?php

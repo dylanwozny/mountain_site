@@ -34,10 +34,18 @@ to be done....
 
 ##IMAGES
 
+PROBLEM: images must have apsect ratio to fit cards and work with css
+SOLUTION: crop and resize in php --or-- limit image uploads to be 1:1 square images.
+
 1. makes an original image and creates a thumbnail that is cropped to fit cards on front page.
+2. thumbnail  calculates height and then crops image with black bars at the top and bottom. Making sure the aspect ratio in kept to fit list cards.
 
 TODO: 
 
-7. navbar dash does not work on edit page
-8. scroll to card position front page
-9. update photos of mountains and add more mountains
+
+
+8. scroll to card position front page -- might use ajax -- 
+9. get a vertical rhythm going
+11. remove debug code and sanitize pagination stuff
+12. update adobe xd to be presentable
+13. run through html validation and best seo practices

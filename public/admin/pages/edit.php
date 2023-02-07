@@ -7,7 +7,7 @@ require_once("../../../private/initialize.php");
 $page_title = "Edit Mountain";
 
 //put after vars so page title is read
-include(INCLUDES_PATH . "/header.php");
+include(PRIVATE_PATH . '/includes/header.php');
 
 if (!(isset($_SESSION["x5ghy789soci"]))) {
     redirect_to(WWW_ROOT . "/index.php");
@@ -334,7 +334,7 @@ function RadioCheck($access, $value)
             <div class="d-flex justify-content-between flex-wrap">
                 <div class="form-group me-5">
                     <input type="submit" name="submit" class=" btn btn-primary" value="Edit">
-                    <a class="btn btn-outline-dark" href="../index.php"> Cancel</a>
+                    <a class="btn btn-outline-secondary" href="../index.php"> Cancel</a>
                 </div>
                 <div>
                     <a class="btn btn-danger" href="delete.php?mtn_id=<?php echo h($mtnId); ?>">Delete</a>
@@ -348,4 +348,4 @@ function RadioCheck($access, $value)
 
     ?>
 </div>
-<!-- <?php include(INCLUDES_PATH . "/footer.php"); ?> -->
+<?php include(INCLUDES_PATH . "/footer.php"); ?>
