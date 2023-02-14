@@ -33,7 +33,7 @@ if (isset($_GET['search-item'])) {
 
         <div class="form-group mb-4">
 
-            <input type="submit" name="submit" class="btn btn-primary" value="search">
+            <input type="submit" name="submit" class="btn btn-secondary" value="search">
             <label for="submit"></label>
         </div>
     </form>

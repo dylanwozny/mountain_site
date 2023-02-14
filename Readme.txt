@@ -19,15 +19,22 @@ Sass
 3. link the min.map.css in header.
 4. use custom.scss to modify vars and add new styles
 
-SASS and Boostrap
+##SASS and Boostrap
 
 - utilized utility api to extend and modify utility classes. 
 - created custom variables
 - have some custom css as-well
 - utilized various bootstrap mixins
 
-Vertical-rhythm
-to be done....
+##Vertical-rhythm
+
+Feature a baseline with vertical rhythm and responsive type.
+
+Spacing is a modified bootstrap map to match baseline spacing so p-1 m-1 etc. are increments of baseline.
+
+typographic scale of 1.25 major third.
+
+
 
 
 #PHP
@@ -49,3 +56,23 @@ TODO:
 11. remove debug code and sanitize pagination stuff
 12. update adobe xd to be presentable
 13. run through html validation and best seo practices
+14. 404 page and 404 avalanche svg
+15. logout timer
+16. find a page layout that works better
+17 add header photo of mountain
+
+
+---Vertical rhythm---
+
+
+
+https://iamsteve.me/blog/a-guide-to-vertical-rhythm
+FLUID doesnt work well with vertical rhythm. Decide between fluid or responsive design
+if RESPONSIVE use break points to change font size and DO NOT use clamp(), or change line height with function ?
+imgs need to work with responsive break points. not fluid.
+THIS PROJECT KEPT FLUID. To much work to redesign into fluid. Especially with bootstrap
+
+1. choose font family DONE
+2. set default font-size DONE 16px
+3. 24px baseline grid
+

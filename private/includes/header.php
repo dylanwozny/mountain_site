@@ -27,7 +27,7 @@ if (!isset($page_title)) {
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Source+Serif+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 
 
@@ -46,7 +46,7 @@ if (!isset($page_title)) {
   <!--  Note how we can use WWW_ROOT constant to resolve all links no matter where the file resides. -->
   <!-- FOR DEVELOPMENT USE LOCAL BOOTSTRAP SO INTELLESENSE WORKS -->
   <link href="<?php echo WWW_ROOT ?>/css/reset.css" rel="stylesheet">
-  <link href="<?php echo WWW_ROOT ?>/css/normalize.css" rel="stylesheet">
+
   <link href="<?php echo WWW_ROOT ?>/css/custom.min.css" rel="stylesheet">
 
 
@@ -57,8 +57,8 @@ if (!isset($page_title)) {
 
 </head>
 
-<body>
-  <div class="shadow-sm border border-bottom sticky-top bg-light mb-5">
+<body class="d-flex flex-column">
+  <div class="shadow-sm border border-bottom sticky-top bg-light mb-6">
 
     <div class="container">
       <nav class="navbar f navbar-expand-lg navbar-light pb-0 pt-0">
@@ -95,7 +95,7 @@ if (!isset($page_title)) {
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class=" navbar-nav mr-auto w-100 align-items-center">
             <!-- WWW_ROOT is the root path constant -->
-            <li class="nav-item active border-top  ">
+            <li class="nav-item active">
               <a class="nav-link" href="<?php echo WWW_ROOT ?>/index.php"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.281 22.77">
                   <path d="M14.251,8.161,4.88,15.879V24.21a.813.813,0,0,0,.813.813l5.7-.015A.813.813,0,0,0,12.2,24.2V19.33a.813.813,0,0,1,.813-.813h3.253a.813.813,0,0,1,.813.813v4.862a.813.813,0,0,0,.813.816l5.694.016a.813.813,0,0,0,.813-.813V15.874l-9.37-7.713A.62.62,0,0,0,14.251,8.161Zm14.8,5.246-4.25-3.5V2.863a.61.61,0,0,0-.61-.61H21.349a.61.61,0,0,0-.61.61V6.554L16.188,2.81a2.44,2.44,0,0,0-3.1,0L.22,13.407a.61.61,0,0,0-.081.859l1.3,1.576a.61.61,0,0,0,.86.083L14.251,6.077a.62.62,0,0,1,.778,0l11.957,9.848a.61.61,0,0,0,.859-.081l1.3-1.576a.61.61,0,0,0-.086-.861Z" transform="translate(0.001 -2.254)" />
                 </svg>Home</a>
@@ -133,7 +133,7 @@ if (!isset($page_title)) {
               }
               ?>
             </li>
-            <li class="ms-auto  border-bottom nav-search pl-lg-4 pb-2 pt-2">
+            <li class="ms-auto  border-bottom nav-search pl-lg-4 pb-1 pt-1">
               <form class="d-flex search-form " action="<?php echo WWW_ROOT  ?>/search.php?search-item=<?php echo h(u($searchTerm)) ?>">
                 <input class="form-control me-2 ms-0  search-form__input" name="search-item" type="search" placeholder="mountain names" aria-label="Search">
                 <svg role="img" viewBox="0 0 35.997 36.004">
@@ -159,5 +159,5 @@ if (!isset($page_title)) {
 
 
 
-  <main role="main" class="container">
+  <main role="main" class="mb-5 container flex-grow-1">
     <?php echo display_session_message() ?>

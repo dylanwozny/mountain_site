@@ -21,19 +21,25 @@ $font-size-base: 1rem;
 $line-height-base: 1.5;
 
 // headings
-$headings-font-family: "Merriweather", serif;
-$headings-font-style: "Merriweather", serif;
+$headings-font-family: "Source Serif Pro", serif;
+$headings-font-style: "Source Serif Pro", serif;
 $headings-font-weight: 700;
 
 //links
 $link-color: $primary;
 
-// heading font sizes. Responsive by default in bootstrap
+// ----HEADINGS----- font sizes. Responsive by default in bootstrap
 $h1-font-size: 3.052rem;
 $h2-font-size: 2.441rem;
 $h3-font-size: 1.953rem;
 $h4-font-size: 1.563rem;
 $h5-font-size: 1.25rem;
+// og found in sass vars
+$headings-line-height: 1.3;
+$headings-margin-bottom: 1.38rem;
+
+//p
+$paragraph-margin-bottom: 0.75rem;
 
 //buttons
 $btn-font-weight: 600;
@@ -44,16 +50,28 @@ $btn-border-radius: 0.25rem;
 // forms
 $input-border-width: 1px;
 
-//button vars
-
 //navbar
 $dropdown-bg: $light;
 $navbar-margin-y: 1.5rem;
 $navbar-light-active-color: $light;
 
 //spacing vertical rythemn
-$spacer-2: 2rem;
-$spacer-3: 3rem;
+$base-line: 1.5rem;
+//responsive baseline
+// $base-line-responsive:(1.5rem, 7vw, 3rem);
+
+// adding my own spacing to match basline
+$spacer: 1.5rem !default;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.5,
+  2: $spacer,
+  3: $spacer * 1.5,
+  4: $spacer * 2,
+  5: $spacer * 2.5,
+  6: $spacer * 3,
+  7: $spacer * 3.5,
+) !default;
 
 // Required
 @import "../../node_modules/bootstrap/scss/variables";
@@ -62,7 +80,13 @@ $spacer-3: 3rem;
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "../../node_modules/bootstrap/scss/utilities";
-d
+
+// ----------Vertical Rhythm-----------
+// baseline = line height x base font = 1.5 x 16 = 24px or 1.5rem
+
+// modifying the RFS in sass using functions and mixins
+// https://github.com/twbs/rfs/tree/v9.0.3
+
 // creating my own map utilities
 .fs-heading {
   font-family: $headings-font-family;
@@ -96,6 +120,21 @@ $utilities: map-merge(
 Styling will be a mix of overriding styles and utility classes..
 */
 
+body {
+  background-image: linear-gradient(#0ff 1px, transparent 1px);
+  background-size: auto $base-line;
+  line-height: 1.5;
+}
+
+// responsive vertical Rhythm function
+@function responsiveVr($multiple) {
+  @return calc(($base-line) * (#{$multiple}));
+}
+
+h1 {
+  margin-bottom: 1.9rem;
+}
+
 // font smoothing
 * {
   -webkit-font-smoothing: antialiased;
@@ -126,6 +165,10 @@ Styling will be a mix of overriding styles and utility classes..
 
 //----------NAVBAR-------------
 
+.btn-outline-secondary:hover {
+  color: $light;
+}
+
 .nav-logout {
   order: 5;
 }
@@ -146,6 +189,7 @@ Styling will be a mix of overriding styles and utility classes..
 //center align for navlinks
 .navbar-nav {
   font-size: $font-size-lg;
+
   .dropdown-menu {
     top: 69px;
     right: -33px;
@@ -165,7 +209,6 @@ Styling will be a mix of overriding styles and utility classes..
 
   li,
   a {
-    height: 69px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -219,7 +262,8 @@ Styling will be a mix of overriding styles and utility classes..
   background-color: $dark;
   color: $light;
   fill: $light;
-  padding: 0.5rem;
+  padding: 0.75rem;
+  line-height: 1.62;
 
   svg {
     fill: $light;
@@ -440,7 +484,7 @@ form {
 }
 
 .pagination {
-  max-width: 25rem;
+  // max-width: 25rem;
 }
 
 .fill-primary {
@@ -481,4 +525,11 @@ main {
     max-width: 30rem;
     min-width: 15rem;
   }
+}
+
+// anchor footer to bottom of page
+
+html,
+body {
+  min-height: 100vh;
 }

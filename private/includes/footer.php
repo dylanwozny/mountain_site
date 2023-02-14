@@ -1,9 +1,9 @@
 </main>
-<div class="shadow-sm border border-bottom bg-dark text-light pt-4 pb-4">
+<footer class="shadow-sm border border-bottom bg-dark text-light pt-4 pb-4">
 
 	<div class="container">
 		<nav class="footer-nav d-flex pb-0 pt-0 align-items-start gap-3 flex-wrap">
-			<div class="d-flex align-items-center mt-3 mb-3">
+			<div class="d-flex align-items-center">
 				<a href="<?php echo WWW_ROOT ?>/index.php">
 					<svg viewBox="5 5 65 55">
 						<defs>
@@ -72,7 +72,7 @@
 				</li>
 
 			</ul>
-			<aside class="justify-content-start nav-search  pb-2 pt-2 me-0">
+			<aside class="justify-content-start nav-search  pb-2 pt-0 me-0">
 				<form class="d-flex search-form-footer " action="<?php echo WWW_ROOT  ?>/search.php?search-item=<?php echo h(u($searchTerm)) ?>">
 					<button class="btn btn-secondary--light search-form__button" type="submit">Search</button>
 					<input class="form-control   search-form__input" name="search-item" type="search" placeholder="mountain names" aria-label="Search">
@@ -84,23 +84,24 @@
 			</aside>
 		</nav>
 	</div>
-</div>
 
-<?php
-if (is_post_request()) {
-	if (isset($_POST['search-item'])) {
-		$searchTerm = $_POST['search-item'];
+
+	<?php
+	if (is_post_request()) {
+		if (isset($_POST['search-item'])) {
+			$searchTerm = $_POST['search-item'];
+		}
 	}
-}
 
 
-?>
+	?>
 
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script>
-	src = "./node_modules/bootstrap/dist/js/bootstrap.js"
-</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script>
+		src = "./node_modules/bootstrap/dist/js/bootstrap.js"
+	</script>
+</footer>
 
 </body>
 

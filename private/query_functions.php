@@ -112,7 +112,7 @@ function search_create_list($searchTerm)
                                 </p>
                             </div>
 
-                            <div class="p-3 ms-auto"><a href=<?php echo "\"page.php?mtn_id=" . h(u($mtnId)) . "\"" ?> class='left-auto btn btn-secondary d-block'>Details</a></div>
+                            <div class="p-3 ms-auto"><a href=<?php echo "\"page.php?mtn_id=" . h(u($mtnId)) . "\"" ?> class='left-auto btn btn-primary d-block'>Details</a></div>
 
                         </div>
 
@@ -715,23 +715,23 @@ function pagination_Render($total_pages, $current_page, $page_name, $filter = ''
     ?>
 
 
-        <p class="fs-5 mb-1"><?php echo "Page $current_page of $total_pages" ?></p>
+        <p class="fs-5 mb-0"><?php echo "Page $current_page of $total_pages" ?></p>
 
 
-        <div class="pagination d-flex mb-4 fs-5 flex-wrap ">
+        <div class="pagination d-flex mb-1 fs-5 flex-wrap ">
             <?php if ($current_page > 1) { ?>
-                <a class="fill-primary p-3" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page - 1 ?>&filter=<?php echo $filter ?>"><svg class="svg-w1 flip" viewBox="0 0 31.504 30.706">
+                <a class="fill-primary pr-1 d-flex align-items-center" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page - 1 ?>&filter=<?php echo $filter ?>"><svg class="svg-w1 flip" viewBox="0 0 31.504 30.706">
                         <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
                     </svg>
-                    <span class="ps-2">Previous</span></a>
+                    <span class="ps-1">Previous</span></a>
             <?php } ?>
             <?php
             for ($i = 1; $i <= $total_pages; $i++) {
                 if ($current_page == $i) {
-                    echo "<strong class=\"p-3\">$i</strong>";
+                    echo "<strong class=\"p-1\">$i</strong>";
                 } else {
             ?>
-                    <a class="p-3" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $i ?>&filter=<?php echo $filter ?>"><?php echo $i ?> </a>
+                    <a class="p-1" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $i ?>&filter=<?php echo $filter ?>"><?php echo $i ?> </a>
             <?php
 
                 }
@@ -739,7 +739,7 @@ function pagination_Render($total_pages, $current_page, $page_name, $filter = ''
             ?>
 
             <?php if ($current_page < $total_pages) { ?>
-                <a class="fill-primary p-3" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page + 1 ?>&filter=<?php echo $filter ?> ">
+                <a class="fill-primary p-1 d-flex align-content-center" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page + 1 ?>&filter=<?php echo $filter ?> ">
                     <span class="pe-1 ">Next</span><svg class="svg-w1" viewBox="0 0 31.504 30.706">
                         <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
                     </svg>
