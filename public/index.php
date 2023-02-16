@@ -66,15 +66,6 @@ include(INCLUDES_PATH . "/header.php");
     <div class="sort-list container ">
       <ul class="d-flex fs-5 p-0 mb-4 text-light gap-1 justify-content-flex-start flex-wrap">
         <?php
-        // echo "<h2>2500m to 5000m high </h2>";
-        // $heightLow = mysqli_query($con, "SELECT * FROM dyl_mountains WHERE height BETWEEN 2500 AND 5000 LIMIT 4");
-        // while ($row = mysqli_fetch_array($heightLow)) {
-        //   $title = $row['title'];
-        //   $mtnId = $row['mtn_id'];
-        //   echo "<div><a href=\"page.php?mtn_id=$mtnId\"><p>" . $title . "</p></a></div>";
-        // }
-        // -------- filter height and render html ----------
-        // filter_Height("<h2>3000m to 4000m high </h2>", 3000, 4000);
         ?>
         <li><a class=" rounded-pill  btn btn-dark p-1 d-block no-decoration" href="index.php">All</a></li>
         <li><a class=" rounded-pill btn btn-dark p-1 d-block no-decoration " href="<?php echo WWW_ROOT . "/" . "index" ?>.php?filter=<?php echo "access" ?>">Hiking Access</a></li>

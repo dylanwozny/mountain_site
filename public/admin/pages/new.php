@@ -166,16 +166,16 @@ function RadioCheck($access, $value)
 
 
 
-<header class=" d-flex align-items-center mb-4">
-    <svg class="svg-w2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.813 39.813">
+<header class=" d-flex align-items-center">
+    <svg class="svg-w2 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.813 39.813">
         <path id="Icon_awesome-plus" data-name="Icon awesome-plus" d="M36.969,20.328h-12.8V7.531a2.844,2.844,0,0,0-2.844-2.844H18.484a2.844,2.844,0,0,0-2.844,2.844v12.8H2.844A2.844,2.844,0,0,0,0,23.172v2.844a2.844,2.844,0,0,0,2.844,2.844h12.8v12.8A2.844,2.844,0,0,0,18.484,44.5h2.844a2.844,2.844,0,0,0,2.844-2.844v-12.8h12.8a2.844,2.844,0,0,0,2.844-2.844V23.172A2.844,2.844,0,0,0,36.969,20.328Z" transform="translate(0 -4.688)" />
     </svg>
 
     <h1 class="ms-2"><?php echo "{$page_title}" ?></h1>
 
 </header>
-<a class="" href="../index.php" class="back-link">&laquo; back to dashboard</a>
-<section class="edit-form border shadow-lg p-4 mt-2">
+<a class="fs-5 d-block mb-2" href="../index.php" class="back-link">&laquo; back to dashboard</a>
+<section class="edit-form border shadow-lg p-3 pt-4">
 
     <?php
     if ($userPrompt) {
@@ -228,7 +228,7 @@ function RadioCheck($access, $value)
             <?php if (isset($errors['mtn_img'])) {
                 echo " <p class=\"alert alert-danger\">" . "{$errors['mtn_img']}" . "</p>";
             } ?>
-            <div class="mb-4" id="pageImg"><img src="../../uploads/thumbnails/<?php echo h($mtnData['mtn_image']); ?>" /></div>
+            <div class="mb-2" id="pageImg"><img src="../../uploads/thumbnails/<?php echo h($mtnData['mtn_image']); ?>" /></div>
 
         </div>
 
@@ -255,7 +255,7 @@ function RadioCheck($access, $value)
         </div>
         <!-- NEED THIS FOR CHECK BOX -->
         <div class="form-check mb-3">
-            <label class="form-check-label" for="is-volcano">Is Volcano:</label>
+            <label class="form-check-label" for="is-volcano">Is a Volcano</label>
             <input type="hidden" name="is-volcano" id="is-volcano" value="0">
             <input type="checkbox" name="is-volcano" id="is-volcano" class="form-check-input" value="1" <?php if ($mtnData["is_volcano"] == "1") {
                                                                                                             echo "checked";
@@ -266,7 +266,7 @@ function RadioCheck($access, $value)
 
 
 
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label for="access">Access:</label>
             <input type="hidden" name="access" id="access" class="form-control" value="0">
             <div class="form-check">
@@ -301,7 +301,7 @@ function RadioCheck($access, $value)
         </div>
         <div class="form-group">
             <label for="submit"></label>
-            <input type="submit" name="submit" class="btn btn-primary me-3" value="Add">
+            <input type="submit" name="submit" class="btn btn-primary me-2" value="Add">
             <a class="btn btn-outline-secondary" href="../index.php"> Cancel</a>
         </div>
     </form>

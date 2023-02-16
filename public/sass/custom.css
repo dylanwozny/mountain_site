@@ -23251,8 +23251,28 @@ body {
   line-height: 1.5;
 }
 
-h1, .h1 {
+h1, .h1,
+.fs-1 {
   margin-bottom: 1.9rem;
+  line-height: 1.3;
+}
+
+h2, .h2,
+.fs-2 {
+  line-height: 1.27;
+}
+
+.fs-3 {
+  line-height: 1.5;
+}
+
+.fs-4 {
+  line-height: 1.3;
+}
+
+.fs-5 {
+  line-height: 1.25;
+  font-size: clamp(1rem, 4vw, 1.25rem) !important;
 }
 
 * {
@@ -23320,7 +23340,7 @@ h1, .h1 {
   font-size: 1.25rem;
 }
 .navbar-nav .dropdown-menu {
-  top: 69px;
+  top: 55px;
   right: -33px;
 }
 .navbar-nav .dropdown {
@@ -23329,8 +23349,18 @@ h1, .h1 {
 .navbar-nav .dropdown-footer {
   width: 8rem;
 }
-.navbar-nav .dropdown-menu-footer {
+.navbar-nav .dropdown-menu {
   width: 8rem;
+  min-width: 10rem;
+  border: 2px #fbf9f8 solid;
+}
+.navbar-nav .dropdown-item {
+  padding: 0.75rem;
+}
+.navbar-nav .dropdown-item:hover,
+.navbar-nav .dropdown-item:focus {
+  color: #fbf9f8;
+  background-color: #252336;
 }
 .navbar-nav li,
 .navbar-nav a {
@@ -23367,22 +23397,28 @@ h1, .h1 {
 }
 
 .nav-link:hover,
-.navlink:focus {
+.navlink:focus,
+.navlink:active {
   background-color: #252336;
   color: #fbf9f8;
   fill: #fbf9f8;
 }
 .nav-link:hover svg,
-.navlink:focus svg {
+.navlink:focus svg,
+.navlink:active svg {
   fill: #fbf9f8;
+}
+
+.nav-link,
+.nav-link--dark {
+  padding: 0.75rem;
+  line-height: 1.62;
 }
 
 .nav-link--dark {
   background-color: #252336;
   color: #fbf9f8;
   fill: #fbf9f8;
-  padding: 0.75rem;
-  line-height: 1.62;
 }
 .nav-link--dark svg {
   fill: #fbf9f8;
@@ -23426,7 +23462,7 @@ h1, .h1 {
 }
 
 .search-form-footer svg {
-  left: 7rem;
+  left: 1rem;
 }
 
 .search-form__input {
@@ -23462,9 +23498,6 @@ svg {
   background: gray;
 }
 
-.page-mtn__content {
-  padding: 2rem;
-}
 .page-mtn__content svg {
   width: 1.5rem;
 }
@@ -23514,10 +23547,6 @@ svg {
   width: 1.5rem;
 }
 
-.table-mtn__head--pl {
-  padding-left: 1rem !important;
-}
-
 .edit-form,
 .new-form {
   max-width: 40rem;
@@ -23528,7 +23557,7 @@ svg {
 }
 
 .svg-w2 {
-  width: 2.5rem;
+  width: 2rem;
 }
 
 .svg-w1 {
@@ -23612,5 +23641,9 @@ main {
 html,
 body {
   min-height: 100vh;
+}
+
+td {
+  vertical-align: middle;
 }
 /*# sourceMappingURL=custom.css.map */

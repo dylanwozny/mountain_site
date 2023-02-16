@@ -109,7 +109,7 @@ if (!isset($page_title)) {
                     <path d="M4.5,35H28.9V4.5H4.5Zm0,24.4H28.9V41.1H4.5Zm30.5,0h24.4V28.9H35ZM35,4.5V22.8h24.4V4.5Z" transform="translate(-4.5 -4.5)" />
                   </svg>
                   Admin</a>
-                <div class="dropdown-menu p-0" aria-labelledby="dropdown01">
+                <div class="dropdown-menu p-0 border-2 border-dark" aria-labelledby="dropdown01">
                   <a class="dropdown-item" href="<?php echo WWW_ROOT ?>/admin/index.php">Dashboard</a>
                 </div>
               </li>
@@ -135,7 +135,7 @@ if (!isset($page_title)) {
             </li>
             <li class="ms-auto  border-bottom nav-search pl-lg-4 pb-1 pt-1">
               <form class="d-flex search-form " action="<?php echo WWW_ROOT  ?>/search.php?search-item=<?php echo h(u($searchTerm)) ?>">
-                <input class="form-control me-2 ms-0  search-form__input" name="search-item" type="search" placeholder="mountain names" aria-label="Search">
+                <input class="form-control ms-0 border-end-0 border search-form__input" name="search-item" type="search" placeholder="mountain names" aria-label="Search">
                 <svg role="img" viewBox="0 0 35.997 36.004">
                   <path id="Icon_awesome-search-2" data-name="Icon awesome-search" d="M35.508,31.127l-7.01-7.01a1.686,1.686,0,0,0-1.2-.492H26.156a14.618,14.618,0,1,0-2.531,2.531V27.3a1.686,1.686,0,0,0,.492,1.2l7.01,7.01a1.681,1.681,0,0,0,2.384,0l1.99-1.99a1.7,1.7,0,0,0,.007-2.391Zm-20.883-7.5a9,9,0,1,1,9-9A8.995,8.995,0,0,1,14.625,23.625Z" />
                 </svg>
