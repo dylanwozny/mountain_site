@@ -26051,6 +26051,17 @@ svg {
 .new-form .form-group {
   margin-bottom: 1.5rem;
 }
+.edit-form textarea,
+.new-form textarea {
+  height: 7.5rem;
+}
+.edit-form input[type=text],
+.edit-form input[type=number],
+.new-form input[type=text],
+.new-form input[type=number] {
+  padding: 0rem;
+  height: 3rem;
+}
 
 .svg-w2 {
   width: 2rem;
@@ -26150,4 +26161,10 @@ body {
 
 td {
   vertical-align: middle;
+}
+
+.avalanche-svg {
+  width: 75%;
+  margin: 0 auto;
+  display: block;
 }/*# sourceMappingURL=custom.min.css.map */

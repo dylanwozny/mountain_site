@@ -302,7 +302,7 @@ function RadioCheck($access, $value)
         <div class="form-group">
             <label for="submit"></label>
             <input type="submit" name="submit" class="btn btn-primary me-2" value="Add">
-            <a class="btn btn-outline-secondary" href="../index.php"> Cancel</a>
+            <a class="btn btn-secondary" href="../index.php"> Cancel</a>
         </div>
     </form>
 

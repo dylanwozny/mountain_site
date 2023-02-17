@@ -457,13 +457,22 @@ svg {
   // padding-left: 1rem !important;
 }
 
-//edit
-
+//-----------FORM EDIT/NEW----------------------
 .edit-form,
 .new-form {
   max-width: 40rem;
   .form-group {
     margin-bottom: 1.5rem;
+  }
+
+  textarea {
+    height: 7.5rem;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    padding: 0rem;
+    height: 3rem;
   }
 }
 
@@ -575,4 +584,15 @@ body {
 
 td {
   vertical-align: middle;
+}
+
+// 404
+
+.avalanche-svg {
+  width: 75%;
+  margin: 0 auto;
+  display: block;
+}
+
+.h1-page-not-found {
 }

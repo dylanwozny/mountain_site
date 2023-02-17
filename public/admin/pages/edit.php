@@ -209,8 +209,8 @@ function RadioCheck($access, $value)
     </svg>
     <?php echo "<h2 class='mb-0'>" . h($page_title) .   "</h2>"; ?>
 </header>
-<a class="" href="../index.php" class="back-link pb-1">&laquo; back to dashboard</a>
-<div class="edit-form border shadow-lg p-4 mt-2">
+<a class="back-link fs-5 mb-2 d-block" href="../index.php">&laquo; back to dashboard</a>
+<div class="edit-form border shadow-lg p-4">
     <div class="">
         <?php
         if ($userPrompt) {
@@ -334,7 +334,7 @@ function RadioCheck($access, $value)
             <div class="d-flex justify-content-between flex-wrap">
                 <div class="form-group me-5">
                     <input type="submit" name="submit" class=" btn btn-primary" value="Edit">
-                    <a class="btn btn-outline-secondary" href="../index.php"> Cancel</a>
+                    <a class="btn btn-secondary" href="../index.php"> Cancel</a>
                 </div>
                 <div>
                     <a class="btn btn-danger" href="delete.php?mtn_id=<?php echo h($mtnId); ?>">Delete</a>
