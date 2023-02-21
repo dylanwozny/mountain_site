@@ -57,8 +57,20 @@ if (!isset($page_title)) {
 
 </head>
 
+<!-- variables to set that effect fullscreen layout of homepage -->
+<?php
+$mainHtml = '<main role="main" class="mb-5 container flex-grow-1">';
+$navMargin = "mb-6";
+
+
+if ($page_title === "Home Page") {
+  $navMargin = "mb-0";
+  $mainHtml = "";
+}
+?>
+
 <body class="d-flex flex-column">
-  <div class="shadow-sm border border-bottom sticky-top bg-light mb-6">
+  <div class="shadow-sm border border-bottom sticky-top bg-light <?php echo $navMargin ?>">
 
     <div class="container">
       <nav class="navbar f navbar-expand-lg navbar-light pb-0 pt-0">
@@ -159,5 +171,5 @@ if (!isset($page_title)) {
 
 
 
-  <main role="main" class="mb-5 container flex-grow-1">
-    <?php echo display_session_message() ?>
+  <?php echo $mainHtml ?>
+  <?php echo display_session_message() ?>

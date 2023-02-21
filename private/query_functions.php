@@ -711,6 +711,8 @@ function pagination($per_page, $page_name, $category = '', $categoryValue = '')
 function pagination_Render($total_pages, $current_page, $page_name, $filter = '')
 {
 
+    // added to url to jump to linkJump on next page
+    $idJump = "#linkJump";
 
     ?>
 
@@ -720,7 +722,7 @@ function pagination_Render($total_pages, $current_page, $page_name, $filter = ''
 
         <div class="pagination d-flex mb-2 fs-5 flex-wrap ">
             <?php if ($current_page > 1) { ?>
-                <a class="fill-primary ps-2 d-flex align-items-center" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page - 1 ?>&filter=<?php echo $filter ?>"><svg class="svg-w1 flip" viewBox="0 0 31.504 30.706">
+                <a class="fill-primary ps-2 d-flex align-items-center" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page - 1 ?>&filter=<?php echo $filter . $idJump ?>"><svg class="svg-w1 flip" viewBox="0 0 31.504 30.706">
                         <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
                     </svg>
                     <span class="ps-2">Previous</span></a>
@@ -731,7 +733,7 @@ function pagination_Render($total_pages, $current_page, $page_name, $filter = ''
                     echo "<strong class=\"ps-1\">$i</strong>";
                 } else {
             ?>
-                    <a class="ps-1" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $i ?>&filter=<?php echo $filter ?>"><?php echo $i ?> </a>
+                    <a class="ps-1" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $i ?>&filter=<?php echo $filter . $idJump ?>"><?php echo $i ?> </a>
             <?php
 
                 }
@@ -739,7 +741,7 @@ function pagination_Render($total_pages, $current_page, $page_name, $filter = ''
             ?>
 
             <?php if ($current_page < $total_pages) { ?>
-                <a class="fill-primary ps-2 d-flex align-content-center" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page + 1 ?>&filter=<?php echo $filter ?> ">
+                <a class="fill-primary ps-2 d-flex align-content-center" href="<?php echo WWW_ROOT . "/" . $page_name ?>.php?page=<?php echo $current_page + 1 ?>&filter=<?php echo $filter . $idJump ?> ">
                     <span class="pe-1 ">Next</span><svg class="svg-w1" viewBox="0 0 31.504 30.706">
                         <path id="Icon_awesome-arrow-right-2" data-name="Icon awesome-arrow-right" d="M13.395,4.7l1.561-1.561a1.681,1.681,0,0,1,2.384,0L31.008,16.8a1.681,1.681,0,0,1,0,2.384L17.339,32.857a1.681,1.681,0,0,1-2.384,0L13.395,31.3a1.689,1.689,0,0,1,.028-2.412L21.9,20.813H1.688A1.683,1.683,0,0,1,0,19.125v-2.25a1.683,1.683,0,0,1,1.688-1.687H21.9L13.423,7.116A1.677,1.677,0,0,1,13.395,4.7Z" transform="translate(0 -2.647)" />
                     </svg>

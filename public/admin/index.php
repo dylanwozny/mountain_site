@@ -45,7 +45,7 @@ $result = pagination(6, "admin/index");
     <table class="table fs-5">
         <thead class="bg-dark text-light ">
             <tr class="flex-md-row">
-                <th class="pt-2 pb-2 ps-2" scope="col-2 ">Title</th>
+                <th class="pt-2 pb-2 ps-3" scope="col-2 ">Title</th>
                 <th class="col-2 pt-2 pb-2">Height</th>
                 <th class="col-5 pt-2 pb-2"></th>
             </tr>
@@ -64,7 +64,7 @@ $result = pagination(6, "admin/index");
             ?>
 
                 <tr>
-                    <td class="pt-1 pb-1 ps-2" scope="row"><?php echo h($title); ?></td>
+                    <td class="pt-1 pb-1 ps-3" scope="row"><?php echo h($title); ?></td>
                     <td class="pt-1 pb-1"><?php echo h($height) . "m"; ?></td>
                     <!-- pass mtn id into url -->
                     <td class="hover-fill-secondary pt-1 pb-1 pe-2"><a class="btn btn-secondary flex-align-center" href="<?php echo 'pages/edit.php?mtn_id=' . h(u($mtnId)); ?>"> <svg class="svg-btn me-1" id="Icon_awesome-pencil-alt" viewBox="0 0 25.998 25.999">

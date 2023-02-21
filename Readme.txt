@@ -19,7 +19,7 @@ Sass
 3. link the min.map.css in header.
 4. use custom.scss to modify vars and add new styles
 
-##SASS and Boostrap
+##SASS and Bootstrap
 
 - utilized utility api to extend and modify utility classes. 
 - created custom variables
@@ -51,14 +51,13 @@ TODO:
 
 
 
-8. scroll to card position front page -- might use ajax -- 
-9. get a vertical rhythm going
+
 11. remove debug code and sanitize pagination stuff
-12. update adobe xd to be presentable
+
 13. run through html validation and best seo practices
-14. 404 page and 404 avalanche svg
+
 15. logout timer
-16. find a page layout that works better
+
 17 add header photo of mountain
 
 

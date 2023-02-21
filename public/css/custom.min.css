@@ -25951,13 +25951,29 @@ h2, .h2,
   margin-left: 0.5rem;
 }
 
+.banner {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .banner .banner__login {
   max-width: 40rem;
+  background-color: #fbf9f8;
 }
 .banner .banner__intro {
   max-width: 35rem;
 }
 
+@media (max-width: 600px) {
+  .banner {
+    background-image: url("../img/md-snow-mtns.webp");
+  }
+}
+@media (min-width: 601px) {
+  .banner {
+    background-image: url("../img/large-snow-mtns.webp");
+  }
+}
 svg {
   width: 3.5rem;
 }
@@ -26167,4 +26183,5 @@ td {
   width: 75%;
   margin: 0 auto;
   display: block;
+  height: auto;
 }/*# sourceMappingURL=custom.min.css.map */

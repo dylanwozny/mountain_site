@@ -133,6 +133,15 @@ body {
   @return calc(($base-line) * (#{$multiple}));
 }
 
+// .fs-1,
+// .fs-2,
+// .fs-3,
+// .fa-4,
+// .fs-5,
+// .fs-6{
+//   display: block;
+// }
+
 h1,
 .fs-1 {
   margin-bottom: 1.9rem;
@@ -358,11 +367,28 @@ h2,
 
 //------------HOME--------------
 .banner {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
   .banner__login {
     max-width: 40rem;
+    background-color: $light;
   }
   .banner__intro {
     max-width: 35rem;
+  }
+}
+
+// optimized images for resize
+@media (max-width: 600px) {
+  .banner {
+    background-image: url("../img/md-snow-mtns.webp");
+  }
+}
+
+@media (min-width: 601px) {
+  .banner {
+    background-image: url("../img/large-snow-mtns.webp");
   }
 }
 
@@ -592,6 +618,7 @@ td {
   width: 75%;
   margin: 0 auto;
   display: block;
+  height: auto;
 }
 
 .h1-page-not-found {
