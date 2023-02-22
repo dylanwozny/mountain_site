@@ -14,22 +14,24 @@ include(INCLUDES_PATH . "/header.php");
 ?>
 
 <!-- FINISH INTRO -->
-<header class=" banner front-about-p mb-7 pt-6 pb-1 ">
-  <h1 class="container"><?php echo APP_NAME ?></h1>
-  <div class="container justify-content-between d-flex flex-wrap gap-3 pb-md-6">
-    <div class="banner__intro flex-grow-0">
+<header class=" banner front-about-p mb-6">
+  <div class="banner__bck-filter pt-7">
+    <h1 class="container text-light"><?php echo APP_NAME ?></h1>
+    <div class="container justify-content-between d-flex flex-wrap gap-3 pb-md-6">
+      <div class="banner__intro flex-grow-0">
 
-      <p class="">Welcome to my Application ! I hope you find it somewhat useful. I wanted to create an app about my favourite feature of nature: Mountains !I have chosen to create a catalog of mountain peaks in Canada. I chose this topic because I love visiting Jasper and Banff and have been fascinated by mountains ever since I was a child. I also like to compare mountain stats like height, vertical relief etc. to each other just for fun.Information fields pertaining to the mountains will include: thumbnail picture, name, description,province, vertical relief, elevation profile, height, first summit, access type(vehicle, hiking, helicopter),and if it is a volcano and a google earth image of elevation. Search categories can include province,volcano etc. This information will be stored in a MySQL database.The structure of this application includes a useful homepage, search functionality, edit and delete options , which are secured by an admin log in and individual pages that display all information about that specific chosen mountain. Category links will also appear on the homepage.</p>
-    </div>
-    <?php if (!(isset($_SESSION["x5ghy789soci"]))) { ?>
-      <div class="banner__login text-center flex-grow-1 rounded-3 shadow p-4 align-self-start mb-4">
-        <svg class="mb-1" id="Icon_open-account-login" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 31.5">
-          <path id="Icon_open-account-login-2" data-name="Icon open-account-login" d="M13.5,0V4.5h18V27h-18v4.5H36V0ZM18,9v4.5H0V18H18v4.5l9-6.75Z" fill="#82756a" />
-        </svg>
-        <p class="fs-3 mb-5">Login to edit or add mountains</p>
-        <a class="btn btn-primary   " href="<?php echo WWW_ROOT ?>/admin/login.php">Login</a>
+        <p class="text-light">Welcome to my Application ! I hope you find it somewhat useful. I wanted to create an app about my favourite feature of nature: Mountains !I have chosen to create a catalog of mountain peaks in Canada. I chose this topic because I love visiting Jasper and Banff and have been fascinated by mountains ever since I was a child. I also like to compare mountain stats like height, vertical relief etc. to each other just for fun.</p>
       </div>
-    <?php } ?>
+      <?php if (!(isset($_SESSION["x5ghy789soci"]))) { ?>
+        <div class="banner__login text-center flex-grow-1 rounded-3 shadow p-2 p-lg-4 align-self-start mb-4">
+          <svg class="mb-1" id="Icon_open-account-login" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 31.5">
+            <path id="Icon_open-account-login-2" data-name="Icon open-account-login" d="M13.5,0V4.5h18V27h-18v4.5H36V0ZM18,9v4.5H0V18H18v4.5l9-6.75Z" fill="#82756a" />
+          </svg>
+          <p class="fs-3 mb-3">Login to edit or add mountains</p>
+          <a class="btn btn-primary   " href="<?php echo WWW_ROOT ?>/admin/login.php">Login</a>
+        </div>
+      <?php } ?>
+    </div>
   </div>
 </header>
 <main role="main" class="mb-5 container flex-grow-1">

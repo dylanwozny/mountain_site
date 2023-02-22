@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@squoosh/lib": "^0.5.3",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "sass": "^1.57.1"

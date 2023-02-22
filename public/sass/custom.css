@@ -23245,12 +23245,6 @@ textarea.form-control-lg {
 /*
 Styling will be a mix of overriding styles and utility classes..
 */
-body {
-  background-image: linear-gradient(#0ff 1px, transparent 1px);
-  background-size: auto 1.5rem;
-  line-height: 1.5;
-}
-
 h1, .h1,
 .fs-1 {
   margin-bottom: 1.9rem;
@@ -23471,9 +23465,10 @@ h2, .h2,
 }
 
 .banner {
-  background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
+  min-height: 742px;
 }
 .banner .banner__login {
   max-width: 40rem;
@@ -23482,15 +23477,26 @@ h2, .h2,
 .banner .banner__intro {
   max-width: 35rem;
 }
+.banner .banner__bck-filter {
+  background-color: rgba(28, 33, 37, 0.6);
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  left: 0;
+  top: 0;
+  content: "";
+}
 
 @media (max-width: 600px) {
   .banner {
-    background-image: url("../img/md-snow-mtns.webp");
+    background-image: url("../img/md-wetlands-mtns.webp");
   }
 }
 @media (min-width: 601px) {
   .banner {
-    background-image: url("../img/large-snow-mtns.webp");
+    background-image: url("../img/large-wetlands-mtns.webp");
   }
 }
 svg {
