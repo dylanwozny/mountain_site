@@ -1,11 +1,13 @@
 <?php
 
 require_once("query_functions.php");
+require_once("includes/db_credentials.php");
+
 
 function connect_db()
 {
     // query function in var
-    $connection = mysqli_connect("localhost", "root", "Megatron14", "dwozny2_mountains");
+    $connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
     //check for errors
     confirm_db_connect();
     return $connection;

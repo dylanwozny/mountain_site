@@ -49,7 +49,10 @@ SOLUTION: crop and resize in php --or-- limit image uploads to be 1:1 square ima
 
 TODO: 
 
-
+Dream Host Issues
+1. edit shows nothing, check login check pathing
+2. login/logout doesn't display correctly on the navbar
+3. need to add htaccess file.
 
 
 11. remove debug code and sanitize pagination stuff
@@ -58,7 +61,6 @@ TODO:
 
 15. logout timer
 
-17 add header photo of mountain
 
 
 ---Vertical rhythm---

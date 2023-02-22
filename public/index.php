@@ -53,7 +53,7 @@ include(INCLUDES_PATH . "/header.php");
           <?php
           // added to url to jump to linkJump on next page
           $idJump = "#linkJump"; ?>
-          <li><a class=" rounded-pill  btn btn-dark p-1 d-block no-decoration" href="index.php <?php echo $idJump ?>">All</a></li>
+          <li><a class=" rounded-pill  btn btn-dark p-1 d-block no-decoration" href="index.php<?php echo $idJump ?>">All</a></li>
           <li><a class=" rounded-pill btn btn-dark p-1 d-block no-decoration " href="<?php echo WWW_ROOT . "/" . "index" ?>.php?filter=access<?php echo $idJump ?>">Hiking Access</a></li>
           <li><a class=" rounded-pill btn btn-dark p-1 d-block no-decoration " href="<?php echo WWW_ROOT . "/" . "index" ?>.php?filter=province<?php echo $idJump ?>">Alberta</a></li>
           <li><a class=" rounded-pill btn btn-dark p-1 d-block no-decoration " href="<?php echo WWW_ROOT . "/" . "index" ?>.php?filter=volcano<?php echo $idJump ?>">Volcanoes</a></li>
