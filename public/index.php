@@ -1,6 +1,3 @@
-<!-- // 1 ------ u() check for escape values on each db value submitted --------
-// 2 ------- follow admin page function query structure -------
-// 3 ------ update filtering options to return new values ------ -->
 <?php
 require_once("../private/initialize.php");
 

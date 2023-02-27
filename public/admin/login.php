@@ -19,8 +19,8 @@ if (isset($_POST['submit'])) {
 	$username = $_POST["username"];
 	$password = $_POST["password"];
 
-	if (($username == "dwozny2") && ($password == "Megatron13")) {
-
+	if (($username == "dwozny2") && ($password == "Paul-Allen14%")) {
+		session_start();
 		// session_start(); // start session
 		$_SESSION["x5ghy789soci"] = session_id(); // name of the session
 		header("Location:index.php"); // redirects user to /admin

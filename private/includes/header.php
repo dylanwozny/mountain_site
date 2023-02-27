@@ -1,5 +1,6 @@
 <?php
-
+// -----------SET SESSION !!!-------------
+session_start();
 include("mysql_connect.php"); // here we include the connection script; since this file(header.php) is included at the top of every page we make, the connection will then also be included. Also, config options like WWW_ROOT are also available to us.
 ?>
 
@@ -8,7 +9,11 @@ include("mysql_connect.php"); // here we include the connection script; since th
 if (!isset($page_title)) {
   $page_title = "mountain website";
 }
+
+
 ?>
+
+
 
 
 
@@ -59,6 +64,8 @@ if (!isset($page_title)) {
 
 <!-- variables to set that effect fullscreen layout of homepage -->
 <?php
+
+
 $mainHtml = '<main role="main" class="mb-5 container flex-grow-1">';
 $navMargin = "mb-6";
 
@@ -67,6 +74,14 @@ if ($page_title === "Home Page") {
   $navMargin = "mb-0";
   $mainHtml = "";
 }
+
+
+if ($_SESSION["x5ghy789soci"]) {
+  echo $_SESSION["x5ghy789soci"];
+} else{
+  echo "no session detected";
+}
+
 ?>
 
 <body class="d-flex flex-column">
@@ -115,7 +130,8 @@ if ($page_title === "Home Page") {
                 <div></div>
               </div>
             </li>
-            <?php if ((isset($_SESSION["x5ghy789soci"]))) { ?>
+            <?php
+            if ((isset($_SESSION["x5ghy789soci"]))) { ?>
               <li class="nav-item dropdown ">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54.894 54.894">
                     <path d="M4.5,35H28.9V4.5H4.5Zm0,24.4H28.9V41.1H4.5Zm30.5,0h24.4V28.9H35ZM35,4.5V22.8h24.4V4.5Z" transform="translate(-4.5 -4.5)" />

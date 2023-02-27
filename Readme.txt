@@ -50,16 +50,22 @@ SOLUTION: crop and resize in php --or-- limit image uploads to be 1:1 square ima
 TODO: 
 
 Dream Host Issues
-1. edit shows nothing, check login check pathing
-2. login/logout doesn't display correctly on the navbar
+
 3. need to add htaccess file.
 
+4. re-format readme
 
 11. remove debug code and sanitize pagination stuff
 
 13. run through html validation and best seo practices
 
 15. logout timer
+
+
+
+SESSION DEBUG - FIXED no code must be above very first PHP tag at top of file !!!
+
+
 
 
 

@@ -1,7 +1,7 @@
 <!-- This file loads all -->
 <?php
 
-session_start();
+// session_start();
 
 // CONSTANT PATHS ON HARD DRIVE
 define("PRIVATE_PATH", dirname(__FILE__));
@@ -107,5 +107,3 @@ function display_session_message()
         return '<div id="message" class=" user-message alert-info p-3 mb-5 rounded">' . h($msg) . '</div>';
     }
 }
-
-

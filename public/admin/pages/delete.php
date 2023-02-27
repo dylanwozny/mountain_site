@@ -1,4 +1,3 @@
-<!-- this page will not bee seen by user -->
 <?php
 // include ("../includes/logincheck.php");
 require_once("../../../private/initialize.php");
@@ -9,18 +8,18 @@ $page_title = "delete Mountain";
 include(INCLUDES_PATH .  "./header.php");
 
 
-if (!(isset($_SESSION["x5ghy789soci"]))) {
-    redirect_to(WWW_ROOT . "/index.php");
-}
+// if (!(isset($_SESSION["x5ghy789soci"]))) {
+//     redirect_to(WWW_ROOT . "/index.php");
+// }
 // GRAB CORRECT ID !!!!!!
 // echo "<h2>Delete Character</h2>";
 $mtnId = $_GET['mtn_id'];
 
 // no id
-if (!isset($mtnId)) {
-    echo "no id is existing";
-    redirect_to('../index.php');
-}
+// if (!isset($mtnId)) {
+//     echo "no id is existing";
+//     redirect_to('../index.php');
+// }
 
 //-----------------grab name of mountain---------------------
 $mtnData = find_mtn($mtnId);

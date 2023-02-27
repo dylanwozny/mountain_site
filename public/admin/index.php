@@ -1,6 +1,3 @@
-<!-- ------ ADMIN DASHBOARD----------- -->
-<!--  keep static strings for includes-->
-<!-- Load up all functions -->
 <?php require_once("../../private/initialize.php");
 // include(INCLUDES_PATH . "/mysql_connect.php");
 

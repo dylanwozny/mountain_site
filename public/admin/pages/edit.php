@@ -1,4 +1,3 @@
-<!-- ADD VALIDATION FROM INSERT -->
 <?php
 
 require_once("../../../private/initialize.php");
@@ -12,18 +11,15 @@ include(PRIVATE_PATH . '/includes/header.php');
 if (!(isset($_SESSION["x5ghy789soci"]))) {
     redirect_to(WWW_ROOT . "/index.php");
 }
-?>
 
-
-<?php
 
 //----------------------------------------
 //-----------id handling-----------------
 //----------------------------------------
 // if there is no id in url
-if (!isset($_GET['mtn_id'])) {
-    redirect_to('../index.php');
-}
+// if (!isset($_GET['mtn_id'])) {
+//     redirect_to('../index.php');
+// }
 
 
 //grab id from url, which is what link you clicked

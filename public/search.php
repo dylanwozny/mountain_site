@@ -15,6 +15,7 @@ if (isset($_GET['search-item'])) {
     h($searchTerm);
 }
 
+
 ?>
 
 <section>
