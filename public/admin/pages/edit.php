@@ -7,7 +7,7 @@ $page_title = "Edit Mountain";
 
 //put after vars so page title is read
 include(PRIVATE_PATH . '/includes/header.php');
-
+//session check
 if (!(isset($_SESSION["x5ghy789soci"]))) {
     redirect_to(WWW_ROOT . "/index.php");
 }

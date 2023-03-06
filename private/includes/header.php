@@ -3,14 +3,11 @@
 session_start();
 include("mysql_connect.php"); // here we include the connection script; since this file(header.php) is included at the top of every page we make, the connection will then also be included. Also, config options like WWW_ROOT are also available to us.
 ?>
-
 <?php
 // check for vars and if not, set default values
 if (!isset($page_title)) {
   $page_title = "mountain website";
 }
-
-
 ?>
 
 
@@ -34,38 +31,25 @@ if (!isset($page_title)) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Source+Serif+Pro:wght@300;400;600;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
 
-
-
-
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
 
   <!-- Google Icons: https://material.io/tools/icons/
   also, check out Font Awesome or Glyphicons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-
   <!-- Your Custom styles for this project -->
   <!--  Note how we can use WWW_ROOT constant to resolve all links no matter where the file resides. -->
   <!-- FOR DEVELOPMENT USE LOCAL BOOTSTRAP SO INTELLESENSE WORKS -->
   <link href="<?php echo WWW_ROOT ?>/css/reset.css" rel="stylesheet">
-
   <link href="<?php echo WWW_ROOT ?>/css/custom.min.css" rel="stylesheet">
-
-
-
-
-  <!-- Themes from https://bootswatch.com/ : Use the Themes dropdown to select a theme you like; copy/paste the bootstrap.css. Here, we have named the downloaded theme as a new file and can overwrite the default.  -->
-
-
 </head>
 
-<!-- variables to set that effect fullscreen layout of homepage -->
+
 <?php
 
-
+// variables to set that effect fullscreen layout of homepage 
 $mainHtml = '<main role="main" class="mb-5 container flex-grow-1">';
 $navMargin = "mb-6";
 
@@ -73,13 +57,6 @@ $navMargin = "mb-6";
 if ($page_title === "Home Page") {
   $navMargin = "mb-0";
   $mainHtml = "";
-}
-
-
-if ($_SESSION["x5ghy789soci"]) {
-  echo $_SESSION["x5ghy789soci"];
-} else{
-  echo "no session detected";
 }
 
 ?>

@@ -1,11 +1,10 @@
 <?php
-// include ("../includes/logincheck.php");
 require_once("../../../private/initialize.php");
 
 // page variables
 $page_title = "delete Mountain";
 
-include(INCLUDES_PATH .  "./header.php");
+include(PRIVATE_PATH . '/includes/header.php');
 
 
 // if (!(isset($_SESSION["x5ghy789soci"]))) {

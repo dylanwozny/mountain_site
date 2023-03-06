@@ -49,7 +49,6 @@ SOLUTION: crop and resize in php --or-- limit image uploads to be 1:1 square ima
 
 TODO: 
 
-Dream Host Issues
 
 3. need to add htaccess file.
 
