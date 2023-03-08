@@ -1,3 +1,8 @@
+# Dylan's Portfolio Website
+
+
+
+
 # SCSS
 
 Follows BEM naming rules
@@ -19,14 +24,14 @@ Sass
 3. link the min.map.css in header.
 4. use custom.scss to modify vars and add new styles
 
-##SASS and Bootstrap
+## SASS and Bootstrap
 
 - utilized utility api to extend and modify utility classes. 
 - created custom variables
 - have some custom css as-well
 - utilized various bootstrap mixins
 
-##Vertical-rhythm
+## Vertical-rhythm
 
 Feature a baseline with vertical rhythm and responsive type.
 
@@ -37,9 +42,9 @@ typographic scale of 1.25 major third.
 
 
 
-#PHP
+# PHP
 
-##IMAGES
+## IMAGES
 
 PROBLEM: images must have apsect ratio to fit cards and work with css
 SOLUTION: crop and resize in php --or-- limit image uploads to be 1:1 square images.
