@@ -86,19 +86,6 @@ npm run dev
 - Sass
 - PHP
 
-## ToDo List
-
-- Routing for 404 page is not working. Somthing to do with htaccess file..
-
-- remove debug code and sanitize pagination stuff.
-
-- run through html validation and best seo practices.
-
-- logout timer.
-
-- Add user credentials into db and new user functionality.
-
-
 ## License
 
 MIT
